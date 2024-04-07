@@ -1,0 +1,1 @@
+# fashion_star_frontend
