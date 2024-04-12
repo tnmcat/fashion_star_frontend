@@ -6,7 +6,7 @@ export const findVariant = async (productId) => {
     let result = null;
     try {
         result = await axios.get(
-            `${VARIANT_MANAGEMENT_API}/product-detail/${productId}`
+            `http://localhost:5454/api/product-detail/${productId}`
         );
     } catch (e) {
         console.log("Find variant API error: " + e);
@@ -18,7 +18,7 @@ export const findVariantById = async (productId) => {
     let result = null;
     try {
         result = await axios.get(
-            `${VARIANT_MANAGEMENT_API}/variant/${productId}`
+            `http://localhost:5454/api/variant/${productId}`
         );
     } catch (e) {
         console.log("Find variant API error: " + e);
@@ -29,7 +29,7 @@ export const updateVariantAfterCreate = async ({variant, variantId}) => {
     let result = null;
     try {
         result = await axios.put(
-            `${VARIANT_MANAGEMENT_API}/variant/update/${variantId}`,
+            `http://localhost:5454/api/variant/update/${variantId}`,
             variant
         );
     } catch (e) {

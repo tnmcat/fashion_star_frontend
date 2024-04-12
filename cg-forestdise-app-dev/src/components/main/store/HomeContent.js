@@ -12,12 +12,7 @@ import {
     changeBannerImage,
     setSelectedCategory,
     setSelectedCurrent,
-    setStore,
-    setCategory,
     setStoreBanner,
-    setSearchProducts,
-    setSearchParams,
-    setSearchParamsResult,
 } from "../../../features/sellerStore/sellerStoreSlice";
 
 function HomeContent() {
@@ -36,7 +31,7 @@ function HomeContent() {
 
     async function fetchData() {
         await axios
-            .get(`http://localhost:8080/api/stores/${storeInfo.id}/products`)
+            .get(`http://localhost:5454/api/stores/${storeInfo.id}/products`)
             .then((res) => {
                 setProductData(res.data);
             })

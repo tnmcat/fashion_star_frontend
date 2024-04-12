@@ -11,6 +11,7 @@ import forest from "./forest.jpg";
 import logoBlack from "./logoBlack.png";
 import logoSeller from "./logoseller.png";
 import logoDearman from "./logoDearman.png";
+import empty_cart from "./empty_cart.png";
 
 export {
     logo,
@@ -26,4 +27,5 @@ export {
     forest,
     logoSeller,
     logoDearman,
+    empty_cart,
 };

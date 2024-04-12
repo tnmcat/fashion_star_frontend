@@ -60,7 +60,7 @@ function Header() {
 
                     {/* Searchbar start */}
                     <div className="h-10 rounded-md hidden lgl:flex flex-grow relative">
-                        <span
+                        {/* <span
                             onClick={() => {
                                 setShowAll(!showAll);
                             }}
@@ -68,7 +68,7 @@ function Header() {
                         >
                             All<span></span>
                             <ArrowDropDownIcon />
-                        </span>
+                        </span> */}
                         {showAll && (
                             <div>
                                 <ul className="absolute w-56 h-80 top-10 left-0 overflow-y-scroll overflow-x-hidden bg-white border-[1px] border-amazon_blue text-black p-2 flex-col gap-1 z-50">
@@ -175,8 +175,8 @@ function Header() {
                                             <Fragment>
                                                 <Link to="/signin">
                                                     <button
-                                                        className="w-full bg-yellow-400 rounded-md py-1
-                font-semibold cursor-pointer hover:bg-yellow-500 active:bg-yellow-700"
+                                                        className="w-full text-white bg-indigo-600 rounded-md py-1
+                font-semibold cursor-pointer hover:bg-indigo-500 active:bg-indigo-700"
                                                     >
                                                         Sign in
                                                     </button>
@@ -184,7 +184,7 @@ function Header() {
                                                 <p className="text-xs mt-1">
                                                     New Customer?
                                                     <Link to="/register">
-                                                        <span className="text-blue-600 ml-1 cursor-pointer">
+                                                        <span className="text-indigo-600 ml-1 cursor-pointer">
                                                             {" "}
                                                             Start here.
                                                         </span>

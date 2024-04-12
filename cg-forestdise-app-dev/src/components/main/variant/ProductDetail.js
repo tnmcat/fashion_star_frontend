@@ -5,7 +5,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
-import {Link, useParams} from "react-router-dom";
+import {Link, useParams, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {
     getVariant,
@@ -38,7 +38,7 @@ function ProductDetail() {
     const storeInfo = useSelector((state) => state.sellerStore.storeInfo);
     const {userInfo} = useSelector((state) => state.user);
     const [variantId, setVariantId] = useState(null);
-    const [productId, setProductId] = useState(id);
+    const [productId] = useState(id);
     const [mainImage, setMainImage] = useState("");
     const [variantRender, setVariantRender] = useState(null);
     const [array, setArray] = useState([]);
@@ -52,6 +52,7 @@ function ProductDetail() {
     console.log(" reviewVariantList:  ", reviewVariantList);
     const [idArray, setIdArray] = useState([]);
     const [variantDTOListForLoop, setVariantDTOListForLoop] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         getVariantDetail();
@@ -251,13 +252,13 @@ function ProductDetail() {
                                         {reviewAnalyst.summaryDto?.reviewsTotal}{" "}
                                         rating
                                     </div>
-                                    <Link
+                                    {/* <Link
                                         to={`/review/{productId}`}
                                         className="text-green-900"
                                     >
                                         {" "}
                                         See all reviews
-                                    </Link>
+                                    </Link> */}
                                 </div>
                             )}
                             <hr></hr>
@@ -272,7 +273,7 @@ function ProductDetail() {
                                             ${variantRender.salePrice}
                                         </span>
                                     </h2>
-                                    <span className="text-yellow-500 text-xs ml-4 pb-0">
+                                    <span className="text-indigo-500 text-sm font-semibold leading-6 ml-3 ">
                                         {variantRender.stockQuantity} Available
                                     </span>
                                 </div>
@@ -356,7 +357,7 @@ function ProductDetail() {
                                     </div>
                                 )
                             )}
-                            <hr></hr>
+
                             <div>
                                 <h2 className="font-bold mt-2">
                                     About this item{" "}
@@ -379,7 +380,7 @@ function ProductDetail() {
                     </div>
                     {/* Detail Product End */}
                     {/* Cart Start */}
-                    <div className="w-full h-full bg-white col-span-1 border-yellow-300 border-2 rounded-3xl text-sm">
+                    <div className="w-full h-full bg-white col-span-1 border-indigo-700 border-2 rounded-3xl text-sm">
                         <div className="flex flex-col p-4">
                             <div className="font-titleFont tracking-wide text-lg text-amazon_blue size sm:text-xs  md:text-lg lg:text-xl xl:text-3xl">
                                 <h2>
@@ -391,7 +392,7 @@ function ProductDetail() {
                                 <h5>
                                     Delivery{" "}
                                     <span className="font-bold">
-                                        Monday, October 30
+                                        Day / Month / Year
                                     </span>
                                 </h5>
                             </div>
@@ -399,7 +400,7 @@ function ProductDetail() {
                                 <FmdGoodIcon sx={{fontSize: 20}} />
                                 <Link to={`/deliver`}>
                                     <span className=" text-green-900 hover:text-stone-400 underline text-xs">
-                                        Deliver To Nghia - Đà Nẵng
+                                        Deliver To Viet Nam
                                     </span>
                                 </Link>
                             </div>
@@ -454,11 +455,55 @@ function ProductDetail() {
                                                       })
                                                   );
                                         }}
-                                        className="rounded-lg bg-yellow-400 py-3 my-2 hover:bg-yellow-300 duration-100 cursor-pointer"
+                                        className="rounded-lg text-white bg-indigo-600 py-3 my-2 hover:bg-indigo-600 duration-100 cursor-pointer"
                                     >
                                         Add To Cart
                                     </button>
                                     <button
+                                        onClick={() => {
+                                            userInfo
+                                                ? dispatch(
+                                                      addNewCartLine({
+                                                          id: "",
+                                                          quantity: 1,
+                                                          cartId: userInfo.id,
+                                                          variantId:
+                                                              variantRender.id,
+                                                      })
+                                                  )
+                                                : dispatch(
+                                                      addToCart({
+                                                          id: "",
+                                                          quantity: 1,
+                                                          cartDto: {
+                                                              id: "",
+                                                              userId: "",
+                                                          },
+                                                          variantDto: {
+                                                              id: variantRender.id,
+                                                              name: variantRender.name,
+                                                              skuCode:
+                                                                  variantRender.skuCode,
+                                                              stockQuantity:
+                                                                  variantRender.stockQuantity,
+                                                              weight: variantRender.weight,
+                                                              price: variantRender.price,
+                                                              img: variantRender?.img,
+                                                              salePrice:
+                                                                  variantRender.salePrice,
+                                                              optionValueDtoList:
+                                                                  variantRender.optionValueDtoList,
+                                                              imageDtoList:
+                                                                  variantRender.imageDtoList,
+                                                              videoDtoList:
+                                                                  variantRender.videoDtoList,
+                                                              reviewDtoList:
+                                                                  variantRender.reviewDtoList,
+                                                          },
+                                                      }),
+                                                      navigate(`/cart`)
+                                                  );
+                                        }}
                                         className="rounded-lg py-3 my-2 bg-gradient-to-t from-slate-200 to-slate-100 hover:bg-gradient-to-b border
                     border-zinc-400 active:border-yellow-800 active:shadow-amazonInput duration-100 cursor-pointer"
                                     >
@@ -491,18 +536,18 @@ function ProductDetail() {
                                     Ship from
                                 </div>
                                 <div className="w-full h-full bg-white col-span-4 border-1">
-                                    Amazon
+                                    Fashion Star
                                 </div>
                                 <div className=" w-full h-full bg-white  col-span-2 font-titleFont tracking-wide text-sm text-amazon_blue text-left">
                                     Sold by
                                 </div>
                                 <div className="w-full h-full bg-white col-span-4 border-1">
-                                    Amazon
+                                    Fashion Star
                                 </div>
-                                <div className=" w-full h-full bg-white  col-span-2 font-titleFont tracking-wide text-sm text-amazon_blue text-left">
+                                {/* <div className=" w-full h-full bg-white  col-span-2 font-titleFont tracking-wide text-sm text-amazon_blue text-left">
                                     Returns
-                                </div>
-                                <div className="w-full h-full bg-white col-span-4 border-1 text-green-900">
+                                </div> */}
+                                {/* <div className="w-full h-full bg-white col-span-4 border-1 text-green-900">
                                     Eligible for Return, Refund or Replacement
                                     within 30 days of receipt
                                 </div>
@@ -511,7 +556,7 @@ function ProductDetail() {
                                 </div>
                                 <div className="w-full h-full bg-white col-span-4 border-1 text-green-900">
                                     Product support included
-                                </div>
+                                </div> */}
                             </div>
                         </div>
                     </div>

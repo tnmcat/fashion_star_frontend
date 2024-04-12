@@ -1,6 +1,6 @@
 import React from "react";
 import {footerBottomItem} from "../../../constants";
-
+import CopyrightIcon from "@mui/icons-material/Copyright";
 function FooterBottom() {
     return (
         <div className="w-full bg-indigo-800">
@@ -14,7 +14,11 @@ function FooterBottom() {
                     ))}
                 </div> */}
                 <div className="group cursor-pointer">
-                    <h3 className="footerBottomTitle">ahihih</h3>
+                    <h3 className="flex flex-center text-white gap-2">
+                        {" "}
+                        <CopyrightIcon />
+                        2024 FashionStar Group04 | All rights reserved.
+                    </h3>
                     <p className="footerBottomText"></p>
                 </div>
             </div>

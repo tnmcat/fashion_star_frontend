@@ -43,15 +43,15 @@ function Products() {
                             alt="ProductImg"
                         ></img>
                         <ul
-                            className="w-full h-36 bg-gray-100 absolute bottom-[-170px] flex flex-col items-end justify-center gap-2
+                            className="w-full h-10 bg-gray-100 absolute bottom-[-170px] flex flex-col items-end justify-center gap-2
             font-titleFont px-2 border-1 border-r group-hover:bottom-0 duration-700"
                         >
-                            <li className="productLi">
+                            {/* <li className="productLi">
                                 Compare
                                 <span>
                                     <ApiIcon />
                                 </span>
-                            </li>
+                            </li> */}
                             <Link
                                 to={`/product/${product.id}`}
                                 className="productLi"
@@ -65,12 +65,12 @@ function Products() {
                                     <ArrowCircleRightIcon />
                                 </span>
                             </Link>
-                            <li className="productLi">
+                            {/* <li className="productLi">
                                 Add to Wish List
                                 <span>
                                     <FavoriteIcon />
                                 </span>
-                            </li>
+                            </li> */}
                         </ul>
                     </div>
                     <div className="px-4 z-10 bg-white">
@@ -88,23 +88,23 @@ function Products() {
                                     {product.description.substring(0, 100)}...
                                 </p>
                             </div>
-                            <div className="text-yellow-500">
+                            {/* <div className="text-yellow-500">
                                 <StarIcon />
                                 <StarIcon />
                                 <StarIcon />
                                 <StarIcon />
                                 <StarIcon />
-                            </div>
+                            </div> */}
                         </div>
                         <button
                             onClick={() => {
                                 dispatch(setStore(product.store.id));
                                 navigate(`/product/${product.id}`);
                             }}
-                            className="w-full font-titleFont font-medium text-base bg-gradient-to-tr
-            from-yellow-400 to-yellow-200 border hover:from-yellow-300 hover:to-yellow-400
-            border-yellow-500 hover:border-yellow-700 active:bg-gradient-to-bl
-            active:from-yellow-400 active:to-yellow-500 duration-200 py-1.5 rounded-md mt-3"
+                            className="w-full text-white font-titleFont font-medium text-base bg-gradient-to-tr
+            from-indigo-600 to-indigo-600 border hover:from-indigo-400 hover:to-indigo-600
+            border-indigo-500 hover:border-indigo-700 active:bg-gradient-to-bl
+            active:from-indigo-400 active:to-indigo-500 duration-200 py-1.5 rounded-md mt-3"
                         >
                             View Details
                         </button>

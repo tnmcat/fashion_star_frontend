@@ -81,7 +81,7 @@ function SellerSignin() {
 
                             <div className="w-full bg-gray-100 border border-zinc-300 rounded-md p-6">
                                 <h2 className="font-titleFont text-3xl font-medium mb-4">
-                                    Get started selling on ForestDise
+                                    Get started selling on FashionStar
                                 </h2>
                                 <div className="flex flex-col gap-3">
                                     <div className="flex flex-col gap-2">
@@ -91,9 +91,9 @@ function SellerSignin() {
                                         <input
                                             onChange={handleChange}
                                             name="email"
-                                            className="w-full normal-case py-1 bordder border-zinc-400
-                    px-2 text-base rounded-sm outline-none focus-within:border-[#e77600]
-                    focus-within:shadow-amazonInput duration-100
+                                            className="w-full normal-case py-1 border border-zinc-400
+                    px-2 text-base rounded-sm outline-none focus-within:border-[#4F46E5]
+                    focus:ring-1 focus:ring-inset focus:ring-indigo-600 duration-100
                     "
                                             type="email"
                                         ></input>
@@ -116,9 +116,9 @@ function SellerSignin() {
                                         <input
                                             onChange={handleChange}
                                             name="password"
-                                            className="w-full normal-case py-1 bordder border-zinc-400
-                    px-2 text-base rounded-sm outline-none focus-within:border-[#e77600]
-                    focus-within:shadow-amazonInput duration-100
+                                            className="w-full normal-case py-1 border border-zinc-400
+                    px-2 text-base rounded-sm outline-none focus-within:border-[#4F46E5]
+                    focus:ring-1 focus:ring-inset focus:ring-indigo-600 duration-100
                     "
                                             type="password"
                                         ></input>
@@ -146,9 +146,10 @@ function SellerSignin() {
                                         </p>
                                     )}
                                     <button
-                                        className="w-full py-1.5 text-sm font-normal
-              rounded-sm bg-gradient-to-t from-[#f7dfa5] to-[#f0c14b] hover:bg-gradient-to-b border
-              border-zinc-400 active:border-yellow-800 active:shadow-amazonInput"
+                                        className="flex w-full justify-center rounded-md bg-indigo-600 px-3 
+                                        py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500
+                                         focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2
+                                          focus-visible:outline-indigo-600"
                                         type="submit"
                                     >
                                         Continue
@@ -180,27 +181,27 @@ function SellerSignin() {
                                 </div>
                                 <p className="text-xs text-black leading-4 mt-4">
                                     By Continuing, you agree to ForestDise's{" "}
-                                    <span className="text-blue-600">
+                                    <span className="text-indigo-600">
                                         Conditions of Use{" "}
                                     </span>
                                     and{" "}
-                                    <span className="text-blue-600">
+                                    <span className="text-indigo-600">
                                         Private Notice.
                                     </span>
                                 </p>
                                 <p className="text-xs text-gray-600 mt-4 cursor-pointer group">
                                     <ArrowRightIcon />
                                     <span className="text-blue-600 group-hover:text-orange-700 group-hover:underline underline-offset-1 ">
-                                        Need help?
+                                        Forgot Password?
                                     </span>
                                 </p>
                             </div>
                             <div className="w-full text-xs text-gray-600 mt-4 flex items-center">
-                                <span className="w-1/3 h-[1px] bg-zinc-400 inline-flex"></span>
-                                <span className="w-1/3 text-center">
-                                    New to ForestDise?
+                                <span className="w-1/3 h-[1px] bg-zinc-400 inline-flex mr-2"></span>
+                                <span className="w-1/3 text-center whitespace-nowrap">
+                                    New to FashionStar?
                                 </span>
-                                <span className="w-1/3 h-[1px] bg-zinc-400 inline-flex"></span>
+                                <span className="w-1/3 h-[1px] bg-zinc-400 inline-flex ml-2"></span>
                             </div>
                             <Link
                                 className="w-full"
@@ -211,7 +212,7 @@ function SellerSignin() {
               rounded-sm bg-gradient-to-t from-slate-200 to-slate-100 hover:bg-gradient-to-b border
               border-zinc-400 active:border-yellow-800 active:shadow-amazonInput"
                                 >
-                                    Create your ForestDise Seller account
+                                    Create your Fashion Star Seller account
                                 </button>
                             </Link>
                         </form>
@@ -220,7 +221,7 @@ function SellerSignin() {
             </div>
             <div className="w-full bg-gradient-to-t from-white via-white to-zinc-200 flex flex-col gap-4 justify-center items-center py-10">
                 <p className="text-xs text-gray-600">
-                    © 2023-2023 ForestDise.com, Inc. or its affiliates
+                    © 2024-2025 FashionStar - Project Group 4.
                 </p>
             </div>
         </div>

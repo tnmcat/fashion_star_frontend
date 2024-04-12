@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {logoBlack, logoDearman} from "../assets";
+import {logoDearman} from "../assets";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import {Link, useNavigate} from "react-router-dom";
 import {Formik} from "formik";
@@ -310,8 +310,8 @@ function Registration() {
                                     )}
                                 </div>
                                 <p className="text-xs text-black leading-4 mt-4">
-                                    By creating an account, you agree to
-                                    Dearman's{" "}
+                                    By creating an account, you agree to Fashion
+                                    Star
                                     <span className="text-indigo-600">
                                         Conditions of Use{" "}
                                     </span>
@@ -354,7 +354,7 @@ function Registration() {
                     </p>
                 </div>
                 <p className="text-xs text-gray-600">
-                    © 2023-2023 ForestDise.com, Inc. or its affiliates
+                    © 2024-2025 FashionStar, Project 04
                 </p>
             </div>
         </div>
