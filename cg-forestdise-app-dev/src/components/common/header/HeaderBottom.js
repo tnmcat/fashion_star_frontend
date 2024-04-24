@@ -4,7 +4,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import SideNavContent from "./SideNavContent";
 import {motion} from "framer-motion";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {useSelector} from "react-redux";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import {Transition} from "@headlessui/react";
@@ -17,6 +17,7 @@ function classNames(...classes) {
 }
 
 function HeaderBottom() {
+    const navigate = useNavigate();
     const userInfo = useSelector((state) => state.user.userInfo);
     const [sideBar, setSidebar] = useState(false);
     const motionDivRef = useRef();
@@ -36,7 +37,10 @@ function HeaderBottom() {
             hideSideBar(e);
         });
     }, []);
-
+    const handleCategoryClick = (category, section, item, close) => {
+        navigate(`/${category.id}/${section.id}/${item.id}`);
+        close();
+    };
     return (
         <div className="w-full px-4 h-[36px] bg-amazon_light text-white flex items-center">
             {/* Mobile menu */}
@@ -171,14 +175,14 @@ function HeaderBottom() {
                                                             >
                                                                 <p
                                                                     id={`${category.id}-${section.id}-heading-mobile`}
-                                                                    className="font-medium text-gray-900"
+                                                                    className="font-medium text-gray-900 cursor-pointer"
                                                                 >
                                                                     {
                                                                         section.name
                                                                     }
                                                                 </p>
                                                                 <ul
-                                                                    role="list"
+                                                                    role="presentation"
                                                                     aria-labelledby={`${category.id}-${section.id}-heading-mobile`}
                                                                     className="mt-6 flex flex-col space-y-6"
                                                                 >
@@ -248,11 +252,11 @@ function HeaderBottom() {
                     All
                 </li>
 
-                <Popover.Group className="hidden lg:ml-8 lg:block lg:self-stretch">
+                <Popover.Group className="hidden lg:ml-8 lg:block lg:self-stretch z-0">
                     <div className="flex h-full space-x-8">
                         {navigation.categories.map((category) => (
                             <Popover key={category.name} className="flex">
-                                {({open}) => (
+                                {({open, close}) => (
                                     <>
                                         <div className="relative flex">
                                             <Popover.Button
@@ -344,16 +348,16 @@ function HeaderBottom() {
                                                                         >
                                                                             <p
                                                                                 id={`${section.name}-heading`}
-                                                                                className="font-medium text-gray-900"
+                                                                                className="font-medium text-gray-900 cursor-pointer"
                                                                             >
                                                                                 {
                                                                                     section.name
                                                                                 }
                                                                             </p>
                                                                             <ul
-                                                                                role="list"
+                                                                                role="presentation"
                                                                                 aria-labelledby={`${section.name}-heading`}
-                                                                                className="mt-6 space-y-6 sm:mt-4 sm:space-y-4"
+                                                                                className="mt-6 space-y-6 sm:mt-4 sm:space-y-4 cursor-pointer"
                                                                             >
                                                                                 {section.items.map(
                                                                                     (
@@ -365,16 +369,21 @@ function HeaderBottom() {
                                                                                             }
                                                                                             className="flex"
                                                                                         >
-                                                                                            <a
-                                                                                                href={
-                                                                                                    item.href
+                                                                                            <p
+                                                                                                onClick={() =>
+                                                                                                    handleCategoryClick(
+                                                                                                        category,
+                                                                                                        section,
+                                                                                                        item,
+                                                                                                        close
+                                                                                                    )
                                                                                                 }
                                                                                                 className="hover:text-gray-800"
                                                                                             >
                                                                                                 {
                                                                                                     item.name
                                                                                                 }
-                                                                                            </a>
+                                                                                            </p>
                                                                                         </li>
                                                                                     )
                                                                                 )}

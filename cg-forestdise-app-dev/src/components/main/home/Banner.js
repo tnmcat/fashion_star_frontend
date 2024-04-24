@@ -14,7 +14,7 @@ function Banner() {
     const settings = {
         dots: true,
         infinite: true,
-        autoplay: true,
+        autoplay: false, //mốt nhớ đổi thành true
         slidesToShow: 1,
         slidesToScroll: 1,
         arrows: false,

@@ -9,12 +9,8 @@ import {useDispatch, useSelector} from "react-redux";
 import {
     changeCategory,
     changeSubCategory,
-    toggleMoreSideBar,
-    setSelectedCategory,
     setSelectedCurrent,
     setSelectedSubCategory,
-    setStore,
-    setCategory,
     setStoreBanner,
 } from "../../../features/sellerStore/sellerStoreSlice";
 

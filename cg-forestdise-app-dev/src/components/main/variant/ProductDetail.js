@@ -342,7 +342,7 @@ function ProductDetail() {
                                     </div>
                                 </div>
                             ))}
-                            {variantDetail.productAttributeDTOList.map(
+                            {variantDetail.productAttributeDTOLis?.map(
                                 (attr, bindex) => (
                                     <div
                                         key={bindex}
@@ -364,7 +364,7 @@ function ProductDetail() {
                                 </h2>
                                 <ul className="list-disc ml-4">
                                     {variantDetail != null &&
-                                        variantDetail.productDTO.bulletDTOList.map(
+                                        variantDetail.productDTO?.bulletDTOList?.map(
                                             (bullet, i) => (
                                                 <li
                                                     key={i}
@@ -379,6 +379,7 @@ function ProductDetail() {
                         </div>
                     </div>
                     {/* Detail Product End */}
+
                     {/* Cart Start */}
                     <div className="w-full h-full bg-white col-span-1 border-indigo-700 border-2 rounded-3xl text-sm">
                         <div className="flex flex-col p-4">
@@ -469,7 +470,8 @@ function ProductDetail() {
                                                           cartId: userInfo.id,
                                                           variantId:
                                                               variantRender.id,
-                                                      })
+                                                      }),
+                                                      navigate("/cart")
                                                   )
                                                 : dispatch(
                                                       addToCart({

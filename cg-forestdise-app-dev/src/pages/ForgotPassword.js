@@ -1,18 +1,20 @@
 import React, {useState} from "react";
+import {logoDearman} from "../assets";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import {Link, useNavigate} from "react-router-dom";
 import {Formik} from "formik";
 import {motion} from "framer-motion";
 import axios from "axios";
 import {RotatingLines} from "react-loader-spinner";
-import {logoSeller} from "../assets";
 
-function SellerRegistration() {
+function Registration() {
     const [form, setForm] = useState({});
     const [registerData, setRegisterData] = useState({});
     const [registeredEmail, setRegisteredEmail] = useState(false);
+    const [notEnabledEmail, setNotEnabledEmail] = useState(false);
     const [loading, setLoading] = useState(false);
     const [successNotify, setSuccessNotify] = useState("");
+    const [emailNotify, setEmailNotify] = useState("");
     const navigate = useNavigate();
 
     const REGEX = {
@@ -36,9 +38,8 @@ function SellerRegistration() {
 
     const handleValidate = () => {
         let errors = {};
-
-        if (!form.sellerName) {
-            errors.sellerName = "Required";
+        if (!form.clientName) {
+            errors.clientName = "Required";
         }
 
         if (!form.email) {
@@ -64,18 +65,16 @@ function SellerRegistration() {
         setLoading(true);
         setRegisteredEmail(false);
         await axios
-            .post("http://localhost:5454/api/register/seller", registerData)
+            .post("http://localhost:5454/api/changepass", registerData)
             .then(() => {
                 setLoading(false);
                 setSuccessNotify("Account created successfully");
+                setEmailNotify(
+                    "A confirmation link has been sent to your email"
+                );
                 setTimeout(() => {
-                    navigate("/sellercentral/signin");
-                }, 2500);
-            })
-            .catch((err) => {
-                setRegisteredEmail(true);
-                setLoading(false);
-                throw err;
+                    navigate("/signin");
+                }, 3000);
             });
     };
 
@@ -92,53 +91,26 @@ function SellerRegistration() {
                             onSubmit={handleSubmit}
                             className="w-[350px] mx-auto flex flex-col items-center"
                         >
-                            <img
-                                className="w-[168px]"
-                                src={logoSeller}
-                                alt="logo"
-                            />
-
+                            <Link to="/">
+                                <img
+                                    className="w-40"
+                                    src={logoDearman}
+                                    alt="logo"
+                                />
+                            </Link>
                             <div className="w-full border border-zinc-200 bg-gray-100 rounded-md p-6">
                                 <h2 className="font-titleFont text-3xl font-medium mb-4">
-                                    Create account
+                                    Change Password
                                 </h2>
                                 <div className="flex flex-col gap-3">
-                                    <div className="flex flex-col gap-2">
-                                        <p className="text-sm font-medium">
-                                            Your seller name
-                                        </p>
-                                        <input
-                                            id="sellerNameInput"
-                                            maxLength="50"
-                                            placeholder="Seller name"
-                                            onChange={handleChange}
-                                            name="sellerName"
-                                            value={form.sellerName || ""}
-                                            className="w-full normal-case py-1 bordder border-zinc-400
-                    px-2 text-base rounded-sm outline-none focus-within:border-[#4F46E5]
-                    focus:ring-1 focus:ring-inset focus:ring-indigo-600 duration-100
-                    "
-                                            type="text"
-                                        ></input>
-                                        {errors.sellerName && (
-                                            <p
-                                                className="text-red-600 text-xs font-semibold tracking-wide
-                    flex items-center gap-2 -mt-1.5"
-                                            >
-                                                <span className="italic font-titleFont font-extrabold text-base">
-                                                    !
-                                                </span>
-                                                {errors.sellerName}
-                                            </p>
-                                        )}
-                                    </div>
-                                    <div className="flex flex-col gap-2">
+                                    {/* <div className="flex flex-col gap-2">
                                         <p className="text-sm font-medium">
                                             Email
                                         </p>
                                         <input
                                             name="email"
                                             onChange={handleChange}
+                                            placeholder="Your Email"
                                             value={form.email || ""}
                                             className="w-full normal-case py-1 bordder border-zinc-400
                     px-2 text-base rounded-sm outline-none focus-within:border-[#4F46E5]
@@ -157,7 +129,8 @@ function SellerRegistration() {
                                                 {errors.email}
                                             </p>
                                         )}
-                                        {registeredEmail && (
+                                      
+                                        {notEnabledEmail && (
                                             <p
                                                 className="text-red-600 text-xs font-semibold tracking-wide
                     flex items-center gap-2 -mt-1.5"
@@ -165,23 +138,31 @@ function SellerRegistration() {
                                                 <span className="italic font-titleFont font-extrabold text-base">
                                                     !
                                                 </span>
-                                                Email has already been
-                                                registered
+                                                Please verify your email to
+                                                enable your account
                                             </p>
                                         )}
-                                    </div>
+                                    </div> */}
                                     <div className="flex flex-col gap-2">
                                         <p className="text-sm font-medium">
                                             Password
                                         </p>
+                                        <style>
+                                            {`
+                                                .custom-input::placeholder {
+                                                    font-size: 15px; 
+                                                    color: #888; 
+                                                }
+                                            `}
+                                        </style>
                                         <input
                                             name="password"
                                             onChange={handleChange}
                                             value={form.password || ""}
                                             placeholder="8 characters, one number, one letter"
-                                            className="w-full normal-case py-1 border border-zinc-400
-                    px-2 text-base rounded-sm outline-none focus-within:border-[#4F46E5]
-                    focus:ring-1 focus:ring-inset focus:ring-indigo-600 duration-100
+                                            className="w-full normal-case py-1 bordder border-zinc-400
+                    px-2  rounded-sm outline-none focus-within:border-[#4F46E5]
+                    focus:ring-1 focus:ring-inset focus:ring-indigo-600 duration-100 custom-input
                     "
                                             type="password"
                                         ></input>
@@ -225,12 +206,9 @@ function SellerRegistration() {
                                     </div>
                                     <button
                                         type="submit"
-                                        className="flex w-full justify-center rounded-md bg-indigo-600 px-3 
-                                        py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500
-                                         focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2
-                                          focus-visible:outline-indigo-600"
+                                        className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                     >
-                                        Continue
+                                        Change password
                                     </button>
                                     {loading && (
                                         <div className="flex justify-center">
@@ -243,24 +221,43 @@ function SellerRegistration() {
                                             />
                                         </div>
                                     )}
-                                    {successNotify && (
+                                    {successNotify && emailNotify && (
                                         <div>
-                                            <motion.p
-                                                initial={{y: 10, opacity: 0}}
-                                                animate={{y: 0, opacity: 1}}
-                                                transition={{duration: 0.5}}
-                                                className="text-base font-titleFont font-semibold text-green-500
+                                            <div>
+                                                <motion.p
+                                                    initial={{
+                                                        y: 10,
+                                                        opacity: 0,
+                                                    }}
+                                                    animate={{y: 0, opacity: 1}}
+                                                    transition={{duration: 0.5}}
+                                                    className="text-base font-titleFont font-semibold text-green-500
                         border-[1px] border-green-500 px-2 text-center"
-                                            >
-                                                {successNotify}
-                                            </motion.p>
+                                                >
+                                                    {successNotify}
+                                                </motion.p>
+                                            </div>
+                                            <div>
+                                                <motion.p
+                                                    initial={{
+                                                        y: 10,
+                                                        opacity: 0,
+                                                    }}
+                                                    animate={{y: 0, opacity: 1}}
+                                                    transition={{duration: 0.5}}
+                                                    className="text-xs font-titleFont font-semibold text-green-500
+                        border-[1px] border-green-500 px-2 text-center mt-2"
+                                                >
+                                                    {emailNotify}
+                                                </motion.p>
+                                            </div>
                                         </div>
                                     )}
                                 </div>
                                 <p className="text-xs text-black leading-4 mt-4">
-                                    By creating an account, you agree to
-                                    FashionStar's{" "}
-                                    <span className="text-indigo-600">
+                                    By creating an account, you agree to Fashion
+                                    Star
+                                    <span className="ml-1 text-indigo-600">
                                         Conditions of Use{" "}
                                     </span>
                                     and{" "}
@@ -270,8 +267,8 @@ function SellerRegistration() {
                                 </p>
                                 <div>
                                     <p className="text-xs text-black">
-                                        Already have an account?{" "}
-                                        <Link to="/sellercentral/signin">
+                                        Rememberd your Password?{" "}
+                                        <Link to="/signin">
                                             <span
                                                 className="text-xs text-indigo-600 hover:text-orange-600
             hover:underline underline-offset-1 cursor-pointer duration-100"
@@ -290,12 +287,23 @@ function SellerRegistration() {
                 </Formik>
             </div>
             <div className="w-full bg-gradient-to-t from-white via-white to-zinc-200 flex flex-col gap-4 justify-center items-center py-10">
+                <div className="flex items-center gap-6">
+                    <p className="text-xs text-blue-600 hover:text-orange-600 hover:underline underline-offset-1 cursor-pointer duration-100">
+                        Conditions of Use
+                    </p>
+                    <p className="text-xs text-blue-600 hover:text-orange-600 hover:underline underline-offset-1 cursor-pointer duration-100">
+                        Privacy Notice
+                    </p>
+                    <p className="text-xs text-blue-600 hover:text-orange-600 hover:underline underline-offset-1 cursor-pointer duration-100">
+                        Help
+                    </p>
+                </div>
                 <p className="text-xs text-gray-600">
-                    © 2024-2025 Fashion Star - Group 4.
+                    © 2024-2025 FashionStar, Project 04
                 </p>
             </div>
         </div>
     );
 }
 
-export default SellerRegistration;
+export default Registration;

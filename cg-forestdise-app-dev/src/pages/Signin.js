@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from "react";
-import {logoBlack, logoDearman} from "../assets";
+import React, {Fragment, useEffect, useRef, useState} from "react";
+import {logoDearman} from "../assets";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import {Link, useNavigate} from "react-router-dom";
 import {Formik} from "formik";
@@ -15,6 +15,8 @@ import {
     createSaveForLater,
     resetSaveForLater,
 } from "../features/cart/cartSlice";
+import {Transition} from "@headlessui/react";
+import {Box, Button, Dialog, Modal} from "@mui/material";
 function Signin() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -24,7 +26,6 @@ function Signin() {
     const [successNotify, setSuccessNotify] = useState("");
     const {userInfo} = useSelector((state) => state.user);
     const {products, empties} = useSelector((state) => state.cart);
-
     const handleValidate = () => {
         let errors = {};
         if (!form.email) {
@@ -37,14 +38,12 @@ function Signin() {
 
         return errors;
     };
-
     const handleChange = (event) => {
         setForm({
             ...form,
             [event.target.name]: event.target.value,
         });
     };
-
     const handleSubmit = async () => {
         setLoading(true);
         await axios
@@ -65,13 +64,11 @@ function Signin() {
                 throw err;
             });
     };
-
     useEffect(() => {
         if (userInfo) {
             sendValuesInDatabase();
         }
     }, [userInfo]);
-
     const sendValuesInDatabase = () => {
         products.map((item) =>
             dispatch(
@@ -97,6 +94,13 @@ function Signin() {
         dispatch(resetSaveForLater());
     };
 
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => {
+        setOpen(true);
+    };
+    const handleClose = () => {
+        setOpen(false);
+    };
     return (
         <div className="w-full font-bodyFont">
             <div className="w-full bg-gray-100 pb-10">
@@ -129,6 +133,7 @@ function Signin() {
                                         <input
                                             onChange={handleChange}
                                             name="email"
+                                            placeholder=" Your email"
                                             className="w-full normal-case py-1 bordder border-zinc-400
                     px-2 text-base rounded-sm outline-none focus-within:border-[#4F46E5]
                     focus:ring-1 focus:ring-inset focus:ring-indigo-600 duration-100
@@ -154,6 +159,7 @@ function Signin() {
                                         <input
                                             onChange={handleChange}
                                             name="password"
+                                            placeholder="Your password"
                                             className="w-full normal-case py-1 bordder border-zinc-400
                     px-2 text-base rounded-sm outline-none focus-within:border-[#4F46E5]
                     focus:ring-1 focus:ring-inset focus:ring-indigo-600 duration-100
@@ -215,7 +221,7 @@ function Signin() {
                                     )}
                                 </div>
                                 <p className="text-xs text-black leading-4 mt-4">
-                                    By Contineing, you agree to Dearman's{" "}
+                                    By Continuing, you agree to FashionStar's{" "}
                                     <span className="text-indigo-600">
                                         Conditions of Use{" "}
                                     </span>
@@ -224,12 +230,62 @@ function Signin() {
                                         Private Notice.
                                     </span>
                                 </p>
-                                <p className="text-xs text-gray-600 mt-4 cursor-pointer group">
+                                <Link
+                                    className="text-xs text-gray-600 mt-4 cursor-pointer group"
+                                    onClick={handleOpen}
+                                >
                                     <ArrowRightIcon />
-                                    <span className="font-semibold text-indigo-600 hover:text-indigo-500 group-hover:text-orange-700 group-hover:underline underline-offset-1 ">
+                                    <span
+                                        className="font-semibold text-indigo-600 hover:text-indigo-500 group-hover:text-orange-700 group-hover:underline underline-offset-1 "
+                                        onClick={handleOpen}
+                                    >
                                         Forgot Password?
                                     </span>
-                                </p>
+                                </Link>
+                                <Modal
+                                    open={open}
+                                    onClose={handleClose}
+                                    aria-labelledby="parent-modal-title"
+                                    aria-describedby="parent-modal-description"
+                                    className="m-60 p-15"
+                                >
+                                    <Formik>
+                                        <div className="flex flex-col gap-2 p-2 border rounded-md border-zinc-300 bg-gray-100 ">
+                                            <p className="block text-sm font-medium leading-6 text-gray-900">
+                                                Email
+                                            </p>
+                                            <input
+                                                onChange={handleChange}
+                                                name="email"
+                                                placeholder=" Your email"
+                                                className="w-full normal-case py-1 bordder border-zinc-400
+                    px-2 text-base rounded-sm outline-none focus-within:border-[#4F46E5]
+                    focus:ring-1 focus:ring-inset focus:ring-indigo-600 duration-100
+                    "
+                                                type="email"
+                                            ></input>
+                                            {errors.email && (
+                                                <p
+                                                    className="text-red-600 text-xs font-semibold tracking-wide
+                    flex items-center gap-2 -mt-1.5"
+                                                >
+                                                    <span className="italic font-titleFont font-extrabold text-base">
+                                                        !
+                                                    </span>
+                                                    {errors.email}
+                                                </p>
+                                            )}
+                                            <Link to="/changepass">
+                                                <button
+                                                    className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                                    type="submit"
+                                                >
+                                                    New password
+                                                </button>
+                                            </Link>
+                                        </div>
+                                    </Formik>
+                                </Modal>
                             </div>
                             <div className="w-full text-xs text-gray-600 mt-4 flex items-center">
                                 <span className="w-1/3 h-[1px] bg-zinc-400 inline-flex mr-2"></span>

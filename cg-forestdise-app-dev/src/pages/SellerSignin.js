@@ -180,7 +180,7 @@ function SellerSignin() {
                                     )}
                                 </div>
                                 <p className="text-xs text-black leading-4 mt-4">
-                                    By Continuing, you agree to ForestDise's{" "}
+                                    By Continuing, you agree to FashionStar's{" "}
                                     <span className="text-indigo-600">
                                         Conditions of Use{" "}
                                     </span>

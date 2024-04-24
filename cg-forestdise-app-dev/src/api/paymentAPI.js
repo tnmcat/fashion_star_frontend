@@ -29,6 +29,7 @@ export const addPaymentMethod = async (paymentMethod) => {
 
 export const findShippingMethod = async () => {
     let result = null;
+
     try {
         result = await axios.get(`${PAYMENT_METHOD_API}/shipping-method`);
     } catch (e) {

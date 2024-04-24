@@ -154,6 +154,7 @@ function HomeContent() {
                             <img
                                 className="mx-auto"
                                 src={storeInfo.dealsSquareImage}
+                                alt=""
                             ></img>
                         </div>
                     </Link>
@@ -203,6 +204,7 @@ function HomeContent() {
                                             <img
                                                 className="mx-auto"
                                                 src={category.squareImage}
+                                                alt=""
                                             ></img>
                                         </div>
                                     </Link>
