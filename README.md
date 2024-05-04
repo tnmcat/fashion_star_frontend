@@ -1,1 +1,1 @@
-# fashion_star_frontend
+# cg-forestdise-app
