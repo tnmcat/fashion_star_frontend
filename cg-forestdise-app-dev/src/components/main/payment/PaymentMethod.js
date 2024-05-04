@@ -33,14 +33,50 @@ function Method() {
     });
 
     const handleFormChange = (event) => {
+        const {name, value} = event.target;
+        let newValue = value;
+
+        if (name === "cartNumber") {
+            // Chỉ cho phép số và thêm khoảng trắng sau mỗi 4 chữ số
+            newValue = value.replace(/\D/g, "");
+            newValue = newValue.match(/(.{1,4})/g)?.join(" ") || "";
+
+            if (newValue.replace(/\s/g, "").length > 16) {
+                newValue = newValue.slice(0, 19); // Cắt bỏ sau 16 số + 3 khoảng trắng
+            }
+        } else if (name === "nameOnCard") {
+            // Chỉ cho phép ký tự chữ và tự động chuyển thành chữ hoa
+            newValue = value.replace(/[^a-zA-Z\s]/g, "").toUpperCase();
+        } else if (name === "expirationDate") {
+            // Chỉ cho phép số và giới hạn chiều dài đầu vào
+            newValue = value.replace(/\D/g, "").slice(0, 4);
+
+            // Thêm dấu / sau 2 số đầu tiên nếu có và đảm bảo tháng hợp lệ
+            if (newValue.length > 2) {
+                const month = newValue.slice(0, 2);
+                const year = newValue.slice(2, 4);
+
+                // Kiểm tra xem tháng có hợp lệ không (01-12)
+                if (parseInt(month) > 0 && parseInt(month) <= 12) {
+                    newValue = `${month}/${year}`;
+                } else {
+                    newValue = `${month.slice(0, 1)}`; // Nếu tháng không hợp lệ, chỉ giữ lại chữ số đầu tiên
+                }
+            }
+        }
+
         setFormPayment({
             ...formPayment,
-            [event.target.name]: event.target.value,
+            [name]: newValue,
         });
     };
 
     const handleFormSubmit = () => {
-        dispatch(addNewPaymentMethod(formPayment));
+        const formData = {
+            ...formPayment,
+            cartNumber: formPayment.cartNumber.replace(/\s/g, ""), // Loại bỏ khoảng trắng
+        };
+        dispatch(addNewPaymentMethod(formData));
         setIsModalOpen(false);
     };
 
@@ -181,19 +217,19 @@ function Method() {
                                         {item.cartNumber}, {item.expirationDate}
                                     </div>
                                 ))}
-                                <div class="flex">
-                                    <div class="flex-none">
+                                <div className="flex">
+                                    <div className="flex-none">
                                         <button class="text-gray-400 text-3xl hover:text-gray-300">
                                             +
                                         </button>
                                     </div>
-                                    <div class="px-3">
+                                    <div className="px-3">
                                         <img
                                             src="https://m.media-amazon.com/images/I/61a-ezJKtKL._SL40_.png"
                                             alt=""
                                         />
                                     </div>
-                                    <div class="flex-initial">
+                                    <div className="flex-initial">
                                         <button
                                             class="text-blue-600 mt-1 hover:text-orange-500 hover:underline"
                                             onClick={() => setIsModalOpen(true)}
@@ -237,7 +273,7 @@ function Method() {
                                                     <div className="font-semibold text-end mr-3">
                                                         Card number
                                                     </div>
-                                                    <div className="...">
+                                                    <div className="">
                                                         <input
                                                             type="text"
                                                             name="cartNumber"
@@ -251,14 +287,14 @@ function Method() {
                                                         />
                                                     </div>
                                                     <div className="col-span-3">
-                                                        Fasion Star accepts all
+                                                        Fashion Star accepts all
                                                         major credit and debit
                                                         cards.
                                                     </div>
                                                     <div className="font-semibold text-end mr-3">
                                                         Name on card
                                                     </div>
-                                                    <div className="...">
+                                                    <div className="">
                                                         <input
                                                             type="text"
                                                             name="nameOnCard"
@@ -345,7 +381,7 @@ function Method() {
                             </div>
                             <div class="bg-gray-200/30 border-t border-gray-400 pl-2">
                                 <button
-                                    class="bg-yellow-300 rounded-lg font-semibold text-sm m-3 px-2 p-1 hover:bg-yellow-400"
+                                    class="bg-indigo-700 rounded-lg text-white font-semibold text-sm m-3 px-2 p-1 hover:bg-indigo-400"
                                     onClick={() => setIsAddress(true)}
                                 >
                                     Use this payment

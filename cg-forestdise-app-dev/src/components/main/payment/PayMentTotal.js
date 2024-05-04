@@ -5,6 +5,7 @@ import {addShopOrder, clear} from "../../../features/payment/paymentSlice";
 import {clearCartLine} from "../../../features/cart/cartSlice";
 import {ToastContainer, toast} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import {createOrder} from "../../../features/order/orderSlice";
 
 const PayMentTotal = () => {
     const dispatch = useDispatch();
@@ -14,25 +15,38 @@ const PayMentTotal = () => {
     const {addressId, paymentMethodId, shippingMethodId} = useSelector(
         (state) => state.payment
     );
+    const {order} = useSelector((state) => state.order);
     const [totalPrice, setTotalPrice] = useState(0);
     const [totalItem, setTotalItem] = useState(0);
     const date = new Date();
     const handleOrder = () => {
-        const newValues = products.map((item) => ({
+        const orderDate = new Date().toISOString().slice(0, 10); // Định dạng yyyy-MM-dd
+        const orderItems = products.map((item) => ({
+            variant_id: item.variantDto.id,
+            quantity: item.quantity,
+            price: item.variantDto.price,
+        }));
+
+        const orderData = {
             userId: userInfo.id,
-            variantId: item.variantDto.id,
-            orderDate: new Date().toLocaleDateString(),
+            orderDate: orderDate,
             addressId: addressId,
             paymentMethodId: paymentMethodId,
             shippingMethodId: shippingMethodId,
-            quantity: item.quantity,
-            orderTotal: (item.quantity * item.variantDto.price).toFixed(2),
-        }));
+            orderItemRequestList: orderItems,
+            orderTotal: orderItems
+                .reduce((total, item) => total + item.quantity * item.price, 0)
+                .toFixed(2),
+        };
+
         if (addressId && paymentMethodId && shippingMethodId) {
-            dispatch(addShopOrder(newValues));
+            dispatch(createOrder(orderData));
             dispatch(clear());
             dispatch(clearCartLine(userInfo.id));
-            navigate("/");
+            navigate("/success");
+            console.log("Payment total", orderData);
+            console.log("User trong payment", userInfo.id);
+            console.log(" biến orderItems trong payment total", orderItems);
         } else {
             notifyError();
         }
@@ -53,6 +67,42 @@ const PayMentTotal = () => {
         setTotalPrice(totalPrice);
     }, [products]);
 
+    // const handleOrder = () => {
+    //     const newValues = products.map((item) => ({
+    //         userId: userInfo.id,
+    //         variantId: item.variantDto.id,
+    //         orderDate: new Date().toLocaleDateString(),
+    //         addressId: addressId,
+    //         paymentMethodId: paymentMethodId,
+    //         shippingMethodId: shippingMethodId,
+    //         quantity: item.quantity,
+    //         orderTotal: (item.quantity * item.variantDto.price).toFixed(2),
+    //     }));
+    //     if (addressId && paymentMethodId && shippingMethodId) {
+    //         dispatch(addShopOrder(newValues));
+    //         dispatch(clear());
+    //         dispatch(clearCartLine(userInfo.id));
+    //         navigate("/success");
+    //     } else {
+    //         notifyError();
+    //     }
+    // };
+
+    // const notifyError = () => {
+    //     toast.error("Request complete information !");
+    // };
+
+    // useEffect(() => {
+    //     let totalPrice = 0;
+    //     let totalItem = 0;
+    //     products.forEach((item) => {
+    //         totalPrice += item.variantDto?.price * item.quantity;
+    //         totalItem += item.quantity;
+    //     });
+    //     setTotalItem(totalItem);
+    //     setTotalPrice(totalPrice);
+    // }, [products]);
+
     return (
         <>
             <div className="border border-gray-400 rounded-md">
@@ -61,18 +111,18 @@ const PayMentTotal = () => {
                         <ToastContainer position="top-right" />
                     </div>
                     <button
-                        className="w-full font-titleFont sm:text-xs md:text-md lg:text-lg bg-gradient-to-tr bg-yellow-400 hover:bg-yellow-500 duration-200 py-1.5 rounded-xl mt-3"
+                        className="w-full font-titleFont sm:text-xs md:text-md lg:text-lg bg-gradient-to-tr text-white bg-indigo-700 hover:bg-indigo-500 duration-200 py-1.5 rounded-xl mt-3"
                         onClick={() => handleOrder()}
                     >
                         Place your order
                     </button>
                     <div class="text-center">
                         <p className="flex gap-1 items-start sm:text-xs lg:text-sm pt-4">
-                            By placing your order, you agree to Amazon's privacy
-                            notice and conditions of use.
+                            By placing your order, you agree to Fashion Star's
+                            privacy notice and conditions of use.
                         </p>
                         <p className="flex gap-1 items-start sm:text-xs lg:text-sm pt-2">
-                            You also agree to FashionStarGlobal's terms and
+                            You also agree to FashionStar Global's terms and
                             conditions.
                         </p>
                     </div>
@@ -115,20 +165,20 @@ const PayMentTotal = () => {
                             Exchange rate
                         </button>
                     </div>
-                    <div>1 USD = 24540 VND</div>
+                    <div>1 USD = 24,540 VND</div>
                     <div>
-                        {(totalPrice + 8 + (totalPrice * 10) / 100).toFixed(2)}{" "}
-                        USD ={" "}
+                        ${(totalPrice + 8 + (totalPrice * 10) / 100).toFixed(2)}{" "}
+                        USD =
                         {(
                             (totalPrice + 8 + (totalPrice * 10) / 100) *
                             24540
-                        ).toFixed(0)}{" "}
+                        ).toLocaleString("en-US")}{" "}
                         VND
                     </div>
                 </div>
                 <div class="bg-gray-200 text-sm p-4 font-sans border-t border-gray-400 rounded-b-lg ">
                     <div class="text-blue-600 text-sm hover:text-orange-500 hover:underline">
-                        What is the Amazon Currency Converter?
+                        What is the Fashion Star Currency Converter?
                     </div>{" "}
                     You can track your shipment and view any applicable import
                     fees deposit before placing your order.{" "}

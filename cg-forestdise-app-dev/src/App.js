@@ -48,6 +48,8 @@ import ProductSlide from "./features/variant/productSlide";
 import ShowProduct from "./components/main/product/product";
 import ForgotPassword from "./pages/ForgotPassword";
 import UserProfile from "./components/main/profile/UserProfile";
+import Success from "./pages/Success";
+import UserOrder from "./components/main/order/UserOrder";
 const Layout = () => {
     return (
         <div>
@@ -139,6 +141,8 @@ function App() {
                     </Route>
                 </Route>
                 <Route path="/payment" element={<Payment />} />
+                <Route path="/success" element={<Success />} />
+                <Route path="/order" element={<UserOrder />} />
                 <Route path="/selling" element={<SellingLayout />}>
                     <Route index element={<HomeSelling />} />
                     <Route path="/selling/shop" element={<ShopCreat />} />

@@ -643,16 +643,16 @@ function ProductDetail() {
                                 <tbody className="text-amazon_ember">
                                     <tr className="">
                                         <td className="w-2/12	">
-                                            <a
+                                            <p
                                                 href="#"
                                                 className="decoration-0   text-left justify-between"
                                             >
                                                 {" "}
                                                 5 star
-                                            </a>
+                                            </p>
                                         </td>
                                         <td className="w-8/12">
-                                            <a
+                                            <p
                                                 href="#"
                                                 className=""
                                                 title="5 star represent ...% of rating"
@@ -665,7 +665,7 @@ function ProductDetail() {
                                                         }}
                                                     ></div>
                                                 </div>
-                                            </a>
+                                            </p>
                                         </td>
                                         <td className="w-2/12 pl-1 text-left	">
                                             {reviewAnalyst.summaryDto.ratingBreakdown?.fiveStar.percentage.toFixed(
@@ -682,13 +682,13 @@ function ProductDetail() {
                                     </tr>
                                     <tr className="">
                                         <td>
-                                            <a className="decoration-0 text-left">
+                                            <p className="decoration-0 text-left">
                                                 {" "}
                                                 4 star
-                                            </a>
+                                            </p>
                                         </td>
                                         <td className="w-8/12	">
-                                            <a
+                                            <p
                                                 href="#"
                                                 className=""
                                                 title="5 star represent ...% of rating"
@@ -701,7 +701,7 @@ function ProductDetail() {
                                                         }}
                                                     ></div>
                                                 </div>
-                                            </a>
+                                            </p>
                                         </td>
                                         <td className="w-2/12 pl-1 text-left	">
                                             {reviewAnalyst.summaryDto.ratingBreakdown?.fourStar.percentage.toFixed(
@@ -718,13 +718,13 @@ function ProductDetail() {
                                     </tr>
                                     <tr className="mb-4">
                                         <td>
-                                            <a className="decoration-0 text-left">
+                                            <p className="decoration-0 text-left">
                                                 {" "}
                                                 3 star
-                                            </a>
+                                            </p>
                                         </td>
                                         <td className="w-8/12	">
-                                            <a
+                                            <p
                                                 href="#"
                                                 className=""
                                                 title="5 star represent ...% of rating"
@@ -737,7 +737,7 @@ function ProductDetail() {
                                                         }}
                                                     ></div>
                                                 </div>
-                                            </a>
+                                            </p>
                                         </td>
                                         <td className="w-2/12 pl-1 text-left">
                                             {reviewAnalyst.summaryDto.ratingBreakdown?.threeStar.percentage.toFixed(
@@ -754,13 +754,13 @@ function ProductDetail() {
                                     </tr>
                                     <tr className="mb-4">
                                         <td>
-                                            <a className="decoration-0 text-left">
+                                            <p className="decoration-0 text-left">
                                                 {" "}
                                                 2 star
-                                            </a>
+                                            </p>
                                         </td>
                                         <td className="w-8/12	">
-                                            <a
+                                            <p
                                                 href="#"
                                                 className=""
                                                 title="5 star represent ...% of rating"
@@ -773,7 +773,7 @@ function ProductDetail() {
                                                         }}
                                                     ></div>
                                                 </div>
-                                            </a>
+                                            </p>
                                         </td>
                                         <td className="w-2/12 pl-1 text-left	">
                                             {reviewAnalyst.summaryDto.ratingBreakdown?.twoStar.percentage.toFixed(
@@ -790,13 +790,13 @@ function ProductDetail() {
                                     </tr>
                                     <tr className="mt-4">
                                         <td>
-                                            <a className="decoration-0   text-left">
+                                            <p className="decoration-0   text-left">
                                                 {" "}
                                                 1 star
-                                            </a>
+                                            </p>
                                         </td>
                                         <td className="w-8/12	">
-                                            <a
+                                            <p
                                                 href="#"
                                                 className=""
                                                 title="5 star represent ...% of rating"
@@ -809,7 +809,7 @@ function ProductDetail() {
                                                         }}
                                                     ></div>
                                                 </div>
-                                            </a>
+                                            </p>
                                         </td>
                                         <td className="w-2/12 pl-1 text-left	">
                                             {reviewAnalyst.summaryDto.ratingBreakdown?.oneStar.percentage.toFixed(
@@ -853,8 +853,9 @@ function ProductDetail() {
                                         use a simple average. Instead, our
                                         system considers things like how recent
                                         a review is and if the reviewer bought
-                                        the item on Amazon. It also analyzed
-                                        reviews to verify trustworthiness.
+                                        the item on Fashion star. It also
+                                        analyzed reviews to verify
+                                        trustworthiness.
                                     </span>
                                 </div>
                             )}
@@ -876,12 +877,12 @@ function ProductDetail() {
                     <div className="w-full h-full col-span-5 flex flex-col py-4 border-gray-300 text-titleFont  ">
                         <div className="flex flex-row text-center justify-between ">
                             <h1 className="text-2xl font-bold ">
-                                Reviews with images
+                                Reviews product
                             </h1>
                             <div>
-                                <a className="hover:underline text-amazon_ember">
+                                <p className="hover:underline text-amazon_ember">
                                     See all photo
-                                </a>
+                                </p>
                                 <ArrowRightIcon />
                             </div>
                         </div>
@@ -894,12 +895,12 @@ function ProductDetail() {
                         <h1 className="text-2xl font-bold mb-6">
                             Top reviews from the Viet Nam
                         </h1>
-                        {reviewVariantList != null &&
+                        {/* {reviewVariantList != null &&
                             reviewVariantList.reviewDTOList?.map(
                                 (item, index) => (
                                     <div key={index} className="m-4">
                                         <div className="flex mb-2">
-                                            <img
+                                            <imageUrl
                                                 src="https://scontent.fsgn5-10.fna.fbcdn.net/v/t1.6435-9/116429521_1655876004585921_941667011043408186_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=84a396&_nc_ohc=jX_SP-XeWGUAX8gd9Dl&_nc_ht=scontent.fsgn5-10.fna&oh=00_AfB8K54ttI7F3njd8xLWtnInOErSx2FkaIhUXEuNjobBRw&oe=654A001A"
                                                 className="rounded-full w-5 h-5"
                                             />
@@ -914,10 +915,10 @@ function ProductDetail() {
                                                     fontSize={15}
                                                 />
                                             </div>
-                                            <a className="text-bodyFont text-sm ml-4 font-medium hover:underline hover:text-amber-600">
+                                            <p className="text-bodyFont text-sm ml-4 font-medium hover:underline hover:text-amber-600">
                                                 {" "}
                                                 {item.title}
-                                            </a>
+                                            </p>
                                         </div>
                                         <div className="text-bodyFont text-xs text-gray-500">
                                             Reviewed in the Viet Nam on{" "}
@@ -956,7 +957,7 @@ function ProductDetail() {
                                         {showComment && (
                                             <div className="flex flex-col w-10/12 text-start pl-6 text-bodyFont text-xs">
                                                 <div className="flex mb-1">
-                                                    <img
+                                                    <imgUrl
                                                         src="https://scontent.fsgn5-10.fna.fbcdn.net/v/t1.6435-9/116429521_1655876004585921_941667011043408186_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=84a396&_nc_ohc=jX_SP-XeWGUAX8gd9Dl&_nc_ht=scontent.fsgn5-10.fna&oh=00_AfB8K54ttI7F3njd8xLWtnInOErSx2FkaIhUXEuNjobBRw&oe=654A001A"
                                                         className="rounded-full w-5 h-5"
                                                     />
@@ -981,12 +982,12 @@ function ProductDetail() {
                                         <hr></hr>
                                     </div>
                                 )
-                            )}
+                            )} */}
 
                         <hr></hr>
-                        <div className="m-4">
+                        {/* <div className="m-4">
                             <div className="flex mb-2">
-                                <img
+                                <imgUrl
                                     src="https://scontent.fsgn5-10.fna.fbcdn.net/v/t1.6435-9/116429521_1655876004585921_941667011043408186_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=84a396&_nc_ohc=jX_SP-XeWGUAX8gd9Dl&_nc_ht=scontent.fsgn5-10.fna&oh=00_AfB8K54ttI7F3njd8xLWtnInOErSx2FkaIhUXEuNjobBRw&oe=654A001A"
                                     className="rounded-full w-5 h-5"
                                 />
@@ -1002,11 +1003,11 @@ function ProductDetail() {
                                     <StarIcon sx={{fontSize: 15}} />
                                     <StarIcon sx={{fontSize: 15}} />
                                 </div>
-                                <a className="text-bodyFont text-sm ml-4 font-medium hover:underline hover:text-amber-600">
+                                <p className="text-bodyFont text-sm ml-4 font-medium hover:underline hover:text-amber-600">
                                     {" "}
                                     I wish that I had found these before I spent
                                     1000's on doctors and Physical therapy
-                                </a>
+                                </p>
                             </div>
                             <div className="text-bodyFont text-xs text-gray-500">
                                 Reviewed in the United States on September 25,
@@ -1038,11 +1039,11 @@ function ProductDetail() {
                                 no arch support. Give them a shot if you suffer
                                 as I did.
                             </div>
-                        </div>
+                        </div> */}
                         <hr></hr>
-                        <div className="m-4">
+                        {/* <div className="m-4">
                             <div className="flex mb-2">
-                                <img
+                                <imgUrl
                                     src="https://scontent.fsgn5-10.fna.fbcdn.net/v/t1.6435-9/116429521_1655876004585921_941667011043408186_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=84a396&_nc_ohc=jX_SP-XeWGUAX8gd9Dl&_nc_ht=scontent.fsgn5-10.fna&oh=00_AfB8K54ttI7F3njd8xLWtnInOErSx2FkaIhUXEuNjobBRw&oe=654A001A"
                                     className="rounded-full w-5 h-5"
                                 />
@@ -1058,11 +1059,11 @@ function ProductDetail() {
                                     <StarIcon sx={{fontSize: 15}} />
                                     <StarIcon sx={{fontSize: 15}} />
                                 </div>
-                                <a className="text-bodyFont text-sm ml-4 font-medium hover:underline hover:text-amber-600">
+                                <p className="text-bodyFont text-sm ml-4 font-medium hover:underline hover:text-amber-600">
                                     {" "}
                                     I wish that I had found these before I spent
                                     1000's on doctors and Physical therapy
-                                </a>
+                                </p>
                             </div>
                             <div className="text-bodyFont text-xs text-gray-500">
                                 Reviewed in the United States on September 25,
@@ -1094,7 +1095,7 @@ function ProductDetail() {
                                 no arch support. Give them a shot if you suffer
                                 as I did.
                             </div>
-                        </div>
+                        </div> */}
                         <hr></hr>
                         {/* List Review Of Customer End */}
                     </div>

@@ -245,14 +245,17 @@ function Header() {
                     {/* Signin end */}
 
                     {/* Orders start */}
-                    <div className="hidden lgl:flex flex-col items-start justify-center headerHover">
-                        <p className="text-sm mdl:text-xs text-white mdl:text-lightText font-light">
-                            Returns
-                        </p>
-                        <p className="text-sm font-semibold -mt-1 text-whiteText">
-                            & Orders
-                        </p>
-                    </div>
+                    <Link to="/order">
+                        <div className="hidden lgl:flex flex-col items-start justify-center headerHover">
+                            <p className="text-sm mdl:text-xs text-white mdl:text-lightText font-light">
+                                Returns
+                            </p>
+                            <p className="text-sm font-semibold -mt-1 text-whiteText">
+                                & Orders
+                            </p>
+                        </div>
+                    </Link>
+
                     {/* Orders end */}
 
                     {/* Carts start */}

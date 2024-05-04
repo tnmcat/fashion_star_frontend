@@ -57,7 +57,7 @@ function ReviewItemAndShipping() {
                                 Delivery: Nov. 21, 2023
                             </div>
                             <div className="text-sm">
-                                Items shipped from Amazon.com
+                                Items shipped from Fashion Star
                             </div>
                             <div className="grid grid-cols-7 gap-2 pt-4">
                                 <div className="col-span-3">

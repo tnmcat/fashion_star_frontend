@@ -25,6 +25,7 @@ import {getProducts} from "../../../features/home/homeSlice";
 import {setStore} from "../../../features/sellerStore/sellerStoreSlice";
 import StarIcon from "@mui/icons-material/Star";
 // import {findProduct} from "State/Product/Action";
+import "../product/productCard.css";
 export const sortOptions = [
     {name: "Price: Low to High", href: "#", current: false},
     {name: "Price: High to Low", href: "#", current: false},
@@ -544,7 +545,7 @@ export default function ShowProduct() {
                                             key={product.id}
                                             className="productCard w-[15rem] m-3 transition-all cursor-pointer border-[1px]
                                             border-gray-200 py-3 px-2 z-30 hover:border-transparent shadow-none hover:shadow-testShadow duration-200 flex
-                                                 flex-col gap-4 relative"
+                                                 flex-col gap-4 relative boxbox"
                                             // className="bg-white h-auto border-[1px] border-gray-200 py-8 z-30
                                             // hover:border-transparent shadow-none hover:shadow-testShadow duration-200 flex
                                             // flex-col gap-4 relative"
@@ -552,7 +553,7 @@ export default function ShowProduct() {
                                             <span className="text-xs capitalize italic absolute top-2 right-2 text-gray-500">
                                                 {product.category}
                                             </span>
-                                            <div className=" w-full h=[20rem] overflow-hidden">
+                                            <div className=" w-full h=[20rem] overflow-hidden relative">
                                                 <img
                                                     className="w-52 h-64 object-contain cursor-pointer"
                                                     src={product.mainPicture}
@@ -594,7 +595,7 @@ export default function ShowProduct() {
                                                         {" "}
                                                         {product.title.substring(
                                                             0,
-                                                            40
+                                                            20
                                                         )}
                                                         ...
                                                     </h2>
@@ -604,7 +605,7 @@ export default function ShowProduct() {
                                                         <p className="text-sm">
                                                             {product.description.substring(
                                                                 0,
-                                                                100
+                                                                50
                                                             )}
                                                             ...
                                                         </p>

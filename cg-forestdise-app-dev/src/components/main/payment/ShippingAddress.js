@@ -300,7 +300,7 @@ function Address() {
                             </div>
                             <div className="bg-gray-200/30 border-t border-gray-400 pl-2">
                                 <button
-                                    className="bg-yellow-300 rounded-lg font-semibold text-sm m-3 px-2 p-1 hover:bg-yellow-400"
+                                    className="bg-indigo-700  text-white rounded-lg font-semibold text-sm m-3 px-2 p-1 hover:bg-indigo-400"
                                     onClick={() => setIsAddress(true)}
                                 >
                                     Use this address

@@ -1,5 +1,5 @@
 import React from "react";
-import {logoDearman, logoSeller} from "../../../assets";
+import {logoSeller} from "../../../assets";
 import {useNavigate} from "react-router-dom";
 import {useSelector} from "react-redux";
 
@@ -27,6 +27,7 @@ function SellingHeader() {
                         <img
                             className="h-8 w-8 rounded-full mr-1"
                             src="https://cdn-icons-png.flaticon.com/512/1053/1053244.png"
+                            alt=""
                         />
                         <p className="text-xs text-lightText font-light">
                             Hello, {sellerInfo.sellerName}
