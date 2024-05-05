@@ -11,7 +11,7 @@ function Products() {
     const {products} = useSelector((state) => state.home);
     const {userInfo} = useSelector((state) => state.user);
     const navigate = useNavigate();
-
+   
     useEffect(() => {
         if (products.length < 1) {
             dispatch(getProducts());

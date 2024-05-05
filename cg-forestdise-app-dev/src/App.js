@@ -48,6 +48,7 @@ import ProductSlide from "./features/variant/productSlide";
 import ShowProduct from "./components/main/product/product";
 import ForgotPassword from "./pages/ForgotPassword";
 import UserProfile from "./components/main/profile/UserProfile";
+import ChangePasswordPage from "./pages/ChangePassword";
 const Layout = () => {
     return (
         <div>
@@ -100,6 +101,7 @@ function App() {
                 <Route path="/register" element={<Registration />} />
                 <Route path="/signin" element={<Signin />} />
                 <Route path="/changepass" element={<ForgotPassword />} />
+                <Route path="/change-password" element={<ChangePasswordPage />} />
                 <Route
                     path="/sellercentral/register"
                     element={<SellerRegistration />}
