@@ -8,6 +8,7 @@ import axios from "axios";
 import { RotatingLines } from "react-loader-spinner";
 
 function Registration() {
+<<<<<<< Updated upstream
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -115,6 +116,208 @@ function Registration() {
                         <span className="italic font-bold text-base">!</span>
                         {errors.password}
                       </p>
+=======
+    const [error, setError] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [form, setForm] = useState({});
+    const [loading, setLoading] = useState(false);
+    const [successNotify, setSuccessNotify] = useState("");
+    const navigate = useNavigate();
+
+    const REGEX = {
+        password: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
+    };
+
+
+    const handleValidate = () => {
+        let errors = {};
+        if (!form.password) {
+            errors.password = "Required";
+        } else if (!REGEX.password.test(form.password)) {
+            errors.password =
+                "Password must be minium 8 characters, at least one number, one letter";
+        }
+
+        if (form.cpassword !== form.password) {
+            errors.cpassword = "Password does not match";
+        }
+        return errors;
+    };
+    const cookieString = document.cookie
+            .split('; ')
+            .find(row => row.startsWith('resetPasswordToken'));
+        if (!cookieString) {
+            setError('Không tìm thấy token. Vui lòng thử lại.');
+            setLoading(false);
+            return;
+        }
+        const token = cookieString.split('=')[1];
+    const handleSubmit = async () => {
+        setLoading(true);
+        await axios
+            .post(`http://localhost:5454/api/register/reset-password?token=${token}`, { newPassword: password } )
+            .then(() => {
+                setLoading(false);
+                setSuccessNotify("Update Password successfully");
+                setTimeout(() => {
+                    navigate("/signin");
+                }, 3000);
+            });
+    };
+
+    return (
+        <div className="w-full font-bodyFont">
+            <div className="w-full bg-gray-100 pb-10">
+                <Formik
+                    initialValues={form}
+                    onSubmit={handleSubmit}
+                >
+                    {({errors, handleSubmit}) => (
+                        <form
+                            onSubmit={handleSubmit}
+                            className="w-[350px] mx-auto flex flex-col items-center"
+                        >
+                            <Link to="/">
+                                <img
+                                    className="w-40"
+                                    src={logoDearman}
+                                    alt="logo"
+                                />
+                            </Link>
+                            <div className="w-full border border-zinc-200 bg-gray-100 rounded-md p-6">
+                                <h2 className="font-titleFont text-3xl font-medium mb-4">
+                                    Change Password
+                                </h2>
+                                <div className="flex flex-col gap-3">
+                                    <div className="flex flex-col gap-2">
+                                        <p className="text-sm font-medium">
+                                            Password
+                                        </p>
+                                        <style>
+                                            {`
+                                                .custom-input::placeholder {
+                                                    font-size: 15px; 
+                                                    color: #888; 
+                                                }
+                                            `}
+                                        </style>
+                                        <input
+                                            name="password"
+                                            onChange={e => setPassword(e.target.value)}
+                                            value={password || ""}
+                                            placeholder="8 characters, one number, one letter"
+                                            className="w-full normal-case py-1 bordder border-zinc-400
+                    px-2  rounded-sm outline-none focus-within:border-[#4F46E5]
+                    focus:ring-1 focus:ring-inset focus:ring-indigo-600 duration-100 custom-input
+                    "
+                                            type="password"
+                                        ></input>
+                                        {errors.password && (
+                                            <p
+                                                className="text-red-600 text-xs font-semibold tracking-wide
+                    flex items-center gap-2 -mt-1.5"
+                                            >
+                                                <span className="italic font-titleFont font-extrabold text-base">
+                                                    !
+                                                </span>
+                                                {errors.password}
+                                            </p>
+                                        )}
+                                    </div>
+                                    <div className="flex flex-col gap-2">
+                                        <p className="text-sm font-medium">
+                                            Re-enter Password
+                                        </p>
+                                        <input
+                                            name="cpassword"
+                                            value={confirmPassword|| ""}
+                                            onChange={e => setConfirmPassword(e.target.value)}
+                                            className="w-full normal-case py-1 bordder border-zinc-400
+                    px-2 text-base rounded-sm outline-none focus-within:border-[#4F46E5]
+                    focus:ring-1 focus:ring-inset focus:ring-indigo-600 duration-100
+                    "
+                                            type="password"
+                                        ></input>
+                                        {errors.cpassword && (
+                                            <p
+                                                className="text-red-600 text-xs font-semibold tracking-wide
+                    flex items-center gap-2 -mt-1.5"
+                                            >
+                                                <span className="italic font-titleFont font-extrabold text-base">
+                                                    !
+                                                </span>
+                                                {errors.confirmPassword}
+                                            </p>
+                                        )}
+                                    </div>
+                                    <button
+                                        type="submit"
+                                        onClick={handleSubmit}
+                                        className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                    >
+                                        Change password
+                                    </button>
+                                    {loading && (
+                                        <div className="flex justify-center">
+                                            <RotatingLines
+                                                strokeColor="#febd69"
+                                                strokeWidth="5"
+                                                animationDuration="0.75"
+                                                width="50"
+                                                visible={true}
+                                            />
+                                        </div>
+                                    )}
+                                    {successNotify && (
+                                        <div>
+                                            <div>
+                                                <motion.p
+                                                    initial={{
+                                                        y: 10,
+                                                        opacity: 0,
+                                                    }}
+                                                    animate={{y: 0, opacity: 1}}
+                                                    transition={{duration: 0.5}}
+                                                    className="text-base font-titleFont font-semibold text-green-500
+                        border-[1px] border-green-500 px-2 text-center"
+                                                >
+                                                    {successNotify}
+                                                </motion.p>
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                                <p className="text-xs text-black leading-4 mt-4">
+                                    By creating an account, you agree to Fashion
+                                    Star
+                                    <span className="ml-1 text-indigo-600">
+                                        Conditions of Use{" "}
+                                    </span>
+                                    and{" "}
+                                    <span className="text-indigo-600">
+                                        Private Notice.
+                                    </span>
+                                </p>
+                                <div>
+                                    <p className="text-xs text-black">
+                                        Rememberd your Password?{" "}
+                                        <Link to="/signin">
+                                            <span
+                                                className="text-xs text-indigo-600 hover:text-orange-600
+            hover:underline underline-offset-1 cursor-pointer duration-100"
+                                            >
+                                                Sign in{" "}
+                                                <span>
+                                                    <ArrowRightIcon />
+                                                </span>
+                                            </span>
+                                        </Link>
+                                    </p>
+                                </div>
+                            </div>
+                        </form>
+>>>>>>> Stashed changes
                     )}
                   </div>
                   <div className="flex flex-col gap-2">
