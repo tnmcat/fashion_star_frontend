@@ -3,7 +3,7 @@ import { unwrapResult } from '@reduxjs/toolkit';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getStoreBySellerId, updateStore } from '../../../features/store/storeSlice';
+import { getStoreBySellerId, updateStore } from '../../../features/seller_feature/store/storeSlice';
 StoreManage.propTypes = {
     productId: PropTypes.string
 };

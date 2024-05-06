@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { getVariantsByProductId, updateVariant, deleteVariant, addVariant } from '../../../features/variant/variantSlice';
+import { getVariantsByProductId, updateVariant, deleteVariant, addVariant } from '../../../features/seller_feature/variant/variantSlice';
 import VariantList from './VariantList';
 import { unwrapResult } from '@reduxjs/toolkit';
 import PropTypes from 'prop-types';

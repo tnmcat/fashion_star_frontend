@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { unwrapResult } from '@reduxjs/toolkit';
-import { getOrderByOrderId, updateOrder } from '../../../features/order/orderSlice';
+import { getOrderByOrderId, updateOrder } from '../../../features/seller_feature/order/orderSlice';
 import OrderUpdateForm from './OrderUpdateForm';
 import { Avatar, Box, Breadcrumbs, Button, CssBaseline, Grid, Link, List, ListItem, ListItemAvatar, ListItemText, Paper, Typography } from '@mui/material';
 import Table from '@mui/material/Table';

@@ -1,16 +1,12 @@
+import { Box, Grid, Paper, Typography } from '@mui/material';
 import { unwrapResult } from '@reduxjs/toolkit';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { createOption, fetchOptionsByProductId, updateOption } from '../../../features/option/optionSlice';
+import { createOption, fetchOptionsByProductId, updateOption } from '../../../features/seller_feature/option/optionSlice';
+import OptionValue from '../option_value/OptionValue';
 import OptionForm from './OptionForm';
 import OptionList from './OptionList';
-import OptionValueManage from '../option_value/OptionValue';
-import VariantManage from '../variant/VariantManage';
-import { addVariant } from '../../../features/variant/variantSlice';
-import OptionValue from '../option_value/OptionValue';
-import { Box, Button, Grid, Paper, Typography } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
 
 function OptionManage(props) {
     const dispatch = useDispatch();

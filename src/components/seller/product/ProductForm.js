@@ -8,7 +8,7 @@ import { getDownloadURL, ref, uploadBytes, uploadBytesResumable } from 'firebase
 import { v4 } from "uuid";
 import { Box, Breadcrumbs, Button, CssBaseline, Divider, FormControl, InputLabel, Link, MenuItem, Paper, Select, TextField, Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
-import { addProduct } from '../../../features/product/productSlice';
+import { addProduct } from '../../../features/seller_feature/product/productSlice';
 import { unwrapResult } from '@reduxjs/toolkit';
 
 ProductForm.propTypes = {

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectError, selectLoading, selectSellerDetail, setSellerInfo, updateSeller } from '../../../features/seller/sellerSlice';
+import { selectError, selectLoading, selectSellerDetail, setSellerInfo, updateSeller } from '../../../features/seller_feature/seller/sellerSlice';
 
 import { unwrapResult } from '@reduxjs/toolkit';
 import ProfileDetails from './ProfileDetails';

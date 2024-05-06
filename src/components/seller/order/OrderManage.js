@@ -1,7 +1,7 @@
 import { unwrapResult } from '@reduxjs/toolkit';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getOrdersByStoreId, updateOrder } from '../../../features/order/orderSlice';
+import { getOrdersByStoreId, updateOrder } from '../../../features/seller_feature/order/orderSlice';
 import { Box, Breadcrumbs, Button, CssBaseline, Link, Paper, Typography } from '@mui/material';
 import OrderList from './OrderList';
 import OrderUpdateForm from './OrderUpdateForm';

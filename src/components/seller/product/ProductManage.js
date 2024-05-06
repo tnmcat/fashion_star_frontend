@@ -2,7 +2,7 @@ import { Box, Breadcrumbs, Button, CssBaseline, Link, Paper, Typography } from '
 import { unwrapResult } from '@reduxjs/toolkit';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addProduct, getProductsByStoreId } from '../../../features/product/productSlice';
+import { addProduct, getProductsByStoreId } from '../../../features/seller_feature/product/productSlice';
 import ProductForm from './ProductForm';
 import ProductList from './ProductList';
 import { useNavigate } from 'react-router-dom';

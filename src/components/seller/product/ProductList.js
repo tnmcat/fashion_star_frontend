@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { DataGrid } from '@mui/x-data-grid';
 import { useDispatch, useSelector } from 'react-redux';
 import { unwrapResult } from '@reduxjs/toolkit';
-import { getProductsByStoreId } from '../../../features/product/productSlice';
+import { getProductsByStoreId } from '../../../features/seller_feature/product/productSlice';
 import EditIcon from '@mui/icons-material/Edit';
 ProductList.propTypes = {
     productList: PropTypes.array,

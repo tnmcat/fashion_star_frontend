@@ -10,14 +10,14 @@ import {
   persistStore,
 } from "redux-persist";
 //import storage from "redux-persist/lib/storage";
-import categoryReducer from "../features/category/categorySlice";
-import productReducer from "../features/product/productSlice";
-import optionReducer from "../features/option/optionSlice";
-import optionValueReducer from "../features/option_value/optionValueSlice";
-import sellerReducer from "../features/seller/sellerSlice";
-import variantReducer from "../features/variant/variantSlice";
-import sellerStoreReducer from "../features/store/sellerStoreSlice";
-import storeCategoryReducer from "../features/store_category/storeCategorySlice";
+import categoryReducer from "../features/seller_feature/category/categorySlice";
+import productReducer from "../features/seller_feature/product/productSlice";
+import optionReducer from "../features/seller_feature/option/optionSlice";
+import optionValueReducer from "../features/seller_feature/option_value/optionValueSlice";
+import sellerReducer from "../features/seller_feature/seller/sellerSlice";
+import variantReducer from "../features/seller_feature/variant/variantSlice";
+import sellerStoreReducer from "../features/seller_feature/store/sellerStoreSlice";
+import storeCategoryReducer from "../features/seller_feature/store_category/storeCategorySlice";
 import userReducer from "../features/user/userSlice";
 import storage from "redux-persist/lib/storage";
 

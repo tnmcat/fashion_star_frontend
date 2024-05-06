@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
-import { updateAddress, deleteAddress } from '../../../features/address/addressSlice'; // Import the deleteAddress action
+import { updateAddress, deleteAddress } from '../../../features/seller_feature/address/addressSlice'; // Import the deleteAddress action
 import { unwrapResult } from '@reduxjs/toolkit';
 import AddressForm from './AddressForm'; // Assuming you have an AddressForm component for editing addresses
 

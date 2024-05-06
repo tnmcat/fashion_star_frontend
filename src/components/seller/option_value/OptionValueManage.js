@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
-import { addOptionValue, fetchOptionValuesByOptionId, updateOptionValue } from '../../../features/option_value/optionValueSlice';
+import { addOptionValue, fetchOptionValuesByOptionId, updateOptionValue } from '../../../features/seller_feature/option_value/optionValueSlice';
 import OptionValueForm from './OptionValueForm';
 import OptionValueList from './OptionValueList';
 import { unwrapResult } from '@reduxjs/toolkit';

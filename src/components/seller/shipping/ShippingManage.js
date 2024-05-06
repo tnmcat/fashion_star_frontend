@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import AddressList from './AddressList';
 import { useSelector, useDispatch } from 'react-redux';
-import { createSellerAddress, fetchAddressesBySellerId } from '../../../features/address/addressSlice'; // Import the fetchAddressesByUserId action
+import { createSellerAddress, fetchAddressesBySellerId } from '../../../features/seller_feature/address/addressSlice'; // Import the fetchAddressesByUserId action
 import { unwrapResult } from '@reduxjs/toolkit';
 import AddressForm from './AddressForm'; // Import the AddressForm component
 

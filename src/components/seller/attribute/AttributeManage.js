@@ -2,7 +2,7 @@ import { unwrapResult } from '@reduxjs/toolkit';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { createAttribute, deleteAttribute, fetchAttributesByProductId, updateAttribute } from '../../../features/attribute/attributeSlice';
+import { createAttribute, deleteAttribute, fetchAttributesByProductId, updateAttribute } from '../../../features/seller_feature/attribute/attributeSlice';
 import AttributeForm from './AttributeForm';
 import AttributeList from './AttributeList';
 import { Box, Paper } from '@mui/material';

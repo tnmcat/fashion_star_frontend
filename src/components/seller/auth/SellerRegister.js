@@ -1,7 +1,7 @@
 import React from 'react';
 import RegisterForm from './RegisterForm';
 import { useDispatch } from 'react-redux';
-import { registerSeller } from '../../../features/seller/sellerSlice';
+import { registerSeller } from '../../../features/seller_feature/seller/sellerSlice';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { useNavigate } from 'react-router-dom';
 

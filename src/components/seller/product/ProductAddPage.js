@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { addProduct } from '../../../features/product/productSlice';
+import { addProduct } from '../../../features/seller_feature/product/productSlice';
 import { unwrapResult } from '@reduxjs/toolkit';
 import ProductForm from './ProductForm';
 import { Box, Breadcrumbs, CssBaseline, Link, Paper, Tab, Tabs } from '@mui/material';

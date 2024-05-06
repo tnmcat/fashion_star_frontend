@@ -3,8 +3,8 @@ import { Box, Breadcrumbs, Button, CssBaseline, Dialog, DialogContent, DialogTit
 import { unwrapResult } from '@reduxjs/toolkit';
 import { default as React, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllCategories } from '../../../features/category/categorySlice';
-import { addStoreCategory, getStoreCategoriesByStoreId } from '../../../features/store_category/storeCategorySlice';
+import { getAllCategories } from '../../../features/seller_feature/category/categorySlice';
+import { addStoreCategory, getStoreCategoriesByStoreId } from '../../../features/seller_feature/store_category/storeCategorySlice';
 import StoreCategoryForm from './StoreCategoryForm';
 import StoreCategoryList from './StoreCategoryList';
 function StoreCategoryManage(props) {

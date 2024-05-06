@@ -2,9 +2,9 @@ import { unwrapResult } from '@reduxjs/toolkit';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { loginSeller, setSellerInfo } from '../../../features/seller/sellerSlice';
+import { loginSeller, setSellerInfo } from '../../../features/seller_feature/seller/sellerSlice';
 import SignInForm from './SignInForm';
-import { getStoreBySellerId } from '../../../features/store/sellerStoreSlice';
+import { getStoreBySellerId } from '../../../features/seller_feature/store/sellerStoreSlice';
 
 function SellerSignIn(props) {
     const navigate = useNavigate();
