@@ -84,7 +84,7 @@ function Method() {
         if (paymentMethod.length <= 0 && userInfo !== null) {
             dispatch(getPaymentMethod(userInfo.id));
         }
-    }, []);
+    }, [paymentMethod, userInfo, dispatch]);
 
     return (
         <div class="px-20 py-3">

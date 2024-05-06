@@ -125,7 +125,7 @@ export default function ShowProduct() {
         if (products.length < 1) {
             dispatch(getProducts());
         }
-    }, [userInfo]);
+    }, [dispatch, products, userInfo]);
     return (
         <div className="bg-white">
             <div>
@@ -645,7 +645,7 @@ export default function ShowProduct() {
                     </section>
                 </main>
             </div>
-            {/* <div className="max-w-screen-2xl mx-auto grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 xl:gap-10 px-4">
+            <div className="max-w-screen-2xl mx-auto grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 xl:gap-10 px-4">
                 {products.map((product) => (
                     <div
                         key={product.id}
@@ -725,7 +725,7 @@ export default function ShowProduct() {
                         </div>
                     </div>
                 ))}
-            </div> */}
+            </div>
         </div>
     );
 }

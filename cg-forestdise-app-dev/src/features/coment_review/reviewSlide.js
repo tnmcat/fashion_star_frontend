@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {
     findReview,
     findReviewByProductId,
@@ -7,29 +7,38 @@ import {
 
 const initialState = {
     reviews: [],
-    reviewsByProduct :null,
+    reviewsByProduct: null,
     review: null,
     loading: false,
     error: null,
     success: false,
 };
 
-export const getReviewsByVariantId = createAsyncThunk("getreview", async (variantId) => {
-    const response = await findReview(variantId);
-    return response.data;
-});
+export const getReviewsByVariantId = createAsyncThunk(
+    "getreview",
+    async (variantId) => {
+        const response = await findReview(variantId);
+        console.log(" check lại chỗ này:", response);
+        return response.data;
+    }
+);
 
-export const getReviewByProductId = createAsyncThunk("Reviews", async (productId) => {
-    const response = await findReviewByProductId(productId);
-    return response.data;
-});
+export const getReviewByProductId = createAsyncThunk(
+    "Reviews",
+    async (productId) => {
+        const response = await findReviewByProductId(productId);
+        console.log("chổ này đọc được productId", response);
+        return response.data;
+    }
+);
 
-export const addReview = createAsyncThunk("Review/create", async (review,variantId, userId) => {
-    const response = await createReview(review, variantId, userId);
-    return response.data;
-});
-
-
+export const addReview = createAsyncThunk(
+    "Review/create",
+    async (review, variantId, userId) => {
+        const response = await createReview(review, variantId, userId);
+        return response.data;
+    }
+);
 
 export const reviewSlide = createSlice({
     name: "review",
@@ -99,21 +108,18 @@ export const reviewSlide = createSlice({
                 state.loading = false;
                 state.review = action.payload;
                 state.error = false;
-            })
+            });
     },
 });
 
-export const {
-    setLoading,
-    setError,
-    setSuccess,
-} = reviewSlide.actions;
+export const {setLoading, setError, setSuccess} = reviewSlide.actions;
 
 export const selectLoading = (state) => state.shop.loading;
 export const selectError = (state) => state.shop.error;
 export const selectSuccess = (state) => state.shop.success;
 export const selectReviewListByVariantId = (state) => state.review.reviews;
-export const selectReviewListByProductId = (state) => state.review.reviewsByProduct;
+export const selectReviewListByProductId = (state) =>
+    state.review.reviewsByProduct;
 export const selectReviewCreated = (state) => state.review.review;
 
 //Enhancement feature of book slice

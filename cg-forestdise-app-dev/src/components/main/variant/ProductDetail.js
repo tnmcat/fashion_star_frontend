@@ -53,7 +53,6 @@ function ProductDetail() {
     const [idArray, setIdArray] = useState([]);
     const [variantDTOListForLoop, setVariantDTOListForLoop] = useState([]);
     const navigate = useNavigate();
-
     useEffect(() => {
         getVariantDetail();
     }, [id]);
@@ -61,7 +60,6 @@ function ProductDetail() {
     useEffect(() => {
         getVariantInformation();
     }, [id]);
-
     useEffect(() => {
         getReviewAnalyst();
     }, [id]);
@@ -103,18 +101,17 @@ function ProductDetail() {
             setVariantId(variantRender0.id);
             setVariantRender(variantRender0);
             console.log("Variant Render  2", variantRender);
-            console.log("555555");
             //logic change variantId
             if (variantRender0 && variantDetail) {
                 const optionValueList = variantRender0.optionValueDTOList;
-                console.log(optionValueList);
+                console.log("optionValueList", optionValueList);
                 const variantDTOList = variantDetail.variantDTOList;
-                console.log(variantDTOList);
+                console.log("variantDTOList: ", variantDTOList);
                 setVariantDTOListForLoop(variantDTOList);
                 const ids = optionValueList.map((obj) => obj.id);
-                console.log(ids);
+                console.log("ids: ", ids);
                 setIdArray(ids); //[1,4]
-                console.log(idArray);
+                console.log("idArray: ", idArray);
             }
         }
     }, [variantRender0, id, variantDetail, reviewVariantList, reviewAnalyst]);
@@ -252,13 +249,6 @@ function ProductDetail() {
                                         {reviewAnalyst.summaryDto?.reviewsTotal}{" "}
                                         rating
                                     </div>
-                                    {/* <Link
-                                        to={`/review/{productId}`}
-                                        className="text-green-900"
-                                    >
-                                        {" "}
-                                        See all reviews
-                                    </Link> */}
                                 </div>
                             )}
                             <hr></hr>
@@ -886,7 +876,6 @@ function ProductDetail() {
                                 <ArrowRightIcon />
                             </div>
                         </div>
-
                         {/* Carosel Review Image Start */}
                         <div></div>
                         <hr></hr>
@@ -895,7 +884,7 @@ function ProductDetail() {
                         <h1 className="text-2xl font-bold mb-6">
                             Top reviews from the Viet Nam
                         </h1>
-                        {/* {reviewVariantList != null &&
+                        {reviewVariantList != null &&
                             reviewVariantList.reviewDTOList?.map(
                                 (item, index) => (
                                     <div key={index} className="m-4">
@@ -982,8 +971,7 @@ function ProductDetail() {
                                         <hr></hr>
                                     </div>
                                 )
-                            )} */}
-
+                            )}
                         <hr></hr>
                         {/* <div className="m-4">
                             <div className="flex mb-2">
@@ -1097,7 +1085,7 @@ function ProductDetail() {
                             </div>
                         </div> */}
                         <hr></hr>
-                        {/* List Review Of Customer End */}
+                        List Review Of Customer End
                     </div>
                 </div>
             </div>

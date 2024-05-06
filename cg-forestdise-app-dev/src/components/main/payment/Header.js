@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {logoBlack, logoDearman} from "../../../assets";
+import {logoDearman} from "../../../assets";
 import LockIcon from "@mui/icons-material/Lock";
 import {useNavigate} from "react-router-dom";
 import {useSelector} from "react-redux";

@@ -1,18 +1,18 @@
-import React from "react";
 import {
+    Button,
+    Card,
+    Checkbox,
+    Input,
     Rating,
     Typography,
-    Card,
-    Input,
-    Checkbox,
-    Button,
 } from "@material-tailwind/react";
-import {useDispatch, useSelector} from "react-redux";
+import React from "react";
 import {addReview} from "../../../features/coment_review/reviewSlide";
+import {useDispatch, useSelector} from "react-redux";
 
-export default function Review() {
+const OrderReview = ({toggleVisibility}) => {
     const {userInfo} = useSelector((state) => state.user);
-    const {variant} = useSelector((state) => state.variant.variantDetail);
+    // const {variant} = useSelector((state) => state.variant.variantDetail);
     const [star, setStar] = React.useState(4);
     const [title, setTitle] = React.useState("");
     const [content, setContent] = React.useState("");
@@ -29,12 +29,15 @@ export default function Review() {
             addReview({
                 review: review,
                 userId: userInfo.id,
-                variantId: variant.id,
+                // variantId: variant.id,
             })
         );
     };
     return (
-        <div className="">
+        <div className="fixed top-1/2 left-2/4 z-10 bg-opacity-95 bg-slate-50 border-solid p-20 w-full h-full -translate-y-1/2 -translate-x-1/2">
+            <div className="text-right">
+                <button onClick={toggleVisibility}>X</button>
+            </div>
             <div className="flex items-center gap-2 font-bold text-blue-gray-500">
                 {rated}.0
                 <Rating value={4} onChange={(value) => setRated(value)} />
@@ -52,7 +55,7 @@ export default function Review() {
                 <Typography color="gray" className="mt-1 font-normal">
                     Nice to meet you! Enter your details to review.
                 </Typography>
-                <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96">
+                <form className="mt-8 mb-2 w-full max-w-screen-lg">
                     <div className="mb-1 flex flex-col gap-6">
                         <Typography
                             variant="h6"
@@ -101,43 +104,6 @@ export default function Review() {
                                     "before:content-none after:content-none",
                             }}
                         />
-                        {/* image for review
-                        B1: UPLOAD
-                        B2: RENDER IMAGE/VIDEO */}
-                        {/* <figure className="relative h-96 w-full">
-                            <imgUrl
-                                className="h-full w-full rounded-xl object-cover object-center"
-                                src="https://images.unsplash.com/photo-1682407186023-12c70a4a35e0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2832&q=80"
-                                alt="nature image"
-                            />
-                            <figcaption className="absolute bottom-8 left-2/4 flex w-[calc(100%-4rem)] -translate-x-2/4 justify-between rounded-xl border border-white bg-white/75 py-4 px-6 shadow-lg shadow-black/5 saturate-200 backdrop-blur-sm">
-                                <div>
-                                    <Typography variant="h5" color="blue-gray">
-                                        Sara Lamalo
-                                    </Typography>
-                                    <Typography
-                                        color="gray"
-                                        className="mt-2 font-normal"
-                                    >
-                                        20 July 2022
-                                    </Typography>
-                                </div>
-                                <Typography variant="h5" color="blue-gray">
-                                    Growth
-                                </Typography>
-                            </figcaption>
-                        </figure>
-                        <video
-                            className="h-full w-full rounded-lg"
-                            controls
-                            autoPlay
-                        >
-                            <source
-                                src="https://youtu.be/JWZZmBuN5Fs?si=ILdMI2k6wNlRHM-r"
-                                type="video/mp4"
-                            />
-                            Your browser does not support the video tag.
-                        </video> */}
                     </div>
                     <Checkbox
                         label={
@@ -157,15 +123,24 @@ export default function Review() {
                         }
                         containerProps={{className: "-ml-2.5"}}
                     />
-                    <Button
-                        className="mt-6 text-indigo-700"
-                        fullWidth
-                        onClick={submit}
-                    >
-                        Done !
-                    </Button>
+                    <div className="flex justify-between">
+                        <button
+                            className="w-1/2 bg-slate-500"
+                            onClick={toggleVisibility}
+                        >
+                            Back
+                        </button>
+                        <Button
+                            className="mt-6 text-indigo-700 w-1/2"
+                            // fullWidth
+                            onClick={submit}
+                        >
+                            Done !
+                        </Button>
+                    </div>
                 </form>
             </Card>
         </div>
     );
-}
+};
+export default OrderReview;

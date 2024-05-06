@@ -23,7 +23,7 @@ const Success = () => {
                     </div>
                     <p className="text-amazon_blue text-sm">
                         Thank you for shopping with us. We' ll send a
-                        confirmation once your item hase shipped, if you would
+                        confirmation once your item has shipped, if you would
                         like to check the status of your order(s) please press
                         the link below
                     </p>
@@ -31,20 +31,20 @@ const Success = () => {
                         onClick={() => navigate("/order")}
                         className="w-full  text-white sm:text-xs md:text-md lg:text-lg bg-gradient-to-tr bg-indigo-700 hover:bg-indigo-500 duration-200 py-1.5 rounded-xl mt-3"
                     >
-                        <FontAwesomeIcon
+                        {/* <FontAwesomeIcon
                             icon={faWheelchairMove}
                             size="3x"
                             style={{marginRight: "10px"}}
-                        />
-                        Your orders is going to shipping
-                        <FontAwesomeIcon
+                        /> */}
+                        Return your Orders
+                        {/* <FontAwesomeIcon
                             icon={faWheelchairMove}
                             size="3x"
                             style={{marginLeft: "10px"}}
-                        />
+                        /> */}
                     </button>
                     <div className="flex text-center pt-3">
-                        <FontAwesomeIcon
+                        {/* <FontAwesomeIcon
                             icon={faPersonPraying}
                             size="3x"
                             style={{marginRight: "10px"}}
@@ -52,7 +52,7 @@ const Success = () => {
                         <h2 className=" text-red-700 border-l">
                             {" "}
                             Cầu cho con đậu môn Project
-                        </h2>
+                        </h2> */}
                     </div>
                 </div>
             </main>

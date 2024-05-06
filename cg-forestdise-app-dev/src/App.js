@@ -43,13 +43,14 @@ import SellerRegistration from "./pages/SellerRegistration";
 import SellerSignin from "./pages/SellerSignin";
 import SubCategoryContent from "./components/main/store/SubCategoryContent";
 import Confirm from "./pages/Confirm";
-import ShopCreate from "./components/main/selling/main/ShopCreate";
-import ProductSlide from "./features/variant/productSlide";
 import ShowProduct from "./components/main/product/product";
 import ForgotPassword from "./pages/ForgotPassword";
 import UserProfile from "./components/main/profile/UserProfile";
 import Success from "./pages/Success";
 import UserOrder from "./components/main/order/UserOrder";
+import Review from "./components/main/variant/Review";
+import OrderReview from "./components/main/order/OrderReview";
+import Order from "./components/main/order/Order";
 const Layout = () => {
     return (
         <div>
@@ -120,6 +121,7 @@ function App() {
                         element={<ShowProduct />}
                     ></Route>
                     <Route path="/product/:id" element={<ProductDetail />} />
+                    <Route path="/review/:id" element={<OrderReview />} />
                     <Route path="/store/:id" element={<StoreLayout />}>
                         <Route index element={<HomeContent />} />
                         <Route
@@ -142,7 +144,7 @@ function App() {
                 </Route>
                 <Route path="/payment" element={<Payment />} />
                 <Route path="/success" element={<Success />} />
-                <Route path="/order" element={<UserOrder />} />
+                <Route path="/order" element={<Order />} />
                 <Route path="/selling" element={<SellingLayout />}>
                     <Route index element={<HomeSelling />} />
                     <Route path="/selling/shop" element={<ShopCreat />} />
