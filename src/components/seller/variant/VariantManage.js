@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { getVariantsByProductId, updateVariant, deleteVariant } from '../../../features/variant/variantSlice';
+import { getVariantsByProductId, updateVariant, deleteVariant, addVariant } from '../../../features/variant/variantSlice';
 import VariantList from './VariantList';
 import { unwrapResult } from '@reduxjs/toolkit';
 import PropTypes from 'prop-types';
-import { Box, Paper } from '@mui/material';
+import { Box, Button, Grid, Paper, Typography } from '@mui/material';
 VariantManage.propTypes = {
     productId: PropTypes.number
 };
@@ -14,7 +14,7 @@ function VariantManage({ productId }) {
     const dispatch = useDispatch();
     const [variantList, setVariantList] = useState([]);
     const [updateDone, setUpdateDone] = useState(false);
-
+    console.log(variantList);
     const fetchVariants = async () => {
         try {
             const variantsResult = await dispatch(getVariantsByProductId(productId));
@@ -47,6 +47,15 @@ function VariantManage({ productId }) {
             console.error('Failed to delete variant:', err);
         }
     };
+    const createRawVariants = async () => {
+        try {
+            const variantsResult = await dispatch(addVariant({ productId }));
+            unwrapResult(variantsResult);
+            fetchVariants();
+        } catch (error) {
+            console.error("Failed to create variants:", error);
+        }
+    };
 
     return (
         <>
@@ -58,8 +67,12 @@ function VariantManage({ productId }) {
                 }}
             >
                 <Paper elevation={3} sx={{ width: '100%', maxWidth: '1200px', m: 1, p: 2 }}>
-                    <VariantList variantList={variantList} onSubmit={handleEditFormSubmit} onDelete={handleDeleteVariant} />
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+                        <Typography variant="h5" component="h6" align="left" color="primary" sx={{ marginTop: 2, marginBottom: 2 }}>Variant List</Typography> {/* Thêm margin-top và margin-bottom */}
 
+                        <Button variant="contained" color="primary" onClick={createRawVariants}>Create Variant</Button>
+                    </Box>
+                    <VariantList variantList={variantList} onSubmit={handleEditFormSubmit} onDelete={handleDeleteVariant} />
                 </Paper>
             </Box>
         </>

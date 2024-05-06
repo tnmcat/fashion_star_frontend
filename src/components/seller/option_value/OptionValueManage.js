@@ -12,6 +12,7 @@ function OptionValueManage(props) {
     const [optionValueList, setOptionValueList] = useState(null);
     const { option } = props; // Destructure 'optionList' from props
     const [updateDone, setUpdateDone] = useState(false); // State to track update
+    console.log(option);
     const fetchOptionValues = async () => {
         try {
             if (option && option.id) { // Check if 'option' is not null and has an 'id'

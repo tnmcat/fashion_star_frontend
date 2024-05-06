@@ -29,6 +29,7 @@ function OptionManage(props) {
         }
     };
 
+    console.log(optionList)
     useEffect(() => {
         if (productId) {
             fetchOptions();
@@ -55,16 +56,7 @@ function OptionManage(props) {
             console.error('Failed to edit option:', err);
         }
     };
-    const navigate = useNavigate()
-    const createRawVariants = async () => {
-        try {
-            const variantsResult = await dispatch(addVariant({ productId }));
-            unwrapResult(variantsResult);
-            navigate(``)
-        } catch (error) {
-            console.error("Failed to create variants:", error);
-        }
-    };
+
     return (
         <>
             <Box
@@ -88,14 +80,6 @@ function OptionManage(props) {
                         </Grid>
                         <Grid item xs={9}>
                             <OptionValue optionList={optionList} />
-                        </Grid>
-                    </Grid>
-                    <Grid container spacing={2}>
-                        <Grid item>
-                            <Button variant="contained">Create Variant</Button>
-                        </Grid>
-                        <Grid item>
-                            <Button onClick={createRawVariants} variant="contained" color="secondary">Manage Variant</Button>
                         </Grid>
                     </Grid>
                 </Paper>

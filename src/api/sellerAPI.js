@@ -15,7 +15,7 @@ const sellerApi = {
     async updateSeller(sellerId, data) {
         let result = null;
         try {
-            result = await api.post(`sellers/${sellerId}/update-profile`, data);
+            result = await api.post(`seller/update/${sellerId}`, data);
         } catch (e) {
             console.log("Find seller API error: " + e);
         }
@@ -27,7 +27,7 @@ const sellerApi = {
         let result = null;
         try {
             console.log("REGISTER seller API : " + data);
-            const url = '/auth/seller/register';
+            const url = '/seller/register';
             return await api.post(url, data)
         } catch (e) {
             console.log("Find seller API error: " + e);
@@ -38,7 +38,7 @@ const sellerApi = {
 
         let result = null;
         try {
-            const url = '/auth/seller/login';
+            const url = '/seller/login';
             result = await api.post(url, data);
             console.log("login seller token: " + result);
         } catch (e) {

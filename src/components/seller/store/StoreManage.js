@@ -1,14 +1,9 @@
+import { Box, Typography } from '@mui/material';
 import { unwrapResult } from '@reduxjs/toolkit';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getStoreBySellerId, updateStore } from '../../../features/store/storeSlice';
-import StoreDetail from './StoreDetail'; // Assuming you have a component for displaying store details
-import StoreForm from './StoreForm';
-import { Col, Row } from "reactstrap";
-import { Outlet } from 'react-router-dom';
-import { Box, Typography } from '@mui/material';
-import SideBar from '../layouts/SellingLayout';
 StoreManage.propTypes = {
     productId: PropTypes.string
 };

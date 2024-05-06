@@ -38,6 +38,18 @@ export const deleteVariant = createAsyncThunk(
     }
 );
 
+// New async thunk to find variants by product ID and list of value IDs
+export const findVariantsByProductIdAndValueIds = createAsyncThunk(
+    "variant/find_variants_by_product_id_and_value_ids",
+    async (request) => {
+        try {
+            const response = await variantAPI.findByProductIdAndValueIds(request.productId, request.optionValueIds);
+            return response;
+        } catch (error) {
+            throw new Error(error.message);
+        }
+    }
+);
 
 // Add the updateVariant and deleteVariant async thunks to the extraReducers
 const variantSlice = createSlice({
@@ -65,7 +77,7 @@ const variantSlice = createSlice({
             .addCase(updateVariant.rejected, (state, action) => {
                 state.success = false;
                 state.loading = false;
-                state.error = action.error;
+                state.error = action.error.message;
             })
             .addCase(updateVariant.fulfilled, (state, action) => {
                 state.success = true;
@@ -84,13 +96,29 @@ const variantSlice = createSlice({
             .addCase(deleteVariant.rejected, (state, action) => {
                 state.success = false;
                 state.loading = false;
-                state.error = action.error;
+                state.error = action.error.message;
             })
             .addCase(deleteVariant.fulfilled, (state, action) => {
                 state.success = true;
                 state.loading = false;
                 // Remove the deleted variant from the state
                 state.variantsByProductId = state.variantsByProductId.filter(variant => variant.id !== action.payload);
+                state.error = null;
+            })
+            .addCase(findVariantsByProductIdAndValueIds.pending, (state) => {
+                state.success = false;
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(findVariantsByProductIdAndValueIds.rejected, (state, action) => {
+                state.success = false;
+                state.loading = false;
+                state.error = action.error.message;
+            })
+            .addCase(findVariantsByProductIdAndValueIds.fulfilled, (state, action) => {
+                state.success = true;
+                state.loading = false;
+                state.variantInfo = action.payload;
                 state.error = null;
             });
     },

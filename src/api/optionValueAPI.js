@@ -3,7 +3,7 @@ import api from './appConfig';
 const optionValueAPI = {
     async findAll(optionId) {
         try {
-            const response = await api.get(`options/${optionId}/values`);
+            const response = await api.get(`seller/option-value/${optionId}/all`);
             console.log(optionId);
             console.log(response);
             return response;
@@ -14,7 +14,7 @@ const optionValueAPI = {
     },
     async add(data, optionId) {
         try {
-            const response = await api.post(`options/${optionId}/values/create`, data);
+            const response = await api.post(`seller/option-value/${optionId}/create`, data);
             console.log('At API: ' + response);
             return response.data;
         } catch (error) {
@@ -26,7 +26,7 @@ const optionValueAPI = {
         try {
             console.log('At API: ' + data);
             // const response = await api.put(`seller/options/${data.optionId}/update`, data);
-            const response = await api.put(`options/values/${data.optionValueId}/update`, data);
+            const response = await api.put(`seller/option-value/update/${data.optionValueId}`, data);
             console.log('At API: ' + response);
             return response;
         } catch (error) {

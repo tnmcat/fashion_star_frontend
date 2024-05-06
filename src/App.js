@@ -59,11 +59,11 @@ function App() {
           <Route path="category/add" element={<StoreCategoryForm />} />
           <Route path="product" element={<ProductManage />} />
           <Route path="product/add" element={<ProductAddPage />} />
-          <Route path="product/:productId/edit" element={<ProductEditPage />} />
-          <Route path="product/:productId" element={<ProductDetail />} />
+          <Route path="product/:productId" element={<ProductEditPage />} />
+          <Route path="product/:productId/edit" element={<ProductDetail />} />
           <Route path="product/:productId/variants" element={<VariantManage />} />
           <Route path="order" element={<OrderManage />} />
-          <Route path="order/:orderId/details" element={<OrderDetailsManage />} />
+          <Route path="order/details/:orderId" element={<OrderDetailsManage />} />
           <Route path="profile" element={<ProfileManage />} />
           <Route path="shipping" element={<ShippingManage />} />
         </Route>

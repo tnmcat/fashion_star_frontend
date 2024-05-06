@@ -14,7 +14,7 @@ const optionAPI = {
     },
     async add(data, productId) {
         try {
-            const response = await api.post(`seller/options/${productId}/create`, data);
+            const response = await api.post(`seller/option/${productId}/create`, data);
             console.log('At API: ' + response);
             return response;
         } catch (error) {
@@ -25,7 +25,7 @@ const optionAPI = {
     async update(data) {
         try {
             console.log('At API: ' + data);
-            const response = await api.put(`seller/options/${data.optionId}/update`, data);
+            const response = await api.put(`seller/option/update/${data.optionId}`, data);
             console.log('At API: ' + response);
             return response;
         } catch (error) {

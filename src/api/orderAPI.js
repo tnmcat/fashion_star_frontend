@@ -3,7 +3,7 @@ const orderApi = {
     async findOrder(orderId) {
         let result = null;
         try {
-            result = await api.get(`order/${orderId}`);
+            result = await api.get(`seller/order/details/${orderId}`);
         } catch (e) {
             console.log("Find order API error: " + e);
         }
