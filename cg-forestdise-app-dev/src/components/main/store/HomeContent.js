@@ -1,11 +1,11 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import StarIcon from "@mui/icons-material/Star";
 import ApiIcon from "@mui/icons-material/Api";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
-import {Link, useNavigate} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import {
     changeCategory,
     changeSubCategory,
@@ -13,7 +13,7 @@ import {
     setSelectedCategory,
     setSelectedCurrent,
     setStoreBanner,
-} from "../../../features/sellerStore/sellerStoreSlice";
+} from "../../../features/sellerStore/sellerStoreSlice0";
 
 function HomeContent() {
     const dispatch = useDispatch();
@@ -154,7 +154,6 @@ function HomeContent() {
                             <img
                                 className="mx-auto"
                                 src={storeInfo.dealsSquareImage}
-                                alt=""
                             ></img>
                         </div>
                     </Link>
@@ -204,7 +203,6 @@ function HomeContent() {
                                             <img
                                                 className="mx-auto"
                                                 src={category.squareImage}
-                                                alt=""
                                             ></img>
                                         </div>
                                     </Link>

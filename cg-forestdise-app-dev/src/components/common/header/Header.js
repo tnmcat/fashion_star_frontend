@@ -1,6 +1,8 @@
 import React, {Fragment, useEffect, useState} from "react";
 import {logoDearman} from "../../../assets";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import Transition from "react-transition-group/Transition";
 import SearchIcon from "@mui/icons-material/Search";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import LogoutIcon from "@mui/icons-material/Logout";
@@ -14,7 +16,8 @@ import {Link} from "react-router-dom";
 import {useNavigate} from "react-router-dom";
 import {logOutUser} from "../../../features/user/userSlice";
 import {resetCart, resetSaveForLater} from "../../../features/cart/cartSlice";
-import {useRef} from "react";
+import {ClassNames} from "@emotion/react";
+import {Menu} from "@mui/icons-material";
 
 function Header() {
     const [showAll, setShowAll] = useState(false);
@@ -24,7 +27,6 @@ function Header() {
     const userInfo = useSelector((state) => state.user.userInfo);
     const {products} = useSelector((state) => state.cart);
     const [numberCart, setNumberCart] = useState(0);
-    const timeoutRef = useRef(null);
 
     useEffect(() => {
         let quantity = 0;
@@ -41,24 +43,7 @@ function Header() {
         window.localStorage.removeItem("token");
         navigate("/signin");
     };
-    const handleMouseLeave = () => {
-        timeoutRef.current = setTimeout(() => {
-            setShowUserOption(false);
-        }, 1000);
-    };
-    const handleMouseEnter = () => {
-        if (timeoutRef.current) {
-            clearTimeout(timeoutRef.current);
-        }
-        setShowUserOption(true);
-    };
-    useEffect(() => {
-        return () => {
-            if (timeoutRef.current) {
-                clearTimeout(timeoutRef.current);
-            }
-        };
-    }, []);
+
     return (
         <div>
             <div className="w-full sticky top-0 z-[10]">
@@ -126,8 +111,12 @@ function Header() {
 
                     {/* Signin start */}
                     <div
-                        onMouseEnter={handleMouseEnter}
-                        onMouseLeave={handleMouseLeave}
+                        onMouseEnter={() => {
+                            setShowUserOption(true);
+                        }}
+                        onMouseLeave={() => {
+                            setShowUserOption(false);
+                        }}
                         className="flex flex-col items-start justify-center headerHover"
                     >
                         {userInfo ? (
@@ -169,15 +158,13 @@ function Header() {
                                     <li className="mx-auto text-center flex flex-col gap-1 justify-between p-2 border-b rounded-t dark:border-gray-600">
                                         {userInfo ? (
                                             <Fragment>
-                                                <Link to="/userProfile">
-                                                    <button
-                                                        className="w-full py-1 text-sm font-semibold
+                                                <button
+                                                    className="w-full py-1 text-sm font-semibold
               rounded-md bg-gradient-to-t from-slate-200 to-slate-100 hover:bg-gradient-to-b border
-              border-zinc-400 active:border-indigo-800 active:shadow-amazonInput"
-                                                    >
-                                                        Manage Profiles
-                                                    </button>
-                                                </Link>
+              border-zinc-400 active:border-yellow-800 active:shadow-amazonInput"
+                                                >
+                                                    Manage Profiles
+                                                </button>
 
                                                 <p className="text-xs mt-1 text-black">
                                                     Who shopping? Select a
@@ -207,26 +194,26 @@ function Header() {
                                         )}
                                     </li>
                                     <li>
-                                        <p className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                        <a className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
                                             <FavoriteBorderIcon />
                                             &nbsp; Your wishlist
-                                        </p>
+                                        </a>
                                     </li>
                                     <li>
-                                        <p className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                        <a className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
                                             <HistoryIcon />
                                             &nbsp; Browsing History
-                                        </p>
+                                        </a>
                                     </li>
                                     <li>
-                                        <p className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                        <a className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
                                             <LocalShippingIcon />
                                             &nbsp; Orders
-                                        </p>
+                                        </a>
                                     </li>
                                     {userInfo && (
                                         <li>
-                                            <p
+                                            <a
                                                 onClick={() => {
                                                     handleLogOut();
                                                 }}
@@ -234,7 +221,7 @@ function Header() {
                                             >
                                                 <LogoutIcon />
                                                 &nbsp; Sign out
-                                            </p>
+                                            </a>
                                         </li>
                                     )}
                                 </ul>
@@ -245,17 +232,14 @@ function Header() {
                     {/* Signin end */}
 
                     {/* Orders start */}
-                    <Link to="/order">
-                        <div className="hidden lgl:flex flex-col items-start justify-center headerHover">
-                            <p className="text-sm mdl:text-xs text-white mdl:text-lightText font-light">
-                                Returns
-                            </p>
-                            <p className="text-sm font-semibold -mt-1 text-whiteText">
-                                & Orders
-                            </p>
-                        </div>
-                    </Link>
-
+                    <div className="hidden lgl:flex flex-col items-start justify-center headerHover">
+                        <p className="text-sm mdl:text-xs text-white mdl:text-lightText font-light">
+                            Returns
+                        </p>
+                        <p className="text-sm font-semibold -mt-1 text-whiteText">
+                            & Orders
+                        </p>
+                    </div>
                     {/* Orders end */}
 
                     {/* Carts start */}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {
     Rating,
     Typography,
@@ -10,7 +10,7 @@ import {
 import {useDispatch, useSelector} from "react-redux";
 import {addReview} from "../../../features/coment_review/reviewSlide";
 
-export default function Review() {
+export function Review() {
     const {userInfo} = useSelector((state) => state.user);
     const {variant} = useSelector((state) => state.variant.variantDetail);
     const [star, setStar] = React.useState(4);
@@ -33,8 +33,9 @@ export default function Review() {
             })
         );
     };
+
     return (
-        <div className="">
+        <div>
             <div className="flex items-center gap-2 font-bold text-blue-gray-500">
                 {rated}.0
                 <Rating value={4} onChange={(value) => setRated(value)} />
@@ -42,7 +43,7 @@ export default function Review() {
                     color="blue-gray"
                     className="font-medium text-blue-gray-500"
                 >
-                    Your comment is the best of the best, Sir!!!!
+                    Based on 134 Reviews
                 </Typography>
             </div>
             <Card color="transparent" shadow={false}>
@@ -90,7 +91,13 @@ export default function Review() {
                             value={content}
                             onChange={(event) => setContent(event.target.value)}
                         />
-
+                        <Typography
+                            variant="h6"
+                            color="blue-gray"
+                            className="-mb-3"
+                        >
+                            Password
+                        </Typography>
                         <Input
                             type="password"
                             size="lg"
@@ -104,8 +111,8 @@ export default function Review() {
                         {/* image for review
                         B1: UPLOAD
                         B2: RENDER IMAGE/VIDEO */}
-                        {/* <figure className="relative h-96 w-full">
-                            <imgUrl
+                        <figure className="relative h-96 w-full">
+                            <img
                                 className="h-full w-full rounded-xl object-cover object-center"
                                 src="https://images.unsplash.com/photo-1682407186023-12c70a4a35e0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2832&q=80"
                                 alt="nature image"
@@ -137,7 +144,7 @@ export default function Review() {
                                 type="video/mp4"
                             />
                             Your browser does not support the video tag.
-                        </video> */}
+                        </video>
                     </div>
                     <Checkbox
                         label={
@@ -148,7 +155,7 @@ export default function Review() {
                             >
                                 I agree the
                                 <a
-                                    href="/#"
+                                    href="#"
                                     className="font-medium transition-colors hover:text-gray-900"
                                 >
                                     &nbsp;Terms and Conditions
@@ -157,11 +164,7 @@ export default function Review() {
                         }
                         containerProps={{className: "-ml-2.5"}}
                     />
-                    <Button
-                        className="mt-6 text-indigo-700"
-                        fullWidth
-                        onClick={submit}
-                    >
+                    <Button className="mt-6" fullWidth onClick={submit}>
                         Done !
                     </Button>
                 </form>

@@ -12,7 +12,7 @@ const CartPayment = () => {
     useEffect(() => {
         let total = 0;
         products.map((item) => {
-            total += item.variantDto?.price * item?.quantity;
+            total += item.variantDto.price * item.quantity;
             return setTotalPrice(total.toFixed(2));
         });
     }, [products]);

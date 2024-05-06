@@ -12,7 +12,7 @@ import {
     clearCartLine,
     createSaveForLater,
 } from "../../../features/cart/cartSlice";
-import {empty_cart} from "../../../assets";
+import {emptyCart, empty_cart} from "../../../assets";
 import {Link} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
@@ -48,20 +48,20 @@ const CartContent = () => {
                     <div>
                         {products.map((item) => (
                             <div
-                                key={item.variantDto?.id}
+                                key={item.variantDto.id}
                                 className="w-full border-b-[1px] border-b-gray-300 p-4 flex items-center gap-6"
                             >
                                 <div className="w-full flex items-center justify-between gap-6">
                                     <div className="w-1/5">
                                         <img
                                             className="w-full h-44 object-contain"
-                                            src={item.variantDto?.img}
+                                            src={item.variantDto.img}
                                             alt="ProductImg"
                                         />
                                     </div>
                                     <div className="w-4/5">
                                         <h2 className="font-semibold md:text-lg sm:text-sm lg:text-lg">
-                                            {item.variantDto?.name}
+                                            {item.variantDto.name}
                                         </h2>
                                         {/* <p className="sm:text-xs md:text-md lg:text-sm">
                       {item.description.substring(0, 200)}
@@ -69,7 +69,7 @@ const CartContent = () => {
                                         <p className="md:text-lg sm:text-xs lg:text-lg">
                                             Unit Price{" "}
                                             <span className="font-semibold">
-                                                ${item.variantDto?.price}
+                                                ${item.variantDto.price}
                                             </span>
                                         </p>
                                         <div className="bg-[#F0F2F2] md:text-lg sm:text-xs lg:text-lg flex justify-center items-center gap-1 w-24 py-1 text-center drop-shadow-lg rounded-md">
@@ -212,11 +212,11 @@ const CartContent = () => {
                                                               quantity:
                                                                   item.quantity,
                                                               cartId: item
-                                                                  .cartDto?.id,
+                                                                  .cartDto.id,
                                                               variantId:
                                                                   item
                                                                       .variantDto
-                                                                      ?.id,
+                                                                      .id,
                                                           })
                                                       ) &&
                                                       dispatch(
@@ -232,42 +232,41 @@ const CartContent = () => {
                                                               cartDto: {
                                                                   id: item
                                                                       .cartDto
-                                                                      ?.id,
+                                                                      .id,
                                                                   userId: item
                                                                       .cartDto
-                                                                      ?.userId,
+                                                                      .userId,
                                                               },
                                                               variantDto: {
                                                                   id: item
                                                                       .variantDto
-                                                                      ?.id,
+                                                                      .id,
                                                                   name: item
                                                                       .variantDto
-                                                                      ?.name,
+                                                                      .name,
                                                                   skuCode:
                                                                       item
                                                                           .variantDto
-                                                                          ?.skuCode,
+                                                                          .skuCode,
                                                                   stockQuantity:
                                                                       item
                                                                           .variantDto
-                                                                          ?.stockQuantity,
+                                                                          .stockQuantity,
                                                                   weight: item
                                                                       .variantDto
-                                                                      ?.weight,
+                                                                      .weight,
                                                                   price: item
                                                                       .variantDto
-                                                                      ?.price,
+                                                                      .price,
                                                                   img: item
                                                                       .variantDto
-                                                                      ?.img,
+                                                                      .img,
                                                               },
                                                           })
                                                       ) &&
                                                       dispatch(
                                                           deleteItem(
-                                                              item.variantDto
-                                                                  ?.id
+                                                              item.variantDto.id
                                                           )
                                                       );
                                             }}
@@ -280,7 +279,7 @@ const CartContent = () => {
                                         <p className="md:text-md sm:text-sm lg:text-lg font-titleFont font-semibold">
                                             $
                                             {(
-                                                item.variantDto?.price *
+                                                item.variantDto.price *
                                                 item.quantity
                                             ).toFixed(2)}
                                         </p>

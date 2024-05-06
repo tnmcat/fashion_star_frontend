@@ -1,15 +1,18 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
+import StarIcon from "@mui/icons-material/Star";
+import ApiIcon from "@mui/icons-material/Api";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
-import {Link, useNavigate} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
-import {getCartLines} from "../../../features/cart/cartSlice";
-import {setStore} from "../../../features/sellerStore/sellerStoreSlice";
-import {getProducts} from "../../../features/home/homeSlice";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getCartLines } from "../../../features/cart/cartSlice";
+import { setStore } from "../../../features/sellerStore/sellerStoreSlice0";
+import { getProducts } from "../../../features/home/homeSlice";
 
 function Products() {
     const dispatch = useDispatch();
-    const {products} = useSelector((state) => state.home);
-    const {userInfo} = useSelector((state) => state.user);
+    const { products } = useSelector((state) => state.home);
+    const { userInfo } = useSelector((state) => state.user);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -43,6 +46,12 @@ function Products() {
                             className="w-full h-10 bg-gray-100 absolute bottom-[-170px] flex flex-col items-end justify-center gap-2
             font-titleFont px-2 border-1 border-r group-hover:bottom-0 duration-700"
                         >
+                            {/* <li className="productLi">
+                                Compare
+                                <span>
+                                    <ApiIcon />
+                                </span>
+                            </li> */}
                             <Link
                                 to={`/product/${product.id}`}
                                 className="productLi"
@@ -56,6 +65,12 @@ function Products() {
                                     <ArrowCircleRightIcon />
                                 </span>
                             </Link>
+                            {/* <li className="productLi">
+                                Add to Wish List
+                                <span>
+                                    <FavoriteIcon />
+                                </span>
+                            </li> */}
                         </ul>
                     </div>
                     <div className="px-4 z-10 bg-white">

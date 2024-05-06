@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Slider from "react-slick";
-import { setStoreBanner } from "../../../features/sellerStore/sellerStoreSlice";
+import { setStoreBanner } from "../../../features/sellerStore/sellerStoreSlice0";
 
 function StoreBanner() {
   const storeBanner = useSelector((state) => state.sellerStore.storeBanner);
