@@ -1,1 +1,1 @@
-# cg-fasionstar-app
+# fashion_star_frontend
