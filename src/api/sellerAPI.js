@@ -1,52 +1,28 @@
+import axios from "axios";
 
-import api from './appConfig';
-const sellerApi = {
-    async findSeller(sellerId, token) {
-        let result = null;
-        try {
-            result = await api.get(`sellers/${sellerId}`, {
-                headers: { Authorization: "Bearer " + token },
-            });
-        } catch (e) {
-            console.log("Find seller API error: " + e);
-        }
-        return result;
-    },
-    async updateSeller(sellerId, data) {
-        let result = null;
-        try {
-            result = await api.post(`sellers/${sellerId}/update-profile`, data);
-        } catch (e) {
-            console.log("Find seller API error: " + e);
-        }
-        return result;
-    },
+// const SELLER_MANAGEMENT_API = "https://forestdise.up.railway.app/api/sellers";
+const SELLER_MANAGEMENT_API = "http://localhost:5454/api/sellers";
 
-    async registerSeller(data) {
-
-        let result = null;
-        try {
-            console.log("REGISTER seller API : " + data);
-            const url = '/auth/seller/register';
-            return await api.post(url, data)
-        } catch (e) {
-            console.log("Find seller API error: " + e);
-        }
-        return result;
-    },
-    async loginSeller(data) {
-
-        let result = null;
-        try {
-            const url = '/auth/seller/login';
-            result = await api.post(url, data);
-            console.log("login seller token: " + result);
-        } catch (e) {
-            console.log("Find seller API error: " + e);
-        }
-        return result;
+export const findSeller = async (sellerId, token) => {
+    let result = null;
+    try {
+        result = await axios.get(`${SELLER_MANAGEMENT_API}/${sellerId}`, {
+            headers: {Authorization: "Bearer " + token},
+        });
+    } catch (e) {
+        console.log("Find seller API error: " + e);
     }
+    return result;
+};
+// const USER_MANAGEMENT_API = "http://localhost:8080/api/sellers";
 
-}
-
-export default sellerApi;
+// export const findSeller = async (sellerId) => {
+//     let result = null;
+//     try {
+//         result = await axios.get(`${USER_MANAGEMENT_API}/${sellerId}`);
+//         console.log(result);
+//     } catch (e) {
+//         console.log("Find seller API error: " + e);
+//     }
+//     return result;
+// };

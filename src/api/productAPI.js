@@ -1,40 +1,57 @@
-import api from './appConfig';
-const productAPI = {
-    async findByStoreId(storeId) {
-        let result = null;
-        try {
-            result = await api.get(`/products/${storeId}/all`);
-            console.log(storeId)
-            console.log(result)
-        } catch (e) {
-            console.log("Find store-category API error: " + e);
-        }
-        return result;
-    },
-    async findByStoreCategoryId(storeCategoryId) {
-        let result = null;
-        try {
-            result = await api.get(`store-category/${storeCategoryId}/products/all`);
-            console.log(storeCategoryId)
-            console.log(result)
-        } catch (e) {
-            console.log("Find store-category API error: " + e);
-        }
-        return result;
-    },
-    async add(data, storeId) {
-        try {
-            const result = await api.post(`seller/product/${storeId}/create`, data);
-            console.log('at api', result);
-            return result;
-        } catch (e) {
-            console.log("add stores cate API error: " + e);
-        }
+import axios from "axios";
 
-    },
+const PRODUCT_MANAGEMENT_API = "http://localhost:5454/api/products";
+// const PRODUCT_MANAGEMENT_API = "https://forestdise.up.railway.app/api/products";
 
+export const findProducts = async (shopId) => {
+    let result = null;
+    try {
+        result = await axios.get(`${PRODUCT_MANAGEMENT_API}/{shopId}`);
+    } catch (e) {
+        console.log("Find books API error: " + e);
+    }
+    return result;
+};
 
+export const findProduct = async (productId) => {
+    let result = null;
+    try {
+        result = await axios.get(
+            `${PRODUCT_MANAGEMENT_API}/shops/${productId}`
+        );
+    } catch (e) {
+        console.log("Find book API error: " + e);
+    }
+    return result;
+};
 
-}
+export const createProduct = async ({
+    product,
+    storeId,
+    categoryId,
+    storeCategoryId,
+}) => {
+    let result = null;
+    try {
+        result = await axios.post(
+            `http://localhost:5454/api/product-detail/create/${storeId}/${categoryId}/${storeCategoryId}`,
+            product
+        );
+    } catch (e) {
+        console.log("create product API error: " + e);
+    }
+    return result;
+};
 
-export default productAPI;
+export const updateProduct = async (product) => {
+    let result = null;
+    try {
+        result = await axios.put(
+            `${PRODUCT_MANAGEMENT_API}/${product.id}`,
+            product
+        );
+    } catch (e) {
+        console.log("Update book API error: " + e);
+    }
+    return result;
+};

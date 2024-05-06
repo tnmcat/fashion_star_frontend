@@ -37,10 +37,10 @@ export const middleList = [
                 listData: [
                     "Careers",
                     "Blog",
-                    "About ForestDise",
+                    "About FashionStar",
                     "Investor Relations",
-                    "ForestDise Devices",
-                    "ForestDise Science",
+                    "FashionStar Devices",
+                    "FashionStar Science",
                 ],
             },
         ],
@@ -52,13 +52,13 @@ export const middleList = [
             {
                 id: "002",
                 listData: [
-                    "Sell products on ForestDise",
-                    "Sell on ForestDise Business",
-                    "Sell apps on ForestDise",
+                    "Sell products on FashionStar",
+                    "Sell on FashionStar Business",
+                    "Sell apps on FashionStar",
                     "Become an Affiliate",
                     "Advertise Your Products",
                     "Sell Product with Us",
-                    "Host an ForestDise Hub",
+                    "Host an FashionStar Hub",
                     "See More Make Money with Us",
                 ],
             },
@@ -66,15 +66,15 @@ export const middleList = [
     },
     {
         id: 2223,
-        title: "ForestDise Payment Products",
+        title: "FashionStar Payment Products",
         listItem: [
             {
                 id: "003",
                 listData: [
-                    "ForestDise Business Card",
+                    "FashionStar Business Card",
                     "Shop with Points",
                     "Reload Your Balance",
-                    "ForestDise Currency Converter",
+                    "FashionStar Currency Converter",
                 ],
             },
         ],
@@ -86,13 +86,13 @@ export const middleList = [
             {
                 id: "004",
                 listData: [
-                    "ForestDise and COVID-19",
+                    "FashionStar and COVID-19",
                     "Your Account",
                     "Your Orders",
                     "Shipping Rates & Policies",
                     "Returns & Replacements",
                     "Manage Your Content and Devices",
-                    "ForestDise Assistant",
+                    "FashionStar Assistant",
                     "FAQ & Help",
                 ],
             },
@@ -103,18 +103,18 @@ export const middleList = [
 export const footerBottomItem = [
     {
         id: 1001,
-        title: "ForestDise Music",
+        title: "FashionStar Music",
         des: "Stream millions of songs",
     },
     {
         id: 1002,
-        title: "	ForestDise Advertising",
+        title: "	FashionStar Advertising",
         des: "Find, attract, and engage customers",
     },
     {
         id: 1003,
-        title: "ForestDise Drive",
-        des: "Cloud storage from ForestDise",
+        title: "FashionStar Drive",
+        des: "Cloud storage from FashionStar",
     },
     {
         id: 1004,
@@ -133,17 +133,17 @@ export const footerBottomItem = [
     },
     {
         id: 1007,
-        title: "Sell on ForestDise",
+        title: "Sell on FashionStar",
         des: "Start a Selling Account",
     },
     {
         id: 1008,
-        title: "ForestDise Business",
+        title: "FashionStar Business",
         des: "Everything For Your Business",
     },
     {
         id: 1009,
-        title: "ForestDiseGlobal",
+        title: "FashionStarGlobal",
         des: "Ship Orders Internationally",
     },
     {
@@ -153,12 +153,12 @@ export const footerBottomItem = [
     },
     {
         id: 1011,
-        title: "ForestDise Ignite",
+        title: "FashionStar Ignite",
         des: "Sell your original Digital Educational Resources",
     },
     {
         id: 1012,
-        title: "ForestDise Web Services",
+        title: "FashionStar Web Services",
         des: "Scalable Cloud Computing Services",
     },
     {
@@ -253,7 +253,7 @@ export const footerBottomItem = [
     },
     {
         id: 1031,
-        title: "ForestDise Subscription Boxes",
+        title: "FashionStar Subscription Boxes",
         des: "Top subscription boxes - right to your doo",
     },
     {

@@ -1,22 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import axios from "axios";
 import StarIcon from "@mui/icons-material/Star";
 import ApiIcon from "@mui/icons-material/Api";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
-import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import {Link, useNavigate} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
 import {
     changeCategory,
     changeSubCategory,
-    toggleMoreSideBar,
-    setSelectedCategory,
     setSelectedCurrent,
     setSelectedSubCategory,
-    setStore,
-    setCategory,
     setStoreBanner,
-} from "../../../features/sellerStore/sellerStoreSlice0";
+} from "../../../features/sellerStore/sellerStoreSlice";
 
 function CategoryContent() {
     const dispatch = useDispatch();
@@ -153,7 +149,7 @@ function CategoryContent() {
                         .map(
                             (category) =>
                                 category.parentStoreCategory.name ===
-                                selectedCurrent && (
+                                    selectedCurrent && (
                                     <Link
                                         name={category.name}
                                         onClick={(e) => {

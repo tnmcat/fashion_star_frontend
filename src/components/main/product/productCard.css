@@ -1,0 +1,22 @@
+.productCard .textPart {
+    transition: transform 0.3s ease-in-out;
+}
+
+.productCard:hover .textPart {
+    transform: translateY(-1rem);
+}
+
+.productCard:hover {
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.boxbox ul {
+    left: 0;
+    bottom: 0;
+    opacity: 0;
+}
+
+.boxbox:hover ul {
+    opacity: 1;
+    transition: 0.4s;
+}

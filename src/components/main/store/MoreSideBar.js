@@ -17,7 +17,7 @@ import {
   setStoreBanner,
   toggleOffMoreCategoryForDeals,
   changeBannerImage,
-} from "../../../features/sellerStore/sellerStoreSlice0";
+} from "../../../features/sellerStore/sellerStoreSlice";
 
 function MoreSideBar() {
   const moreSideBar = useSelector((state) => state.sellerStore.moreSideBar);
@@ -202,8 +202,8 @@ function MoreSideBar() {
                               .map((categoryCheck) =>
                                 categoryCheck.id !== category.id
                                   ? dispatch(
-                                    toggleOffMoreCategory(categoryCheck.id)
-                                  )
+                                      toggleOffMoreCategory(categoryCheck.id)
+                                    )
                                   : ""
                               );
                             dispatch(setSelectedCategory(category.name));
@@ -257,7 +257,7 @@ function MoreSideBar() {
                               (category) =>
                                 category.parentStoreCategory !== null &&
                                 category.parentStoreCategory.name ===
-                                selectedCategory && (
+                                  selectedCategory && (
                                   <li key={category.id}>
                                     <Link
                                       name={category.name}

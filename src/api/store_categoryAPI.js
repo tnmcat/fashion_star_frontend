@@ -1,29 +1,28 @@
-import api from './appConfig';
-const store_categoryAPI = {
-    async findAll(storeId) {
-        let result = null;
-        try {
-            result = await api.get(`/store-category/${storeId}/all`);
-            console.log(storeId)
-            console.log(result)
-        } catch (e) {
-            console.log("Find store-category API error: " + e);
-        }
-        return result;
-    },
-    async add(data, storeId) {
-        let result = null;
-        try {
-            const result = await api.post(`/store-category/${storeId}/create`, data);
-            console.log('at api' + result);
-        } catch (e) {
-            console.log("add stores cate API error: " + e);
-        }
-        return result;
-    },
+import axios from "axios";
 
+const STORECATE_MANAGEMENT_API = "http://localhost:5454/api/store-category";
+// const STORECATE_MANAGEMENT_API =
+//   "https://forestdise.up.railway.app/api/store-category";
 
-
-}
-
-export default store_categoryAPI;
+export const createCategory = async (category) => {
+    let result = null;
+    try {
+        result = await axios.post(`${STORECATE_MANAGEMENT_API}`, category);
+    } catch (e) {
+        console.log("create book API error: " + e);
+    }
+    return result;
+};
+export const createCategoryList = async ({categoryList, storeId}) => {
+    let result = null;
+    try {
+        result = await axios.post(
+            `http://localhost:5454/api/store-category/${storeId}`,
+            categoryList
+        );
+        console.log(result);
+    } catch (e) {
+        console.log("create categoryList API error: " + e);
+    }
+    return result;
+};

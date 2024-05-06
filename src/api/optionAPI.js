@@ -1,38 +1,38 @@
-import api from './appConfig';
+import axios from "axios";
+// const OPTION_MANAGEMENT_API = "https://forestdise.up.railway.app/api/option";
+const OPTION_MANAGEMENT_API = "http://localhost:5454/api/option";
 
-const optionAPI = {
-    async findAll(productId) {
-        try {
-            const response = await api.get(`products/${productId}/details/options`);
-            console.log(productId);
-            console.log(response);
-            return response;
-        } catch (error) {
-            console.log("Find option API error: " + error);
-            throw error;
-        }
-    },
-    async add(data, productId) {
-        try {
-            const response = await api.post(`seller/options/${productId}/create`, data);
-            console.log('At API: ' + response);
-            return response;
-        } catch (error) {
-            console.log("Add option API error: " + error);
-            throw error;
-        }
-    },
-    async update(data) {
-        try {
-            console.log('At API: ' + data);
-            const response = await api.put(`seller/options/${data.optionId}/update`, data);
-            console.log('At API: ' + response);
-            return response;
-        } catch (error) {
-            console.log("Add option API error: " + error);
-            throw error;
-        }
+export const findOption = async (productId) => {
+    let result = null;
+    try {
+        result = await axios.get(`${OPTION_MANAGEMENT_API}/${productId}`);
+        console.log(result);
+    } catch (e) {
+        console.log("Find variant API error: " + e);
     }
+    return result;
 };
-
-export default optionAPI;
+export const updateOption = async (Option) => {
+    let result = null;
+    try {
+        result = await axios.put(
+            `${OPTION_MANAGEMENT_API}/${Option.id}`,
+            Option
+        );
+    } catch (e) {
+        console.log("Update variant API error: " + e);
+    }
+    return result;
+};
+export const createOptions = async ({optionList, productId}) => {
+    let result = null;
+    try {
+        result = await axios.post(
+            `${OPTION_MANAGEMENT_API}/${productId}/create`,
+            optionList
+        );
+    } catch (e) {
+        console.log("create variant API error: " + e);
+    }
+    return result;
+};

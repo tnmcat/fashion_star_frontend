@@ -1,15 +1,26 @@
-import api from './appConfig';
-const categoryAPI = {
-    async findAll() {
-        let result = null;
-        try {
-            result = await api.get(`/category/all`);
-            console.log(result)
-        } catch (e) {
-            console.log("Find store-category API error: " + e);
-        }
-        return result;
-    },
-}
+import axios from "axios";
+// const CATEGORY_MANAGEMENT_API =
+// "https://forestdise.up.railway.app/api/category";
+const CATEGORY_MANAGEMENT_API = "http://localhost:5454/api/category";
 
-export default categoryAPI;
+export const searchCategory = async (searchParam) => {
+    let result = null;
+    try {
+        result = await axios.get(
+            `${CATEGORY_MANAGEMENT_API}/search?query=${searchParam}`
+        );
+        console.log(result);
+    } catch (e) {
+        console.log("Find category API error: " + e);
+    }
+    return result;
+};
+export const findCategory = async (categoryId) => {
+    let result = null;
+    try {
+        result = await axios.get(`${CATEGORY_MANAGEMENT_API}/${categoryId}`);
+    } catch (e) {
+        console.log("Find book API error: " + e);
+    }
+    return result;
+};

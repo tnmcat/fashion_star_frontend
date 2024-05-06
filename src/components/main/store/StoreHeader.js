@@ -1,8 +1,8 @@
 import React from "react";
-import { Fragment } from "react";
-import { useState, useEffect } from "react";
+import {Fragment} from "react";
+import {useState, useEffect} from "react";
 import MoreSideBar from "./MoreSideBar";
-import { useDispatch, useSelector } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {
     changeCategory,
     changeSubCategory,
@@ -17,10 +17,10 @@ import {
     setSearchParams,
     setSearchParamsResult,
     setSelectedSubCategory,
-} from "../../../features/sellerStore/sellerStoreSlice0";
+} from "../../../features/sellerStore/sellerStoreSlice";
 import HeaderBreadcrumb from "./HeaderBreadcrumb";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
-import { Link } from "react-router-dom";
+import {useNavigate, useParams, useSearchParams} from "react-router-dom";
+import {Link} from "react-router-dom";
 import axios from "axios";
 
 export default function StoreHeader() {
@@ -51,7 +51,7 @@ export default function StoreHeader() {
     }, [params.id]);
 
     useEffect(() => {
-        window.addEventListener("scroll", handleScroll, { passive: true });
+        window.addEventListener("scroll", handleScroll, {passive: true});
 
         return () => {
             window.removeEventListener("scroll", handleScroll);
@@ -272,7 +272,7 @@ export default function StoreHeader() {
                                                 </li>
                                                 {categories.map((category) =>
                                                     category.parentStoreCategory ===
-                                                        null ? (
+                                                    null ? (
                                                         <li key={category.id}>
                                                             <a
                                                                 name={
@@ -342,15 +342,15 @@ export default function StoreHeader() {
                                                         );
                                                         index === 0
                                                             ? setShowDropDown({
-                                                                ...showDropDown,
-                                                                one: true,
-                                                                two: false,
-                                                            })
+                                                                  ...showDropDown,
+                                                                  one: true,
+                                                                  two: false,
+                                                              })
                                                             : setShowDropDown({
-                                                                ...showDropDown,
-                                                                one: false,
-                                                                two: true,
-                                                            });
+                                                                  ...showDropDown,
+                                                                  one: false,
+                                                                  two: true,
+                                                              });
                                                     }}
                                                     className="flex items-center uppercase text-lg justify-between w-full py-2 pl-3 pr-4 text-gray-500 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:underline md:p-0 md:w-auto dark:text-white md:dark:hover:underline dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent"
                                                 >
@@ -373,151 +373,151 @@ export default function StoreHeader() {
                                                 </button>
                                                 {index === 0
                                                     ? showDropDown.one && (
-                                                        <div className="font-shopFont absolute font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
-                                                            <ul
-                                                                className="py-2 text-sm text-gray-700 dark:text-gray-400"
-                                                                aria-labelledby="dropdownLargeButton"
-                                                            >
-                                                                <li>
-                                                                    <Link
-                                                                        onMouseOver={() => {
-                                                                            dispatch(
-                                                                                changeBannerImage(
-                                                                                    category.heroImage
-                                                                                )
-                                                                            );
-                                                                        }}
-                                                                        onClick={() =>
-                                                                            handleDropDown(
-                                                                                category
-                                                                            )
-                                                                        }
-                                                                        className="font-semibold block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                                                                        to={`/store/${storeInfo.id}/${selectedCategory}`}
-                                                                    >
-                                                                        {
-                                                                            category.name
-                                                                        }
-                                                                    </Link>
-                                                                </li>
-                                                                {categories.map(
-                                                                    (
-                                                                        category
-                                                                    ) =>
-                                                                        category.parentStoreCategory !==
-                                                                        null &&
-                                                                        category
-                                                                            .parentStoreCategory
-                                                                            .name ===
-                                                                        selectedCategory && (
-                                                                            <li
-                                                                                key={
-                                                                                    category.id
-                                                                                }
-                                                                            >
-                                                                                <Link
-                                                                                    name={
-                                                                                        category.name
-                                                                                    }
-                                                                                    onMouseOver={() => {
-                                                                                        dispatch(
-                                                                                            setSelectedSubCategory(
-                                                                                                category.name
-                                                                                            )
-                                                                                        );
-                                                                                    }}
-                                                                                    onClick={(
-                                                                                        e
-                                                                                    ) => {
-                                                                                        handleStoreChange(
-                                                                                            e,
-                                                                                            category
-                                                                                        );
-                                                                                    }}
-                                                                                    className="font-light block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                                                                                    to={`/store/${storeInfo.id}/${selectedCategory}/${selectedSubCategory}`}
-                                                                                >
-                                                                                    {
-                                                                                        category.name
-                                                                                    }
-                                                                                </Link>
-                                                                            </li>
-                                                                        )
-                                                                )}
-                                                            </ul>
-                                                        </div>
-                                                    )
+                                                          <div className="font-shopFont absolute font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
+                                                              <ul
+                                                                  className="py-2 text-sm text-gray-700 dark:text-gray-400"
+                                                                  aria-labelledby="dropdownLargeButton"
+                                                              >
+                                                                  <li>
+                                                                      <Link
+                                                                          onMouseOver={() => {
+                                                                              dispatch(
+                                                                                  changeBannerImage(
+                                                                                      category.heroImage
+                                                                                  )
+                                                                              );
+                                                                          }}
+                                                                          onClick={() =>
+                                                                              handleDropDown(
+                                                                                  category
+                                                                              )
+                                                                          }
+                                                                          className="font-semibold block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                                                                          to={`/store/${storeInfo.id}/${selectedCategory}`}
+                                                                      >
+                                                                          {
+                                                                              category.name
+                                                                          }
+                                                                      </Link>
+                                                                  </li>
+                                                                  {categories.map(
+                                                                      (
+                                                                          category
+                                                                      ) =>
+                                                                          category.parentStoreCategory !==
+                                                                              null &&
+                                                                          category
+                                                                              .parentStoreCategory
+                                                                              .name ===
+                                                                              selectedCategory && (
+                                                                              <li
+                                                                                  key={
+                                                                                      category.id
+                                                                                  }
+                                                                              >
+                                                                                  <Link
+                                                                                      name={
+                                                                                          category.name
+                                                                                      }
+                                                                                      onMouseOver={() => {
+                                                                                          dispatch(
+                                                                                              setSelectedSubCategory(
+                                                                                                  category.name
+                                                                                              )
+                                                                                          );
+                                                                                      }}
+                                                                                      onClick={(
+                                                                                          e
+                                                                                      ) => {
+                                                                                          handleStoreChange(
+                                                                                              e,
+                                                                                              category
+                                                                                          );
+                                                                                      }}
+                                                                                      className="font-light block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                                                                                      to={`/store/${storeInfo.id}/${selectedCategory}/${selectedSubCategory}`}
+                                                                                  >
+                                                                                      {
+                                                                                          category.name
+                                                                                      }
+                                                                                  </Link>
+                                                                              </li>
+                                                                          )
+                                                                  )}
+                                                              </ul>
+                                                          </div>
+                                                      )
                                                     : showDropDown.two && (
-                                                        <div className="font-shopFont absolute font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
-                                                            <ul
-                                                                className="py-2 text-sm text-gray-700 dark:text-gray-400"
-                                                                aria-labelledby="dropdownLargeButton"
-                                                            >
-                                                                <li>
-                                                                    <Link
-                                                                        onMouseOver={() => {
-                                                                            dispatch(
-                                                                                changeBannerImage(
-                                                                                    category.heroImage
-                                                                                )
-                                                                            );
-                                                                        }}
-                                                                        onClick={() =>
-                                                                            handleDropDown(
-                                                                                category
-                                                                            )
-                                                                        }
-                                                                        className="font-semibold block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                                                                        to={`/store/${storeInfo.id}/${selectedCategory}`}
-                                                                    >
-                                                                        {
-                                                                            category.name
-                                                                        }
-                                                                    </Link>
-                                                                </li>
-                                                                {categories.map(
-                                                                    (
-                                                                        category
-                                                                    ) =>
-                                                                        category.parentStoreCategory !==
-                                                                        null &&
-                                                                        category
-                                                                            .parentStoreCategory
-                                                                            .name ===
-                                                                        selectedCategory && (
-                                                                            <li>
-                                                                                <Link
-                                                                                    name={
-                                                                                        category.name
-                                                                                    }
-                                                                                    onMouseOver={() => {
-                                                                                        dispatch(
-                                                                                            setSelectedSubCategory(
-                                                                                                category.name
-                                                                                            )
-                                                                                        );
-                                                                                    }}
-                                                                                    onClick={(
-                                                                                        e
-                                                                                    ) => {
-                                                                                        handleStoreChange(
-                                                                                            e,
-                                                                                            category
-                                                                                        );
-                                                                                    }}
-                                                                                    className="font-light block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                                                                                    to={`/store/${storeInfo.id}/${selectedCategory}/${selectedSubCategory}`}
-                                                                                >
-                                                                                    {
-                                                                                        category.name
-                                                                                    }
-                                                                                </Link>
-                                                                            </li>
-                                                                        )
-                                                                )}
-                                                            </ul>
-                                                        </div>
-                                                    )}
+                                                          <div className="font-shopFont absolute font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
+                                                              <ul
+                                                                  className="py-2 text-sm text-gray-700 dark:text-gray-400"
+                                                                  aria-labelledby="dropdownLargeButton"
+                                                              >
+                                                                  <li>
+                                                                      <Link
+                                                                          onMouseOver={() => {
+                                                                              dispatch(
+                                                                                  changeBannerImage(
+                                                                                      category.heroImage
+                                                                                  )
+                                                                              );
+                                                                          }}
+                                                                          onClick={() =>
+                                                                              handleDropDown(
+                                                                                  category
+                                                                              )
+                                                                          }
+                                                                          className="font-semibold block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                                                                          to={`/store/${storeInfo.id}/${selectedCategory}`}
+                                                                      >
+                                                                          {
+                                                                              category.name
+                                                                          }
+                                                                      </Link>
+                                                                  </li>
+                                                                  {categories.map(
+                                                                      (
+                                                                          category
+                                                                      ) =>
+                                                                          category.parentStoreCategory !==
+                                                                              null &&
+                                                                          category
+                                                                              .parentStoreCategory
+                                                                              .name ===
+                                                                              selectedCategory && (
+                                                                              <li>
+                                                                                  <Link
+                                                                                      name={
+                                                                                          category.name
+                                                                                      }
+                                                                                      onMouseOver={() => {
+                                                                                          dispatch(
+                                                                                              setSelectedSubCategory(
+                                                                                                  category.name
+                                                                                              )
+                                                                                          );
+                                                                                      }}
+                                                                                      onClick={(
+                                                                                          e
+                                                                                      ) => {
+                                                                                          handleStoreChange(
+                                                                                              e,
+                                                                                              category
+                                                                                          );
+                                                                                      }}
+                                                                                      className="font-light block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                                                                                      to={`/store/${storeInfo.id}/${selectedCategory}/${selectedSubCategory}`}
+                                                                                  >
+                                                                                      {
+                                                                                          category.name
+                                                                                      }
+                                                                                  </Link>
+                                                                              </li>
+                                                                          )
+                                                                  )}
+                                                              </ul>
+                                                          </div>
+                                                      )}
                                             </li>
                                         ) : (
                                             ""

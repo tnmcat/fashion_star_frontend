@@ -1,46 +1,58 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import variantAPI from "../../api/variantAPI";
+import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
+import {
+    findVariant,
+    findVariantById,
+    createVariant,
+    updateVariantAfterCreate,
+    deleteVariantAfterCreate,
+} from "../../api/variantAPI";
 
 const initialState = {
-    variantInfo: null,
-    variantsByProductId: [],
+    variant: null,
+    variantDetail: null,
+    variants: [],
     loading: false,
-    success: false,
     error: null,
+    success: false,
 };
 
-export const getVariantsByProductId = createAsyncThunk("variant/variants_by_product_id", async (productId) => {
-    const response = await variantAPI.findAll(productId);
-    return response;
-});
-
+export const getVariant = createAsyncThunk(
+    "variant/detail",
+    async (productId) => {
+        const response = await findVariant(productId);
+        console.log("variant/detail", response);
+        return response.data;
+    }
+);
+export const getVariantInfo = createAsyncThunk(
+    "variant/info",
+    async (productId) => {
+        const response = await findVariantById(productId);
+        return response.data;
+    }
+);
 export const addVariant = createAsyncThunk(
-    "variant/add",
-    async ({ productId }) => {
-        const response = await variantAPI.add(productId);
-        return response; // Assuming response.data contains serializable data
+    "create/variant",
+    async (variant, variantId) => {
+        const response = await createVariant(variant, variantId);
+        return response.data;
     }
 );
-
 export const updateVariant = createAsyncThunk(
-    "variant/update",
-    async ({ variantId, updatedVariant }) => {
-        const response = await variantAPI.update(variantId, updatedVariant);
-        return response.data; // Assuming response.data contains the updated variant
+    "update/variant",
+    async (variant, variantId) => {
+        const response = await updateVariantAfterCreate(variant, variantId);
+        return response.data;
     }
 );
-
 export const deleteVariant = createAsyncThunk(
-    "variant/delete",
+    "delete/variant",
     async (variantId) => {
-        const response = await variantAPI.delete(variantId);
-        return response; // Return the deleted variantId
+        const response = await deleteVariantAfterCreate(variantId);
+        return response.data;
     }
 );
-
-
-// Add the updateVariant and deleteVariant async thunks to the extraReducers
-const variantSlice = createSlice({
+export const variantSlice = createSlice({
     name: "variant",
     initialState,
     reducers: {
@@ -56,11 +68,59 @@ const variantSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            // existing cases...
+            //Update states of get variant action
+            .addCase(getVariant.pending, (state) => {
+                state.success = false;
+                state.loading = true;
+                state.error = false;
+            })
+            .addCase(getVariant.rejected, (state, action) => {
+                state.success = false;
+                state.loading = false;
+                state.error = action.error;
+            })
+            .addCase(getVariant.fulfilled, (state, action) => {
+                state.success = true;
+                state.loading = false;
+                state.variant = action.payload;
+                state.error = false;
+            })
+            .addCase(getVariantInfo.pending, (state) => {
+                state.success = false;
+                state.loading = true;
+                state.error = false;
+            })
+            .addCase(getVariantInfo.rejected, (state, action) => {
+                state.success = false;
+                state.loading = false;
+                state.error = action.error;
+            })
+            .addCase(getVariantInfo.fulfilled, (state, action) => {
+                state.success = true;
+                state.loading = false;
+                state.variantDetail = action.payload;
+                state.error = false;
+            })
+            .addCase(addVariant.pending, (state) => {
+                state.success = false;
+                state.loading = true;
+                state.error = false;
+            })
+            .addCase(addVariant.rejected, (state, action) => {
+                state.success = false;
+                state.loading = false;
+                state.error = action.error;
+            })
+            .addCase(addVariant.fulfilled, (state, action) => {
+                state.success = true;
+                state.loading = false;
+                state.variants.push(action.payload.variantDto);
+                state.error = false;
+            })
             .addCase(updateVariant.pending, (state) => {
                 state.success = false;
                 state.loading = true;
-                state.error = null;
+                state.error = false;
             })
             .addCase(updateVariant.rejected, (state, action) => {
                 state.success = false;
@@ -70,16 +130,25 @@ const variantSlice = createSlice({
             .addCase(updateVariant.fulfilled, (state, action) => {
                 state.success = true;
                 state.loading = false;
-                // Update the variant in the state with the updated data
-                state.variantsByProductId = state.variantsByProductId.map(variant =>
-                    variant.id === action.payload ? action.payload : variant
+                const item = state.variants.find(
+                    (item) => item.id === action.payload.id
                 );
-                state.error = null;
+                if (item) {
+                    item.name = action.payload.name;
+                    item.skuCode = action.payload.skuCode;
+                    item.stockQuantity = action.payload.stockQuantity;
+                    item.weight = action.payload.weight;
+                    item.price = action.payload.price;
+                    item.salePrice = action.payload.salePrice;
+                } else {
+                    //
+                }
+                state.error = false;
             })
             .addCase(deleteVariant.pending, (state) => {
                 state.success = false;
                 state.loading = true;
-                state.error = null;
+                state.error = false;
             })
             .addCase(deleteVariant.rejected, (state, action) => {
                 state.success = false;
@@ -89,19 +158,27 @@ const variantSlice = createSlice({
             .addCase(deleteVariant.fulfilled, (state, action) => {
                 state.success = true;
                 state.loading = false;
-                // Remove the deleted variant from the state
-                state.variantsByProductId = state.variantsByProductId.filter(variant => variant.id !== action.payload);
-                state.error = null;
+                const item = state.variants.find(
+                    (item) => item.id === action.payload
+                );
+                if (item) {
+                    state.variants = state.variants.filter(
+                        (item) => item.id !== action.payload
+                    );
+                } else {
+                    //
+                }
+                state.error = false;
             });
     },
 });
-
-export const { setLoading, setError, setSuccess } = variantSlice.actions;
+export const {setLoading, setError, setSuccess} = variantSlice.actions;
 
 export const selectLoading = (state) => state.variant.loading;
 export const selectError = (state) => state.variant.error;
 export const selectSuccess = (state) => state.variant.success;
-export const selectVariantInfo = (state) => state.variant.variantInfo;
-export const selectVariantsByProductId = (state) => state.variant.variantsByProductId;
+export const selectVariantDetail = (state) => state.variant.variant;
+export const selectVariantInfo = (state) => state.variant.variantDetail;
+export const selectVariantListCreated = (state) => state.variant.variants;
 
 export default variantSlice.reducer;

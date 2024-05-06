@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import StarIcon from "@mui/icons-material/Star";
 import FmdGoodIcon from "@mui/icons-material/FmdGood";
 import SearchIcon from "@mui/icons-material/Search";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
-import { Link, useParams, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import {Link, useParams, useNavigate} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
 import {
     getVariant,
     getVariantInfo,
@@ -16,12 +16,12 @@ import {
     selectVariantDetail,
     selectVariantInfo,
 } from "../../../features/variant/variantSlice";
-import { addNewCartLine, addToCart } from "../../../features/cart/cartSlice";
+import {addNewCartLine, addToCart} from "../../../features/cart/cartSlice";
 import {
     setCategory,
     changeCategory,
     changeSubCategory,
-} from "../../../features/sellerStore/sellerStoreSlice0";
+} from "../../../features/sellerStore/sellerStoreSlice";
 import StarRating from "../../common/icon/StarRating";
 import {
     getReviewsByVariantId,
@@ -31,12 +31,12 @@ import {
 import FormatDate from "../../common/format/FormatDate";
 
 function ProductDetail() {
-    const { id } = useParams();
+    const {id} = useParams();
     const dispatch = useDispatch();
     const [showRecommend, setShowRecommend] = useState(false);
     const [showComment, setShowComment] = useState(false);
     const storeInfo = useSelector((state) => state.sellerStore.storeInfo);
-    const { userInfo } = useSelector((state) => state.user);
+    const {userInfo} = useSelector((state) => state.user);
     const [variantId, setVariantId] = useState(null);
     const [productId] = useState(id);
     const [mainImage, setMainImage] = useState("");
@@ -53,7 +53,6 @@ function ProductDetail() {
     const [idArray, setIdArray] = useState([]);
     const [variantDTOListForLoop, setVariantDTOListForLoop] = useState([]);
     const navigate = useNavigate();
-
     useEffect(() => {
         getVariantDetail();
     }, [id]);
@@ -61,7 +60,6 @@ function ProductDetail() {
     useEffect(() => {
         getVariantInformation();
     }, [id]);
-
     useEffect(() => {
         getReviewAnalyst();
     }, [id]);
@@ -103,18 +101,17 @@ function ProductDetail() {
             setVariantId(variantRender0.id);
             setVariantRender(variantRender0);
             console.log("Variant Render  2", variantRender);
-            console.log("555555");
             //logic change variantId
             if (variantRender0 && variantDetail) {
                 const optionValueList = variantRender0.optionValueDTOList;
-                console.log(optionValueList);
+                console.log("optionValueList", optionValueList);
                 const variantDTOList = variantDetail.variantDTOList;
-                console.log(variantDTOList);
+                console.log("variantDTOList: ", variantDTOList);
                 setVariantDTOListForLoop(variantDTOList);
                 const ids = optionValueList.map((obj) => obj.id);
-                console.log(ids);
+                console.log("ids: ", ids);
                 setIdArray(ids); //[1,4]
-                console.log(idArray);
+                console.log("idArray: ", idArray);
             }
         }
     }, [variantRender0, id, variantDetail, reviewVariantList, reviewAnalyst]);
@@ -252,18 +249,11 @@ function ProductDetail() {
                                         {reviewAnalyst.summaryDto?.reviewsTotal}{" "}
                                         rating
                                     </div>
-                                    {/* <Link
-                                        to={`/review/{productId}`}
-                                        className="text-green-900"
-                                    >
-                                        {" "}
-                                        See all reviews
-                                    </Link> */}
                                 </div>
                             )}
                             <hr></hr>
                             {variantRender != null &&
-                                variantRender.stockQuantity > 0 ? (
+                            variantRender.stockQuantity > 0 ? (
                                 <div className="font-titleFont tracking-wide text-lg text-amazon_blue size sm:text-xs  md:text-lg lg:text-xl xl:text-3xl flex mb-6 mt-4 ">
                                     <h2 className="line-through mr-4 text-red-700">
                                         ${variantRender.price}
@@ -342,7 +332,7 @@ function ProductDetail() {
                                     </div>
                                 </div>
                             ))}
-                            {variantDetail.productAttributeDTOList.map(
+                            {variantDetail.productAttributeDTOLis?.map(
                                 (attr, bindex) => (
                                     <div
                                         key={bindex}
@@ -364,7 +354,7 @@ function ProductDetail() {
                                 </h2>
                                 <ul className="list-disc ml-4">
                                     {variantDetail != null &&
-                                        variantDetail.productDTO.bulletDTOList.map(
+                                        variantDetail.productDTO?.bulletDTOList?.map(
                                             (bullet, i) => (
                                                 <li
                                                     key={i}
@@ -379,6 +369,7 @@ function ProductDetail() {
                         </div>
                     </div>
                     {/* Detail Product End */}
+
                     {/* Cart Start */}
                     <div className="w-full h-full bg-white col-span-1 border-indigo-700 border-2 rounded-3xl text-sm">
                         <div className="flex flex-col p-4">
@@ -397,7 +388,7 @@ function ProductDetail() {
                                 </h5>
                             </div>
                             <div className="flex flex-row">
-                                <FmdGoodIcon sx={{ fontSize: 20 }} />
+                                <FmdGoodIcon sx={{fontSize: 20}} />
                                 <Link to={`/deliver`}>
                                     <span className=" text-green-900 hover:text-stone-400 underline text-xs">
                                         Deliver To Viet Nam
@@ -406,7 +397,7 @@ function ProductDetail() {
                             </div>
 
                             {variantRender != null &&
-                                variantRender.stockQuantity > 0 ? (
+                            variantRender.stockQuantity > 0 ? (
                                 <>
                                     <h1 className="my-4 text-2xl text-green-900">
                                         In Stock
@@ -415,45 +406,45 @@ function ProductDetail() {
                                         onClick={() => {
                                             userInfo
                                                 ? dispatch(
-                                                    addNewCartLine({
-                                                        id: "",
-                                                        quantity: 1,
-                                                        cartId: userInfo.id,
-                                                        variantId:
-                                                            variantRender.id,
-                                                    })
-                                                )
+                                                      addNewCartLine({
+                                                          id: "",
+                                                          quantity: 1,
+                                                          cartId: userInfo.id,
+                                                          variantId:
+                                                              variantRender.id,
+                                                      })
+                                                  )
                                                 : dispatch(
-                                                    addToCart({
-                                                        id: "",
-                                                        quantity: 1,
-                                                        cartDto: {
-                                                            id: "",
-                                                            userId: "",
-                                                        },
-                                                        variantDto: {
-                                                            id: variantRender.id,
-                                                            name: variantRender.name,
-                                                            skuCode:
-                                                                variantRender.skuCode,
-                                                            stockQuantity:
-                                                                variantRender.stockQuantity,
-                                                            weight: variantRender.weight,
-                                                            price: variantRender.price,
-                                                            img: variantRender?.img,
-                                                            salePrice:
-                                                                variantRender.salePrice,
-                                                            optionValueDtoList:
-                                                                variantRender.optionValueDtoList,
-                                                            imageDtoList:
-                                                                variantRender.imageDtoList,
-                                                            videoDtoList:
-                                                                variantRender.videoDtoList,
-                                                            reviewDtoList:
-                                                                variantRender.reviewDtoList,
-                                                        },
-                                                    })
-                                                );
+                                                      addToCart({
+                                                          id: "",
+                                                          quantity: 1,
+                                                          cartDto: {
+                                                              id: "",
+                                                              userId: "",
+                                                          },
+                                                          variantDto: {
+                                                              id: variantRender.id,
+                                                              name: variantRender.name,
+                                                              skuCode:
+                                                                  variantRender.skuCode,
+                                                              stockQuantity:
+                                                                  variantRender.stockQuantity,
+                                                              weight: variantRender.weight,
+                                                              price: variantRender.price,
+                                                              img: variantRender?.img,
+                                                              salePrice:
+                                                                  variantRender.salePrice,
+                                                              optionValueDtoList:
+                                                                  variantRender.optionValueDtoList,
+                                                              imageDtoList:
+                                                                  variantRender.imageDtoList,
+                                                              videoDtoList:
+                                                                  variantRender.videoDtoList,
+                                                              reviewDtoList:
+                                                                  variantRender.reviewDtoList,
+                                                          },
+                                                      })
+                                                  );
                                         }}
                                         className="rounded-lg text-white bg-indigo-600 py-3 my-2 hover:bg-indigo-600 duration-100 cursor-pointer"
                                     >
@@ -463,46 +454,47 @@ function ProductDetail() {
                                         onClick={() => {
                                             userInfo
                                                 ? dispatch(
-                                                    addNewCartLine({
-                                                        id: "",
-                                                        quantity: 1,
-                                                        cartId: userInfo.id,
-                                                        variantId:
-                                                            variantRender.id,
-                                                    })
-                                                )
+                                                      addNewCartLine({
+                                                          id: "",
+                                                          quantity: 1,
+                                                          cartId: userInfo.id,
+                                                          variantId:
+                                                              variantRender.id,
+                                                      }),
+                                                      navigate("/cart")
+                                                  )
                                                 : dispatch(
-                                                    addToCart({
-                                                        id: "",
-                                                        quantity: 1,
-                                                        cartDto: {
-                                                            id: "",
-                                                            userId: "",
-                                                        },
-                                                        variantDto: {
-                                                            id: variantRender.id,
-                                                            name: variantRender.name,
-                                                            skuCode:
-                                                                variantRender.skuCode,
-                                                            stockQuantity:
-                                                                variantRender.stockQuantity,
-                                                            weight: variantRender.weight,
-                                                            price: variantRender.price,
-                                                            img: variantRender?.img,
-                                                            salePrice:
-                                                                variantRender.salePrice,
-                                                            optionValueDtoList:
-                                                                variantRender.optionValueDtoList,
-                                                            imageDtoList:
-                                                                variantRender.imageDtoList,
-                                                            videoDtoList:
-                                                                variantRender.videoDtoList,
-                                                            reviewDtoList:
-                                                                variantRender.reviewDtoList,
-                                                        },
-                                                    }),
-                                                    navigate(`/cart`)
-                                                );
+                                                      addToCart({
+                                                          id: "",
+                                                          quantity: 1,
+                                                          cartDto: {
+                                                              id: "",
+                                                              userId: "",
+                                                          },
+                                                          variantDto: {
+                                                              id: variantRender.id,
+                                                              name: variantRender.name,
+                                                              skuCode:
+                                                                  variantRender.skuCode,
+                                                              stockQuantity:
+                                                                  variantRender.stockQuantity,
+                                                              weight: variantRender.weight,
+                                                              price: variantRender.price,
+                                                              img: variantRender?.img,
+                                                              salePrice:
+                                                                  variantRender.salePrice,
+                                                              optionValueDtoList:
+                                                                  variantRender.optionValueDtoList,
+                                                              imageDtoList:
+                                                                  variantRender.imageDtoList,
+                                                              videoDtoList:
+                                                                  variantRender.videoDtoList,
+                                                              reviewDtoList:
+                                                                  variantRender.reviewDtoList,
+                                                          },
+                                                      }),
+                                                      navigate(`/cart`)
+                                                  );
                                         }}
                                         className="rounded-lg py-3 my-2 bg-gradient-to-t from-slate-200 to-slate-100 hover:bg-gradient-to-b border
                     border-zinc-400 active:border-yellow-800 active:shadow-amazonInput duration-100 cursor-pointer"
@@ -641,16 +633,16 @@ function ProductDetail() {
                                 <tbody className="text-amazon_ember">
                                     <tr className="">
                                         <td className="w-2/12	">
-                                            <a
+                                            <p
                                                 href="#"
                                                 className="decoration-0   text-left justify-between"
                                             >
                                                 {" "}
                                                 5 star
-                                            </a>
+                                            </p>
                                         </td>
                                         <td className="w-8/12">
-                                            <a
+                                            <p
                                                 href="#"
                                                 className=""
                                                 title="5 star represent ...% of rating"
@@ -663,7 +655,7 @@ function ProductDetail() {
                                                         }}
                                                     ></div>
                                                 </div>
-                                            </a>
+                                            </p>
                                         </td>
                                         <td className="w-2/12 pl-1 text-left	">
                                             {reviewAnalyst.summaryDto.ratingBreakdown?.fiveStar.percentage.toFixed(
@@ -680,13 +672,13 @@ function ProductDetail() {
                                     </tr>
                                     <tr className="">
                                         <td>
-                                            <a className="decoration-0 text-left">
+                                            <p className="decoration-0 text-left">
                                                 {" "}
                                                 4 star
-                                            </a>
+                                            </p>
                                         </td>
                                         <td className="w-8/12	">
-                                            <a
+                                            <p
                                                 href="#"
                                                 className=""
                                                 title="5 star represent ...% of rating"
@@ -699,7 +691,7 @@ function ProductDetail() {
                                                         }}
                                                     ></div>
                                                 </div>
-                                            </a>
+                                            </p>
                                         </td>
                                         <td className="w-2/12 pl-1 text-left	">
                                             {reviewAnalyst.summaryDto.ratingBreakdown?.fourStar.percentage.toFixed(
@@ -716,13 +708,13 @@ function ProductDetail() {
                                     </tr>
                                     <tr className="mb-4">
                                         <td>
-                                            <a className="decoration-0 text-left">
+                                            <p className="decoration-0 text-left">
                                                 {" "}
                                                 3 star
-                                            </a>
+                                            </p>
                                         </td>
                                         <td className="w-8/12	">
-                                            <a
+                                            <p
                                                 href="#"
                                                 className=""
                                                 title="5 star represent ...% of rating"
@@ -735,7 +727,7 @@ function ProductDetail() {
                                                         }}
                                                     ></div>
                                                 </div>
-                                            </a>
+                                            </p>
                                         </td>
                                         <td className="w-2/12 pl-1 text-left">
                                             {reviewAnalyst.summaryDto.ratingBreakdown?.threeStar.percentage.toFixed(
@@ -752,13 +744,13 @@ function ProductDetail() {
                                     </tr>
                                     <tr className="mb-4">
                                         <td>
-                                            <a className="decoration-0 text-left">
+                                            <p className="decoration-0 text-left">
                                                 {" "}
                                                 2 star
-                                            </a>
+                                            </p>
                                         </td>
                                         <td className="w-8/12	">
-                                            <a
+                                            <p
                                                 href="#"
                                                 className=""
                                                 title="5 star represent ...% of rating"
@@ -771,7 +763,7 @@ function ProductDetail() {
                                                         }}
                                                     ></div>
                                                 </div>
-                                            </a>
+                                            </p>
                                         </td>
                                         <td className="w-2/12 pl-1 text-left	">
                                             {reviewAnalyst.summaryDto.ratingBreakdown?.twoStar.percentage.toFixed(
@@ -788,13 +780,13 @@ function ProductDetail() {
                                     </tr>
                                     <tr className="mt-4">
                                         <td>
-                                            <a className="decoration-0   text-left">
+                                            <p className="decoration-0   text-left">
                                                 {" "}
                                                 1 star
-                                            </a>
+                                            </p>
                                         </td>
                                         <td className="w-8/12	">
-                                            <a
+                                            <p
                                                 href="#"
                                                 className=""
                                                 title="5 star represent ...% of rating"
@@ -807,7 +799,7 @@ function ProductDetail() {
                                                         }}
                                                     ></div>
                                                 </div>
-                                            </a>
+                                            </p>
                                         </td>
                                         <td className="w-2/12 pl-1 text-left	">
                                             {reviewAnalyst.summaryDto.ratingBreakdown?.oneStar.percentage.toFixed(
@@ -851,8 +843,9 @@ function ProductDetail() {
                                         use a simple average. Instead, our
                                         system considers things like how recent
                                         a review is and if the reviewer bought
-                                        the item on Amazon. It also analyzed
-                                        reviews to verify trustworthiness.
+                                        the item on Fashion star. It also
+                                        analyzed reviews to verify
+                                        trustworthiness.
                                     </span>
                                 </div>
                             )}
@@ -874,16 +867,15 @@ function ProductDetail() {
                     <div className="w-full h-full col-span-5 flex flex-col py-4 border-gray-300 text-titleFont  ">
                         <div className="flex flex-row text-center justify-between ">
                             <h1 className="text-2xl font-bold ">
-                                Reviews with images
+                                Reviews product
                             </h1>
                             <div>
-                                <a className="hover:underline text-amazon_ember">
+                                <p className="hover:underline text-amazon_ember">
                                     See all photo
-                                </a>
+                                </p>
                                 <ArrowRightIcon />
                             </div>
                         </div>
-
                         {/* Carosel Review Image Start */}
                         <div></div>
                         <hr></hr>
@@ -897,7 +889,7 @@ function ProductDetail() {
                                 (item, index) => (
                                     <div key={index} className="m-4">
                                         <div className="flex mb-2">
-                                            <img
+                                            <imageUrl
                                                 src="https://scontent.fsgn5-10.fna.fbcdn.net/v/t1.6435-9/116429521_1655876004585921_941667011043408186_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=84a396&_nc_ohc=jX_SP-XeWGUAX8gd9Dl&_nc_ht=scontent.fsgn5-10.fna&oh=00_AfB8K54ttI7F3njd8xLWtnInOErSx2FkaIhUXEuNjobBRw&oe=654A001A"
                                                 className="rounded-full w-5 h-5"
                                             />
@@ -912,10 +904,10 @@ function ProductDetail() {
                                                     fontSize={15}
                                                 />
                                             </div>
-                                            <a className="text-bodyFont text-sm ml-4 font-medium hover:underline hover:text-amber-600">
+                                            <p className="text-bodyFont text-sm ml-4 font-medium hover:underline hover:text-amber-600">
                                                 {" "}
                                                 {item.title}
-                                            </a>
+                                            </p>
                                         </div>
                                         <div className="text-bodyFont text-xs text-gray-500">
                                             Reviewed in the Viet Nam on{" "}
@@ -954,7 +946,7 @@ function ProductDetail() {
                                         {showComment && (
                                             <div className="flex flex-col w-10/12 text-start pl-6 text-bodyFont text-xs">
                                                 <div className="flex mb-1">
-                                                    <img
+                                                    <imgUrl
                                                         src="https://scontent.fsgn5-10.fna.fbcdn.net/v/t1.6435-9/116429521_1655876004585921_941667011043408186_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=84a396&_nc_ohc=jX_SP-XeWGUAX8gd9Dl&_nc_ht=scontent.fsgn5-10.fna&oh=00_AfB8K54ttI7F3njd8xLWtnInOErSx2FkaIhUXEuNjobBRw&oe=654A001A"
                                                         className="rounded-full w-5 h-5"
                                                     />
@@ -980,11 +972,10 @@ function ProductDetail() {
                                     </div>
                                 )
                             )}
-
                         <hr></hr>
-                        <div className="m-4">
+                        {/* <div className="m-4">
                             <div className="flex mb-2">
-                                <img
+                                <imgUrl
                                     src="https://scontent.fsgn5-10.fna.fbcdn.net/v/t1.6435-9/116429521_1655876004585921_941667011043408186_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=84a396&_nc_ohc=jX_SP-XeWGUAX8gd9Dl&_nc_ht=scontent.fsgn5-10.fna&oh=00_AfB8K54ttI7F3njd8xLWtnInOErSx2FkaIhUXEuNjobBRw&oe=654A001A"
                                     className="rounded-full w-5 h-5"
                                 />
@@ -994,17 +985,17 @@ function ProductDetail() {
                             </div>
                             <div className="flex">
                                 <div className="text-amazon_yellow text-sm items-center ">
-                                    <StarIcon sx={{ fontSize: 15 }} />
-                                    <StarIcon sx={{ fontSize: 15 }} />
-                                    <StarIcon sx={{ fontSize: 15 }} />
-                                    <StarIcon sx={{ fontSize: 15 }} />
-                                    <StarIcon sx={{ fontSize: 15 }} />
+                                    <StarIcon sx={{fontSize: 15}} />
+                                    <StarIcon sx={{fontSize: 15}} />
+                                    <StarIcon sx={{fontSize: 15}} />
+                                    <StarIcon sx={{fontSize: 15}} />
+                                    <StarIcon sx={{fontSize: 15}} />
                                 </div>
-                                <a className="text-bodyFont text-sm ml-4 font-medium hover:underline hover:text-amber-600">
+                                <p className="text-bodyFont text-sm ml-4 font-medium hover:underline hover:text-amber-600">
                                     {" "}
                                     I wish that I had found these before I spent
                                     1000's on doctors and Physical therapy
-                                </a>
+                                </p>
                             </div>
                             <div className="text-bodyFont text-xs text-gray-500">
                                 Reviewed in the United States on September 25,
@@ -1036,11 +1027,11 @@ function ProductDetail() {
                                 no arch support. Give them a shot if you suffer
                                 as I did.
                             </div>
-                        </div>
+                        </div> */}
                         <hr></hr>
-                        <div className="m-4">
+                        {/* <div className="m-4">
                             <div className="flex mb-2">
-                                <img
+                                <imgUrl
                                     src="https://scontent.fsgn5-10.fna.fbcdn.net/v/t1.6435-9/116429521_1655876004585921_941667011043408186_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=84a396&_nc_ohc=jX_SP-XeWGUAX8gd9Dl&_nc_ht=scontent.fsgn5-10.fna&oh=00_AfB8K54ttI7F3njd8xLWtnInOErSx2FkaIhUXEuNjobBRw&oe=654A001A"
                                     className="rounded-full w-5 h-5"
                                 />
@@ -1050,17 +1041,17 @@ function ProductDetail() {
                             </div>
                             <div className="flex">
                                 <div className="text-amazon_yellow text-sm items-center ">
-                                    <StarIcon sx={{ fontSize: 15 }} />
-                                    <StarIcon sx={{ fontSize: 15 }} />
-                                    <StarIcon sx={{ fontSize: 15 }} />
-                                    <StarIcon sx={{ fontSize: 15 }} />
-                                    <StarIcon sx={{ fontSize: 15 }} />
+                                    <StarIcon sx={{fontSize: 15}} />
+                                    <StarIcon sx={{fontSize: 15}} />
+                                    <StarIcon sx={{fontSize: 15}} />
+                                    <StarIcon sx={{fontSize: 15}} />
+                                    <StarIcon sx={{fontSize: 15}} />
                                 </div>
-                                <a className="text-bodyFont text-sm ml-4 font-medium hover:underline hover:text-amber-600">
+                                <p className="text-bodyFont text-sm ml-4 font-medium hover:underline hover:text-amber-600">
                                     {" "}
                                     I wish that I had found these before I spent
                                     1000's on doctors and Physical therapy
-                                </a>
+                                </p>
                             </div>
                             <div className="text-bodyFont text-xs text-gray-500">
                                 Reviewed in the United States on September 25,
@@ -1092,9 +1083,9 @@ function ProductDetail() {
                                 no arch support. Give them a shot if you suffer
                                 as I did.
                             </div>
-                        </div>
+                        </div> */}
                         <hr></hr>
-                        {/* List Review Of Customer End */}
+                        List Review Of Customer End
                     </div>
                 </div>
             </div>
