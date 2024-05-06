@@ -17,7 +17,7 @@ import {
   setStoreBanner,
   toggleOffMoreCategoryForDeals,
   changeBannerImage,
-} from "../../../features/sellerStore/sellerStoreSlice0";
+} from "../../../features/sellerStore/sellerStoreSlice";
 
 function MoreSideBar() {
   const moreSideBar = useSelector((state) => state.sellerStore.moreSideBar);

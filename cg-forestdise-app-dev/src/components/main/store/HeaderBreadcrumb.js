@@ -10,7 +10,7 @@ import {
   setStore,
   setCategory,
   setStoreBanner,
-} from "../../../features/sellerStore/sellerStoreSlice0";
+} from "../../../features/sellerStore/sellerStoreSlice";
 
 function HeaderBreadcrumb() {
   const dispatch = useDispatch();

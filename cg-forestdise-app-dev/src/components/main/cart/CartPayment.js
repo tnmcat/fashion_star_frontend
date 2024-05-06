@@ -1,18 +1,18 @@
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import React, {useEffect, useState} from "react";
-import {useSelector} from "react-redux";
-import {useNavigate} from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const CartPayment = () => {
     const navigate = useNavigate();
-    const {products} = useSelector((state) => state.cart);
-    const {userInfo} = useSelector((state) => state.user);
+    const { products } = useSelector((state) => state.cart);
+    const { userInfo } = useSelector((state) => state.user);
     const [totalPrice, setTotalPrice] = useState("");
 
     useEffect(() => {
         let total = 0;
         products.map((item) => {
-            total += item.variantDto.price * item.quantity;
+            total += item.variantDto?.price * item?.quantity;
             return setTotalPrice(total.toFixed(2));
         });
     }, [products]);

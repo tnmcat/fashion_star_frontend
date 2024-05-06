@@ -17,7 +17,7 @@ import {
     setSearchParams,
     setSearchParamsResult,
     setSelectedSubCategory,
-} from "../../../features/sellerStore/sellerStoreSlice0";
+} from "../../../features/sellerStore/sellerStoreSlice";
 import HeaderBreadcrumb from "./HeaderBreadcrumb";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { Link } from "react-router-dom";

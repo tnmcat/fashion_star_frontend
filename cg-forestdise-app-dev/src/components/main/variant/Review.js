@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React from "react";
 import {
     Rating,
     Typography,
@@ -7,12 +7,12 @@ import {
     Checkbox,
     Button,
 } from "@material-tailwind/react";
-import {useDispatch, useSelector} from "react-redux";
-import {addReview} from "../../../features/coment_review/reviewSlide";
+import { useDispatch, useSelector } from "react-redux";
+import { addReview } from "../../../features/coment_review/reviewSlide";
 
-export function Review() {
-    const {userInfo} = useSelector((state) => state.user);
-    const {variant} = useSelector((state) => state.variant.variantDetail);
+export default function Review() {
+    const { userInfo } = useSelector((state) => state.user);
+    const { variant } = useSelector((state) => state.variant.variantDetail);
     const [star, setStar] = React.useState(4);
     const [title, setTitle] = React.useState("");
     const [content, setContent] = React.useState("");
@@ -33,9 +33,8 @@ export function Review() {
             })
         );
     };
-
     return (
-        <div>
+        <div className="">
             <div className="flex items-center gap-2 font-bold text-blue-gray-500">
                 {rated}.0
                 <Rating value={4} onChange={(value) => setRated(value)} />
@@ -43,7 +42,7 @@ export function Review() {
                     color="blue-gray"
                     className="font-medium text-blue-gray-500"
                 >
-                    Based on 134 Reviews
+                    Your comment is the best of the best, Sir!!!!
                 </Typography>
             </div>
             <Card color="transparent" shadow={false}>
@@ -91,13 +90,6 @@ export function Review() {
                             value={content}
                             onChange={(event) => setContent(event.target.value)}
                         />
-                        <Typography
-                            variant="h6"
-                            color="blue-gray"
-                            className="-mb-3"
-                        >
-                            Password
-                        </Typography>
                         <Input
                             type="password"
                             size="lg"
@@ -111,8 +103,8 @@ export function Review() {
                         {/* image for review
                         B1: UPLOAD
                         B2: RENDER IMAGE/VIDEO */}
-                        <figure className="relative h-96 w-full">
-                            <img
+                        {/* <figure className="relative h-96 w-full">
+                            <imgUrl
                                 className="h-full w-full rounded-xl object-cover object-center"
                                 src="https://images.unsplash.com/photo-1682407186023-12c70a4a35e0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2832&q=80"
                                 alt="nature image"
@@ -144,7 +136,7 @@ export function Review() {
                                 type="video/mp4"
                             />
                             Your browser does not support the video tag.
-                        </video>
+                        </video> */}
                     </div>
                     <Checkbox
                         label={
@@ -155,16 +147,20 @@ export function Review() {
                             >
                                 I agree the
                                 <a
-                                    href="#"
+                                    href="/#"
                                     className="font-medium transition-colors hover:text-gray-900"
                                 >
                                     &nbsp;Terms and Conditions
                                 </a>
                             </Typography>
                         }
-                        containerProps={{className: "-ml-2.5"}}
+                        containerProps={{ className: "-ml-2.5" }}
                     />
-                    <Button className="mt-6" fullWidth onClick={submit}>
+                    <Button
+                        className="mt-6 text-indigo-700"
+                        fullWidth
+                        onClick={submit}
+                    >
                         Done !
                     </Button>
                 </form>

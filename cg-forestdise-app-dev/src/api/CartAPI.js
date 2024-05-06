@@ -69,7 +69,7 @@ export const addCartLine = async (product) => {
     let result = null;
     try {
         result = await axios.post(
-            `http://localhost:5454/api/cart-lines/add-to-cart`,
+            `${CART_MANAGEMENT_API}/cart-lines/add-to-cart`,
             product
         );
     } catch (e) {

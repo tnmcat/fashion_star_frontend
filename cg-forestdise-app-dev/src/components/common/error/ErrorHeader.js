@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { logo } from "../../../assets";
+import { logo, logoDearman } from "../../../assets";
 import SearchIcon from "@mui/icons-material/Search";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -12,7 +12,11 @@ function ErrorHeader() {
       <div className="w-full bg-amazon_blue text-white px-4 py-3 flex items-center gap-4">
         {/* Logo start */}
         <div onClick={() => navigate("/")} className="headerHover">
-          <img className="w-[5rem] mt-2" src={logo} alt="logo"></img>
+          <img
+            className="w-[5rem] mt-2"
+            src={logoDearman}
+            alt="logo"
+          ></img>
         </div>
         {/* Logo end */}
 
@@ -29,7 +33,6 @@ function ErrorHeader() {
         </div>
         {/* Searchbar end */}
       </div>
-      
     </div>
   );
 }

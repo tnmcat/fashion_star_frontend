@@ -2,7 +2,11 @@ import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import { GrClose } from "react-icons/gr";
 import { useDispatch, useSelector } from "react-redux";
-import { addNewAddress, getAddress, addAdressId } from "../../../features/payment/paymentSlice";
+import {
+  addNewAddress,
+  getAddress,
+  addAdressId,
+} from "../../../features/payment/paymentSlice";
 
 Modal.setAppElement("#root");
 
@@ -11,12 +15,12 @@ function Address() {
   const [isAddress, setIsAddress] = useState(true);
   const dispatch = useDispatch();
   const [addressNew, setAddressNew] = useState({
-    id: '',
-    name:'',
-    district: '',
-    ward: '',
-    city: '',
-    street: '',
+    id: "",
+    name: "",
+    district: "",
+    ward: "",
+    city: "",
+    street: "",
   });
   const { userInfo } = useSelector((state) => state.user);
   const { address } = useSelector((state) => state.payment);
@@ -27,14 +31,14 @@ function Address() {
     ward: "",
     district: "",
     city: "",
-    defaultAddress:false,
+    defaultAddress: false,
   });
 
   const handleChange = (event) => {
     setFormAddress({
       ...formAddress,
       [event.target.name]: event.target.value,
-    })
+    });
   };
 
   const handleFormSubmit = (event) => {
@@ -64,16 +68,20 @@ function Address() {
                   <div>{addressNew.name}</div>
                   <div>
                     <span>{addressNew.street}</span>
-                    <span class="px-2">{addressNew.ward}</span>
+                    <span class="px-2">
+                      {addressNew.ward}
+                    </span>
                     <span>{addressNew.district}</span>
-                    <span class="px-2">{addressNew.city}</span>
+                    <span class="px-2">
+                      {addressNew.city}
+                    </span>
                   </div>
                 </div>
               </div>
             </div>
             <div className="text-right">
               <button
-                className="text-blue-600 hover:text-orange-500 hover:underline"
+                className="text-indigo-600 hover:text-orange-500 hover:underline"
                 onClick={() => setIsAddress(!isAddress)}
               >
                 Change
@@ -84,17 +92,21 @@ function Address() {
           <div className="grid grid-cols-2">
             <div>
               <h2 className="text-xl font-bold font-sans text-orange-700">
-                <span className="pr-4">1</span>Choose a shipping address
+                <span className="pr-4">1</span>Choose a shipping
+                address
               </h2>
             </div>
             <div className="text-right">
               <button
-                className="text-blue-600 hover:text-orange-500 hover:underline text-md"
+                className="text-indigo-600 hover:text-orange-500 hover:underline text-md"
                 onClick={() => setIsAddress(!isAddress)}
               >
                 Close
               </button>
-              <button className="pl-2" onClick={() => setIsAddress(!isAddress)}>
+              <button
+                className="pl-2"
+                onClick={() => setIsAddress(!isAddress)}
+              >
                 <GrClose />
               </button>
             </div>
@@ -123,7 +135,11 @@ function Address() {
                       className="mr-2"
                       value={item.id}
                       onClick={() => {
-                        dispatch(addAdressId({ addressId: item.id }));
+                        dispatch(
+                          addAdressId({
+                            addressId: item.id,
+                          })
+                        );
                         setAddressNew({
                           id: item.id,
                           name: userInfo.clientName,
@@ -134,14 +150,16 @@ function Address() {
                         });
                       }}
                     />
-                    <span className="font-semibold">{item.name}</span>{" "}
-                    <span>{item.street}</span>
-                    <span>{item.ward}</span>
-                    <span>{item.district}</span>
+                    <span className="font-semibold">
+                      {item.name}
+                    </span>{" "}
+                    <span>{item.street}, </span>
+                    <span>{item.ward}, </span>
+                    <span>{item.district}, </span>
                     <span>{item.city}</span>
-                    <button className="text-blue-600 px-2 text-sm hover:text-orange-500 hover:underline">
-                      Edit address
-                    </button>
+                    {/* <button className="text-blue-600 px-2 text-sm hover:text-orange-500 hover:underline">
+                                            Edit address
+                                        </button> */}
                   </div>
                 ))}
                 <div className="flex">
@@ -161,12 +179,16 @@ function Address() {
                     </button>
                     <Modal
                       isOpen={isModalOpen}
-                      onRequestClose={() => setIsModalOpen(false)}
+                      onRequestClose={() =>
+                        setIsModalOpen(false)
+                      }
                       contentLabel="Add New Address"
                       className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white w-2/5 rounded-lg border border-gray-400"
                     >
                       <button
-                        onClick={() => setIsModalOpen(false)}
+                        onClick={() =>
+                          setIsModalOpen(false)
+                        }
                         className="absolute right-2 my-5 text-gray-600 hover:text-gray-500 rounded-md border-4 border-sky-200"
                       >
                         <svg
@@ -200,8 +222,12 @@ function Address() {
                               <input
                                 type="text"
                                 name="street"
-                                value={formAddress.street}
-                                onChange={handleChange}
+                                value={
+                                  formAddress.street
+                                }
+                                onChange={
+                                  handleChange
+                                }
                                 className="form-input w-full mt-1 ml-4 rounded-lg px-3 py-2 border border-gray-400"
                               />
                             </div>
@@ -214,8 +240,12 @@ function Address() {
                               <input
                                 type="text"
                                 name="ward"
-                                value={formAddress.ward}
-                                onChange={handleChange}
+                                value={
+                                  formAddress.ward
+                                }
+                                onChange={
+                                  handleChange
+                                }
                                 className="form-input w-full mt-1 ml-4 rounded-lg px-3 py-2 border border-gray-400"
                               />
                             </div>
@@ -228,8 +258,12 @@ function Address() {
                               <input
                                 type="text"
                                 name="district"
-                                value={formAddress.district}
-                                onChange={handleChange}
+                                value={
+                                  formAddress.district
+                                }
+                                onChange={
+                                  handleChange
+                                }
                                 className="form-input w-full mt-1 ml-4 rounded-lg px-3 py-2 border border-gray-400"
                               />
                             </div>
@@ -242,8 +276,12 @@ function Address() {
                               <input
                                 type="text"
                                 name="city"
-                                value={formAddress.city}
-                                onChange={handleChange}
+                                value={
+                                  formAddress.city
+                                }
+                                onChange={
+                                  handleChange
+                                }
                                 className="form-input w-full mt-1 ml-4 rounded-lg px-3 py-2 border border-gray-400"
                               />
                             </div>
@@ -262,7 +300,7 @@ function Address() {
               </div>
               <div className="bg-gray-200/30 border-t border-gray-400 pl-2">
                 <button
-                  className="bg-yellow-300 rounded-lg font-semibold text-sm m-3 px-2 p-1 hover:bg-yellow-400"
+                  className="bg-indigo-700  text-white rounded-lg font-semibold text-sm m-3 px-2 p-1 hover:bg-indigo-400"
                   onClick={() => setIsAddress(true)}
                 >
                   Use this address

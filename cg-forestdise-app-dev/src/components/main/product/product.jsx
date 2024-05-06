@@ -1,6 +1,6 @@
-import {Fragment, useEffect, useState} from "react";
-import {Dialog, Disclosure, Menu, Transition} from "@headlessui/react";
-import {XMarkIcon} from "@heroicons/react/24/outline";
+import React, { Fragment, useEffect, useState } from "react";
+import { Dialog, Disclosure, Menu, Transition } from "@headlessui/react";
+import { XMarkIcon } from "@heroicons/react/24/outline";
 import {
     ChevronDownIcon,
     FunnelIcon,
@@ -8,37 +8,41 @@ import {
     PlusIcon,
     Squares2X2Icon,
 } from "@heroicons/react/20/solid";
-import {filters, singleFilter} from "./filterData";
+import { filters, singleFilter } from "./filterData";
 import {
     FormControl,
     FormControlLabel,
     FormLabel,
-    Pagination,
     Radio,
     RadioGroup,
 } from "@mui/material";
 import FilterListIcon from "@mui/icons-material/FilterList";
-import {useLocation, useNavigate, useParams} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
-import Products from "../home/Products";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
+import { useDispatch, useSelector } from "react-redux";
+
+import { getProducts } from "../../../features/home/homeSlice";
+import { setStore } from "../../../features/sellerStore/sellerStoreSlice";
+import StarIcon from "@mui/icons-material/Star";
 // import {findProduct} from "State/Product/Action";
+import "../product/productCard.css";
 export const sortOptions = [
-    {name: "Price: Low to High", href: "#", current: false},
-    {name: "Price: High to Low", href: "#", current: false},
+    { name: "Price: Low to High", href: "#", current: false },
+    { name: "Price: High to Low", href: "#", current: false },
 ];
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
 }
 
-export default function Product() {
+export default function ShowProduct() {
     const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
     const location = useLocation();
     const navigate = useNavigate();
     const param = useParams();
     const dispatch = useDispatch();
-    const {products} = useSelector((store) => store);
-
+    const { products } = useSelector((state) => state.home);
+    const { userInfo } = useSelector((state) => state.user);
     const decodedQueryString = decodeURIComponent(location.search);
     const searchParams = new URLSearchParams(decodedQueryString);
     const colorValue = searchParams.get("color");
@@ -71,14 +75,14 @@ export default function Product() {
             searchParams.set(sectionId, filterValue.join(","));
         }
         const query = searchParams.toString();
-        navigate({search: `?${query}`});
+        navigate({ search: `?${query}` });
     };
     const handleRadioFilterChange = (e, sectionId) => {
         const searchParams = new URLSearchParams(location.search);
 
         searchParams.set(sectionId, e.target.value);
         const query = searchParams.toString();
-        navigate({search: `?${query}`});
+        navigate({ search: `?${query}` });
     };
     useEffect(() => {
         const [minPrice, maxPrice] =
@@ -115,8 +119,13 @@ export default function Product() {
         const searchParams = new URLSearchParams(location.search);
         searchParams.set("page", value);
         const query = searchParams.toString();
-        navigate({search: `${query}`});
+        navigate({ search: `${query}` });
     };
+    useEffect(() => {
+        if (products.length < 1) {
+            dispatch(getProducts());
+        }
+    }, [dispatch, products, userInfo]);
     return (
         <div className="bg-white">
             <div>
@@ -173,13 +182,13 @@ export default function Product() {
 
                                     {/* Filters */}
                                     <form className="mt-4 border-t border-gray-200">
-                                        {/* {filters.map((section) => (
+                                        {filters.map((section) => (
                                             <Disclosure
                                                 as="div"
                                                 key={section.id}
                                                 className="border-t border-gray-200 px-4 py-6"
                                             >
-                                                {({open}) => (
+                                                {({ open }) => (
                                                     <>
                                                         <h3 className="-mx-2 -my-3 flow-root">
                                                             <Disclosure.Button className="flex w-full items-center justify-between bg-white px-2 py-3 text-gray-400 hover:text-gray-500">
@@ -250,14 +259,13 @@ export default function Product() {
                                                     </>
                                                 )}
                                             </Disclosure>
-                                        ))} */}
+                                        ))}
                                     </form>
                                 </Dialog.Panel>
                             </Transition.Child>
                         </div>
                     </Dialog>
                 </Transition.Root>
-
                 <main className="mx-auto px-4 sm:px-6 lg:px-20">
                     <div className="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-24">
                         <h1 className="text-4xl font-bold tracking-tight text-gray-900">
@@ -292,7 +300,7 @@ export default function Product() {
                                         <div className="py-1">
                                             {sortOptions.map((option) => (
                                                 <Menu.Item key={option.name}>
-                                                    {({active}) => (
+                                                    {({ active }) => (
                                                         <a
                                                             href={option.href}
                                                             className={classNames(
@@ -338,7 +346,6 @@ export default function Product() {
                             </button>
                         </div>
                     </div>
-
                     <section
                         aria-labelledby="products-heading"
                         className="pb-24 pt-6"
@@ -346,7 +353,6 @@ export default function Product() {
                         <h2 id="products-heading" className="sr-only">
                             Products
                         </h2>
-
                         <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-5">
                             <form className="hidden lg:block">
                                 <div>
@@ -365,7 +371,7 @@ export default function Product() {
                                             key={section.id}
                                             className="border-b border-gray-200 py-6"
                                         >
-                                            {({open}) => (
+                                            {({ open }) => (
                                                 <>
                                                     <h3 className="-mx-2 -my-3 flow-root">
                                                         <Disclosure.Button className="flex w-full items-center justify-between bg-white px-2 py-3 text-gray-400 hover:text-gray-500">
@@ -436,14 +442,13 @@ export default function Product() {
                                         </Disclosure>
                                     ))}
                                 </form>
-
                                 {singleFilter?.map((section) => (
                                     <Disclosure
                                         as="div"
                                         key={section.id}
                                         className="border-b border-gray-200 py-6"
                                     >
-                                        {({open}) => (
+                                        {({ open }) => (
                                             <>
                                                 <h3 className="-my-3 flow-root">
                                                     <Disclosure.Button className="flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500">
@@ -516,32 +521,210 @@ export default function Product() {
                                         )}
                                     </Disclosure>
                                 ))}
+                                {/* <Autocomplete
+                                    multiple
+                                    id="category"
+                                    options={Category}
+                                    getOptionLabel={(option) => option?.value}
+                                    defaultValue={[Category[13]]}
+                                    filterSelectedOptions
+                                    renderInput={(params) => (
+                                        <TextField
+                                            {...params}
+                                            label="Category"
+                                            placeholder="Categories"
+                                        />
+                                    )}
+                                /> */}
                             </form>
-
                             {/* Product grid */}
-                            <div className="lg:col-span-3 w-full">
+                            <div className="lg:col-span-4 w-full z-0">
                                 <div className="flex flex-wrap justify-center bg-white py-5">
-                                    {/* 2:09:53 clip 8 */}
-                                    {products?.products &&
-                                        products?.products?.content?.map(
-                                            (item) => (
-                                                <Products product={item} />
-                                            )
-                                        )}
+                                    {products.map((product) => (
+                                        <div
+                                            key={product.id}
+                                            className="productCard w-[15rem] m-3 transition-all cursor-pointer border-[1px]
+                                            border-gray-200 py-3 px-2 z-30 hover:border-transparent shadow-none hover:shadow-testShadow duration-200 flex
+                                                 flex-col gap-4 relative boxbox"
+                                        // className="bg-white h-auto border-[1px] border-gray-200 py-8 z-30
+                                        // hover:border-transparent shadow-none hover:shadow-testShadow duration-200 flex
+                                        // flex-col gap-4 relative"
+                                        >
+                                            <span className="text-xs capitalize italic absolute top-2 right-2 text-gray-500">
+                                                {product.category}
+                                            </span>
+                                            <div className=" w-full h=[20rem] overflow-hidden relative">
+                                                <img
+                                                    className="w-52 h-64 object-contain cursor-pointer"
+                                                    src={product.mainPicture}
+                                                    alt="ProductImg"
+                                                    onClick={() =>
+                                                        navigate(
+                                                            `/product/${product.id}`
+                                                        )
+                                                    }
+                                                ></img>
+                                                <ul
+                                                    className="w-full h-10 bg-gray-100 absolute bottom-[-170px] flex flex-col items-end justify-center gap-2
+            font-titleFont px-2 border-1 border-r group-hover:bottom-0 duration-700"
+                                                >
+                                                    <Link
+                                                        to={`/product/${product.id}`}
+                                                        className="productLi"
+                                                    >
+                                                        <span
+                                                            onClick={() => {
+                                                                dispatch(
+                                                                    setStore(
+                                                                        product
+                                                                            .store
+                                                                            .id
+                                                                    )
+                                                                );
+                                                            }}
+                                                        >
+                                                            View Details
+                                                            <ArrowCircleRightIcon />
+                                                        </span>
+                                                    </Link>
+                                                </ul>
+                                            </div>
+                                            <div className=" border textPart bg-white p-3">
+                                                <div className="flex items-center justify-between">
+                                                    <h2 className="font-titleFont tracking-wide text-lg text-amazon_blue font-medium">
+                                                        {" "}
+                                                        {product.title.substring(
+                                                            0,
+                                                            20
+                                                        )}
+                                                        ...
+                                                    </h2>
+                                                </div>
+                                                <div>
+                                                    <div>
+                                                        <p className="text-sm">
+                                                            {product.description.substring(
+                                                                0,
+                                                                50
+                                                            )}
+                                                            ...
+                                                        </p>
+                                                    </div>
+                                                    <div className="text-yellow-500">
+                                                        <StarIcon />
+                                                        <StarIcon />
+                                                        <StarIcon />
+                                                        <StarIcon />
+                                                        <StarIcon />
+                                                    </div>
+                                                </div>
+                                                <button
+                                                    onClick={() => {
+                                                        dispatch(
+                                                            setStore(
+                                                                product.store.id
+                                                            )
+                                                        );
+                                                        navigate(
+                                                            `/product/${product.id}`
+                                                        );
+                                                    }}
+                                                    className="w-full text-white font-titleFont font-medium text-base bg-gradient-to-tr
+            from-indigo-600 to-indigo-600 border hover:from-indigo-400 hover:to-indigo-600
+            border-indigo-500 hover:border-indigo-700 active:bg-gradient-to-bl
+            active:from-indigo-400 active:to-indigo-500 duration-200 py-1.5 rounded-md mt-3"
+                                                >
+                                                    View Details
+                                                </button>
+                                            </div>
+                                        </div>
+                                    ))}
                                 </div>
                             </div>
                         </div>
                     </section>
-                    <section className="w-full px=[3.6rem]">
-                        <div className="px-4 py-5 flex justify-center">
-                            <Pagination
-                                count={products?.products?.totalPages}
-                                color="secondary"
-                                onChange={handlePaginationChange}
-                            />
-                        </div>
-                    </section>
                 </main>
+            </div>
+            <div className="max-w-screen-2xl mx-auto grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 xl:gap-10 px-4">
+                {products.map((product) => (
+                    <div
+                        key={product.id}
+                        className="bg-white h-auto border-[1px] border-gray-200 py-8 z-30
+        hover:border-transparent shadow-none hover:shadow-testShadow duration-200 flex
+        flex-col gap-4 relative"
+                    >
+                        <span className="text-xs capitalize italic absolute top-2 right-2 text-gray-500">
+                            {product.category}
+                        </span>
+                        <div
+                            className="w-full h-auto flex items-center justify-center relative
+          group"
+                        >
+                            <img
+                                className="w-52 h-64 object-contain"
+                                src={product.mainPicture}
+                                alt="ProductImg"
+                            ></img>
+                            <ul
+                                className="w-full h-10 bg-gray-100 absolute bottom-[-170px] flex flex-col items-end justify-center gap-2
+            font-titleFont px-2 border-1 border-r group-hover:bottom-0 duration-700"
+                            >
+                                <Link
+                                    to={`/product/${product.id}`}
+                                    className="productLi"
+                                >
+                                    <span
+                                        onClick={() => {
+                                            dispatch(
+                                                setStore(product.store.id)
+                                            );
+                                        }}
+                                    >
+                                        View Details
+                                        <ArrowCircleRightIcon />
+                                    </span>
+                                </Link>
+                            </ul>
+                        </div>
+                        <div className="px-4 z-10 bg-white">
+                            <div className="flex items-center justify-between">
+                                <h2
+                                    className="font-titleFont tracking-wide text-lg text-amazon_blue
+              font-medium"
+                                >
+                                    {product.title.substring(0, 40)}...
+                                </h2>
+                            </div>
+                            <div>
+                                <div>
+                                    <p className="text-sm">
+                                        {product.description.substring(0, 100)}
+                                        ...
+                                    </p>
+                                </div>
+                                <div className="text-yellow-500">
+                                    <StarIcon />
+                                    <StarIcon />
+                                    <StarIcon />
+                                    <StarIcon />
+                                    <StarIcon />
+                                </div>
+                            </div>
+                            <button
+                                onClick={() => {
+                                    dispatch(setStore(product.store.id));
+                                    navigate(`/product/${product.id}`);
+                                }}
+                                className="w-full text-white font-titleFont font-medium text-base bg-gradient-to-tr
+            from-indigo-600 to-indigo-600 border hover:from-indigo-400 hover:to-indigo-600
+            border-indigo-500 hover:border-indigo-700 active:bg-gradient-to-bl
+            active:from-indigo-400 active:to-indigo-500 duration-200 py-1.5 rounded-md mt-3"
+                            >
+                                View Details
+                            </button>
+                        </div>
+                    </div>
+                ))}
             </div>
         </div>
     );

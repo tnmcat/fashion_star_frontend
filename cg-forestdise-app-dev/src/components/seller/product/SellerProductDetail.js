@@ -8,7 +8,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
 import * as yup from "yup";
-function ProductDetail(props) {
+function SellerProductDetail(props) {
     const { productId } = useParams();
     const dispatch = useDispatch();
     const [optionList, setOptionList] = useState(null);
@@ -131,4 +131,4 @@ function ProductDetail(props) {
     );
 }
 
-export default ProductDetail;
+export default SellerProductDetail;

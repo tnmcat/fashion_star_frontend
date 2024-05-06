@@ -20,7 +20,7 @@ import {
     setSearchParams,
     setSearchParamsResult,
     setSelectedSubCategory,
-} from "../../../features/sellerStore/sellerStoreSlice0";
+} from "../../../features/sellerStore/sellerStoreSlice";
 
 function SubCategoryContent() {
     const dispatch = useDispatch();

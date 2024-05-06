@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import Slider from "react-slick";
 import {
     bannerImgOne,
@@ -14,7 +14,7 @@ function Banner() {
     const settings = {
         dots: true,
         infinite: true,
-        autoplay: true,
+        autoplay: false, //mốt nhớ đổi thành true
         slidesToShow: 1,
         slidesToScroll: 1,
         arrows: false,
@@ -51,30 +51,30 @@ function Banner() {
                 style={
                     i === bannerActive
                         ? {
-                              width: "30px",
-                              display: "inline-block",
-                              margin: "0 5px",
-                          }
+                            width: "30px",
+                            display: "inline-block",
+                            margin: "0 5px",
+                        }
                         : {
-                              width: "30px",
-                              display: "inline-block",
-                              margin: "0 5px",
-                          }
+                            width: "30px",
+                            display: "inline-block",
+                            margin: "0 5px",
+                        }
                 }
             >
                 <hr
                     style={
                         i === bannerActive
                             ? {
-                                  border: "none",
-                                  height: "5px",
-                                  background: "#f3a847",
-                              }
+                                border: "none",
+                                height: "5px",
+                                background: "#f3a847",
+                            }
                             : {
-                                  border: "none",
-                                  height: "5px",
-                                  background: "rgba(255, 255, 255, 0.5)",
-                              }
+                                border: "none",
+                                height: "5px",
+                                background: "rgba(255, 255, 255, 0.5)",
+                            }
                     }
                 />
             </div>

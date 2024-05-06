@@ -15,10 +15,10 @@ function Method() {
   const [isAddress, setIsAddress] = useState(true);
   const dispatch = useDispatch();
   const [paymentMethodNew, setPaymentMethodNew] = useState({
-    id: '',
-    cartNumber: '',
-    nameOnCard: '',
-    expirationDate: '',
+    id: "",
+    cartNumber: "",
+    nameOnCard: "",
+    expirationDate: "",
   });
 
   const { userInfo } = useSelector((state) => state.user);
@@ -29,26 +29,62 @@ function Method() {
     cartNumber: "",
     nameOnCard: "",
     expirationDate: "",
-    defaultPayment:false,
+    defaultPayment: false,
   });
 
   const handleFormChange = (event) => {
+    const { name, value } = event.target;
+    let newValue = value;
+
+    if (name === "cartNumber") {
+      // Chỉ cho phép số và thêm khoảng trắng sau mỗi 4 chữ số
+      newValue = value.replace(/\D/g, "");
+      newValue = newValue.match(/(.{1,4})/g)?.join(" ") || "";
+
+      if (newValue.replace(/\s/g, "").length > 16) {
+        newValue = newValue.slice(0, 19); // Cắt bỏ sau 16 số + 3 khoảng trắng
+      }
+    } else if (name === "nameOnCard") {
+      // Chỉ cho phép ký tự chữ và tự động chuyển thành chữ hoa
+      newValue = value.replace(/[^a-zA-Z\s]/g, "").toUpperCase();
+    } else if (name === "expirationDate") {
+      // Chỉ cho phép số và giới hạn chiều dài đầu vào
+      newValue = value.replace(/\D/g, "").slice(0, 4);
+
+      // Thêm dấu / sau 2 số đầu tiên nếu có và đảm bảo tháng hợp lệ
+      if (newValue.length > 2) {
+        const month = newValue.slice(0, 2);
+        const year = newValue.slice(2, 4);
+
+        // Kiểm tra xem tháng có hợp lệ không (01-12)
+        if (parseInt(month) > 0 && parseInt(month) <= 12) {
+          newValue = `${month}/${year}`;
+        } else {
+          newValue = `${month.slice(0, 1)}`; // Nếu tháng không hợp lệ, chỉ giữ lại chữ số đầu tiên
+        }
+      }
+    }
+
     setFormPayment({
       ...formPayment,
-      [event.target.name]: event.target.value,
+      [name]: newValue,
     });
   };
 
   const handleFormSubmit = () => {
-    dispatch(addNewPaymentMethod(formPayment));
-        setIsModalOpen(false);
+    const formData = {
+      ...formPayment,
+      cartNumber: formPayment.cartNumber.replace(/\s/g, ""), // Loại bỏ khoảng trắng
+    };
+    dispatch(addNewPaymentMethod(formData));
+    setIsModalOpen(false);
   };
 
   useEffect(() => {
     if (paymentMethod.length <= 0 && userInfo !== null) {
       dispatch(getPaymentMethod(userInfo.id));
     }
-  }, []);
+  }, [paymentMethod, userInfo, dispatch]);
 
   return (
     <div class="px-20 py-3">
@@ -63,7 +99,9 @@ function Method() {
             <div class="text-md">
               <div>
                 <span class="font-semibold">Visa</span>
-                <span class="text-gray-400 ml-2">{formPayment.cartNumber}</span>
+                <span class="text-gray-400 ml-2">
+                  {formPayment.cartNumber}
+                </span>
               </div>
               <div class="w-23">
                 Installments unavailable.{" "}
@@ -75,7 +113,9 @@ function Method() {
                 <button class="text-blue-600 hover:text-orange-500 hover:underline">
                   Billing address:
                 </button>
-                <span class="ml-3">{paymentMethodNew.nameOnCard}</span>
+                <span class="ml-3">
+                  {paymentMethodNew.nameOnCard}
+                </span>
               </div>
             </div>
             <div class="text-right">
@@ -91,7 +131,8 @@ function Method() {
           <div class="grid grid-cols-2">
             <div class="...">
               <h2 className="text-xl font-bold font-sans text-orange-700">
-                <span class="pr-4">2</span>Choose a payment method
+                <span class="pr-4">2</span>Choose a payment
+                method
               </h2>
             </div>
             <div class="text-right ">
@@ -101,7 +142,10 @@ function Method() {
               >
                 Close
               </button>
-              <button class="pl-2" onClick={() => setIsAddress(!isAddress)}>
+              <button
+                class="pl-2"
+                onClick={() => setIsAddress(!isAddress)}
+              >
                 <GrClose />
               </button>
             </div>
@@ -109,8 +153,10 @@ function Method() {
               <div class="grid grid-cols-8 text-md">
                 <div class="col-span-6 ml-6">
                   Shopping in a foreign currency ? Use{" "}
-                  <strong>Amazon Currency Converter </strong>at checkout and
-                  lock in your exchange rate.
+                  <strong>
+                    Fashion Star Currency Converter{" "}
+                  </strong>
+                  at checkout and lock in your exchange rate.
                   <div>Terms and Conditions apply.</div>
                 </div>
                 <div class="col-span-2 text-end">
@@ -132,47 +178,58 @@ function Method() {
                   </div>
                   <div class="font-sans text-gray-400 grid grid-cols-8">
                     <div class="col-span-4"></div>
-                    <div class="col-span-2 text-center">Name on card</div>
-                    <div class="col-span-2 text-center">Expires on</div>
+                    <div class="col-span-2 text-center">
+                      Name on card
+                    </div>
+                    <div class="col-span-2 text-center">
+                      Expires on
+                    </div>
                   </div>
                 </div>
                 {paymentMethod.map((item) => (
                   <div
                     key={item.id}
-                    className="text-md rounded-md border border-orange-300 bg-orange-100/40 my-2 p-3"
+                    className="text-md rounded-md border border-indigo-300 bg-indigo-100/40 my-2 p-3"
                   >
                     <input
                       type="radio"
                       name="paymentMethod"
                       className="mr-2"
-                      onClick={() => 
-                        {
-                          setPaymentMethodNew({
+                      onClick={() => {
+                        setPaymentMethodNew({
                           id: item.id,
                           cartNumber: item.cartNumber,
                           nameOnCard: item.nameOnCard,
-                          expirationDate: item.expirationDate,
+                          expirationDate:
+                            item.expirationDate,
                         });
                         dispatch(
-                          addPaymentMethodId({ paymentMethodId: item.id })
-                        )
-                      }
-                      }
+                          addPaymentMethodId({
+                            paymentMethodId:
+                              item.id,
+                          })
+                        );
+                      }}
                     />
-                    <span className="font-semibold">{item.nameOnCard}</span>{" "}
+                    <span className="font-semibold">
+                      {item.nameOnCard}
+                    </span>{" "}
                     {item.cartNumber}, {item.expirationDate}
                   </div>
                 ))}
-                <div class="flex">
-                  <div class="flex-none">
+                <div className="flex">
+                  <div className="flex-none">
                     <button class="text-gray-400 text-3xl hover:text-gray-300">
                       +
                     </button>
                   </div>
-                  <div class="px-3">
-                    <img src="https://m.media-amazon.com/images/I/61a-ezJKtKL._SL40_.png" />
+                  <div className="px-3">
+                    <img
+                      src="https://m.media-amazon.com/images/I/61a-ezJKtKL._SL40_.png"
+                      alt=""
+                    />
                   </div>
-                  <div class="flex-initial">
+                  <div className="flex-initial">
                     <button
                       class="text-blue-600 mt-1 hover:text-orange-500 hover:underline"
                       onClick={() => setIsModalOpen(true)}
@@ -181,12 +238,16 @@ function Method() {
                     </button>
                     <Modal
                       isOpen={isModalOpen}
-                      onRequestClose={() => setIsModalOpen(false)}
+                      onRequestClose={() =>
+                        setIsModalOpen(false)
+                      }
                       contentLabel="Add New Address"
                       className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white w-3/6 rounded-lg border border-gray-400"
                     >
                       <button
-                        onClick={() => setIsModalOpen(false)}
+                        onClick={() =>
+                          setIsModalOpen(false)
+                        }
                         className="absolute right-2 my-5  text-gray-600 hover:text-gray-500 rounded-md border-4 border-sky-200"
                       >
                         <svg
@@ -212,27 +273,37 @@ function Method() {
                           <div className="font-semibold text-end mr-3">
                             Card number
                           </div>
-                          <div className="...">
+                          <div className="">
                             <input
                               type="text"
                               name="cartNumber"
-                              value={formPayment.cartNumber}
-                              onChange={handleFormChange}
+                              value={
+                                formPayment.cartNumber
+                              }
+                              onChange={
+                                handleFormChange
+                              }
                               className="border border-gray-700 rounded-md w-full"
                             />
                           </div>
                           <div className="col-span-3">
-                            Amazon accepts all major credit and debit cards.
+                            Fashion Star accepts all
+                            major credit and debit
+                            cards.
                           </div>
                           <div className="font-semibold text-end mr-3">
                             Name on card
                           </div>
-                          <div className="...">
+                          <div className="">
                             <input
                               type="text"
                               name="nameOnCard"
-                              value={formPayment.nameOnCard}
-                              onChange={handleFormChange}
+                              value={
+                                formPayment.nameOnCard
+                              }
+                              onChange={
+                                handleFormChange
+                              }
                               className="border border-gray-700 rounded-md w-full"
                             />
                           </div>
@@ -240,6 +311,7 @@ function Method() {
                             <img
                               className="w-32 ml-14"
                               src="https://www.psdgraphics.com/file/debit-card.jpg"
+                              alt=""
                             />
                           </div>
                           <div className="font-semibold text-end mr-3">
@@ -249,8 +321,12 @@ function Method() {
                             <input
                               type="text"
                               name="expirationDate"
-                              value={formPayment.expirationDate}
-                              onChange={handleFormChange}
+                              value={
+                                formPayment.expirationDate
+                              }
+                              onChange={
+                                handleFormChange
+                              }
                               className="border border-gray-700 rounded-md w-full"
                             />
                           </div>
@@ -258,11 +334,16 @@ function Method() {
                             <input
                               type="checkbox"
                               name="setAsDefault"
-                              checked={formPayment.setAsDefault}
-                              onChange={handleFormChange}
+                              checked={
+                                formPayment.setAsDefault
+                              }
+                              onChange={
+                                handleFormChange
+                              }
                             />
                             <span className="text-sm ml-2">
-                              Set as default payment method.
+                              Set as default
+                              payment method.
                             </span>
                           </div>
                         </div>
@@ -271,7 +352,11 @@ function Method() {
                             <button
                               type="button"
                               className="text-sm font-semibold border border-gray-400 bg-white rounded-md hover:bg-gray-100 px-4 p-1"
-                              onClick={() => setIsModalOpen(false)}
+                              onClick={() =>
+                                setIsModalOpen(
+                                  false
+                                )
+                              }
                             >
                               Cancel
                             </button>
@@ -279,7 +364,9 @@ function Method() {
                               type="submit"
                               className="text-sm font-semibold bg-yellow-300 rounded-md hover:bg-yellow-400 px-4 p-1 ml-6 mr-10"
                               onClick={() => {
-                                setIsModalOpen(false);
+                                setIsModalOpen(
+                                  false
+                                );
                                 handleFormSubmit();
                               }}
                             >
@@ -294,7 +381,7 @@ function Method() {
               </div>
               <div class="bg-gray-200/30 border-t border-gray-400 pl-2">
                 <button
-                  class="bg-yellow-300 rounded-lg font-semibold text-sm m-3 px-2 p-1 hover:bg-yellow-400"
+                  class="bg-indigo-700 rounded-lg text-white font-semibold text-sm m-3 px-2 p-1 hover:bg-indigo-400"
                   onClick={() => setIsAddress(true)}
                 >
                   Use this payment
