@@ -1,18 +1,16 @@
 import React from "react";
-import Header from "../../common/header/Header";
 
 import UserOrder from "./UserOrder";
 import FooterMiddle from "../../common/footer/FooterMiddle";
-import FooterBottom from "../../common/footer/FooterBottom";
-import OrderReview from "./OrderReview";
+import {Expample} from "./Example";
+
 function Order() {
     return (
         <>
             <div>
-                <Header />
                 <UserOrder />
                 <FooterMiddle />
-                <FooterBottom />
+                <Expample />
             </div>
         </>
     );

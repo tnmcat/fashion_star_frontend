@@ -14,11 +14,18 @@ export const findPaymentMethod = async (userId) => {
     return result;
 };
 
-export const addPaymentMethod = async (paymentMethod) => {
+export const addPaymentMethod = async (userId) => {
     let result = null;
+    const paymentMethod = {
+        cartNumber: userId.cartNumber,
+        nameOnCard: userId.nameOnCard,
+        expirationDate: userId.expirationDate,
+    };
+
+    console.log("pay", paymentMethod);
     try {
         result = await axios.post(
-            `${PAYMENT_METHOD_API}/payment-method`,
+            `${PAYMENT_METHOD_API}/${userId.userId}/payment`,
             paymentMethod
         );
     } catch (e) {
@@ -48,10 +55,22 @@ export const findAddress = async (userId) => {
     return result;
 };
 
-export const addAddress = async (address) => {
+export const addAddress = async (userId) => {
     let result = null;
+    const address = {
+        city: userId.city,
+        district: userId.district,
+        street: userId.street,
+        ward: userId.ward,
+    };
+
     try {
-        result = await axios.post(`${PAYMENT_METHOD_API}/address`, address);
+        result = await axios.post(
+            `${PAYMENT_METHOD_API}/address/${userId.userId}/order`,
+            address
+        );
+
+        console.log("userId", userId);
     } catch (e) {
         console.log("Add address method API error: " + e);
     }

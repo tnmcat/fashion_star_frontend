@@ -12,12 +12,6 @@ const UserOrder = () => {
     const dispatch = useDispatch();
     const {userInfo} = useSelector((state) => state.user);
     const orders = useSelector((state) => state.order.order);
-    const changeStatus = (order_status) => {
-        if (order_status === "PENDING") {
-            return null;
-        } else if (order_status === "RECEVIED") return null;
-    };
-
     useEffect(() => {
         if (userInfo) {
             dispatch(getHistoryOrder(userInfo.id));

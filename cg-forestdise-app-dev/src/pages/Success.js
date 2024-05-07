@@ -2,11 +2,7 @@ import React from "react";
 import Header from "../components/main/payment/Header";
 import {CheckCircleIcon} from "@heroicons/react/24/outline";
 import {useNavigate} from "react-router-dom";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {
-    faPersonPraying,
-    faWheelchairMove,
-} from "@fortawesome/free-solid-svg-icons";
+
 const Success = () => {
     const navigate = useNavigate();
 

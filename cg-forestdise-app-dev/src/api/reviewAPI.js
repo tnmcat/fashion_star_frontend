@@ -26,7 +26,10 @@ export const findReviewByProductId = async (productId) => {
 };
 
 export const createReview = async ({review, variantId, userId}) => {
+    console.log(review);
+    console.log(variantId);
     let result = null;
+
     try {
         result = await axios.post(
             `${REVIEW_MANAGEMENT_API}/${userId}/${variantId}`,
