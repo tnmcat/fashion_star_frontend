@@ -274,7 +274,7 @@ export default function StoreHeader() {
                                                     category.parentStoreCategory ===
                                                     null ? (
                                                         <li key={category.id}>
-                                                            <a
+                                                            <p
                                                                 name={
                                                                     category.name
                                                                 }
@@ -302,7 +302,7 @@ export default function StoreHeader() {
                                                                 className="block cursor-pointer px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                                                             >
                                                                 {category.name}
-                                                            </a>
+                                                            </p>
                                                         </li>
                                                     ) : (
                                                         ""

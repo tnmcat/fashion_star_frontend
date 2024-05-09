@@ -1,8 +1,6 @@
 import React from "react";
 import Banner from "../components/main/home/Banner";
 import Product from "../components/main/product/product";
-import HomeSectionCarosel from "../components/common/home/HomeSectionCarosel";
-import {dataHome} from "../components/common/home/homeDataSection";
 import HomePromo from "../components/common/home/HomePromo";
 import "react-alice-carousel/lib/alice-carousel.css";
 import CarouselCategory from "../components/main/category/CarouselCategory";

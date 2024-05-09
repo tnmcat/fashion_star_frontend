@@ -962,8 +962,8 @@ function ProductDetail() {
                                                     considers things like how
                                                     recent a review is and if
                                                     the reviewer bought the item
-                                                    on Amazon. It also analyzed
-                                                    reviews to verify
+                                                    on FashionStar. It also
+                                                    analyzed reviews to verify
                                                     trustworthiness.
                                                 </span>
                                             </div>

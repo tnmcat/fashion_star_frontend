@@ -2,7 +2,6 @@ import React from "react";
 
 import UserOrder from "./UserOrder";
 import FooterMiddle from "../../common/footer/FooterMiddle";
-import {Expample} from "./Example";
 
 function Order() {
     return (
@@ -10,7 +9,6 @@ function Order() {
             <div>
                 <UserOrder />
                 <FooterMiddle />
-                <Expample />
             </div>
         </>
     );

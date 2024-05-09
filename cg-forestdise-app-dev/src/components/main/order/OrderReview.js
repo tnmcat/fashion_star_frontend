@@ -23,7 +23,7 @@ const OrderReview = ({variandId, toggleVisibility}) => {
 
     const submit = () => {
         const review = {
-            star: star,
+            star: rated,
             title: title,
             content: content,
         };

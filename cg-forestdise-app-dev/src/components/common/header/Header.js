@@ -66,7 +66,7 @@ function Header() {
                     {/* Logo start */}
                     <div onClick={() => navigate("/")} className="headerHover">
                         <img
-                            className="w-[7rem] mt-0"
+                            className="w-[6rem] mt-0"
                             src={logoDearman}
                             alt="logo"
                         ></img>

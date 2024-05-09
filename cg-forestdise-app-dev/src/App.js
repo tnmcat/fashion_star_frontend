@@ -28,6 +28,20 @@ import OrderReview from "./components/main/order/OrderReview";
 import Order from "./components/main/order/Order";
 import {Dashboard} from "@mui/icons-material";
 import ProductDetail from "./components/main/variant/ProductDetail";
+import SellingHeader from "./components/common/sellingheader/SellingHeader";
+import Selling from "./components/main/selling/Selling";
+import HomeSelling from "./components/main/selling/main/HomeSelling";
+import ShopCreat from "./components/main/selling/main/ShopCreate";
+import Category from "./components/main/selling/main/Category";
+import Product from "./components/main/selling/main/Product";
+import Offers from "./components/main/selling/main/Offers";
+import Variants from "./components/main/selling/main/Variants";
+import Images from "./components/main/selling/main/Images";
+import HomeDasboard from "./components/main/dashboard/element/HomeDasboard";
+import Products from "./components/main/dashboard/element/Products";
+import Categories from "./components/main/dashboard/element/Categories";
+import OrdersDashboard from "./components/main/dashboard/element/OrdersDashboard";
+import Profile from "./components/main/dashboard/element/Profile";
 
 const Layout = () => {
     return (
@@ -50,7 +64,17 @@ const DashboardLayout = () => {
         </div>
     );
 };
-
+const SellingLayout = () => {
+    return (
+        <div>
+            <SellingHeader />
+            <Selling>
+                <Outlet />
+            </Selling>
+            <Footer />
+        </div>
+    );
+};
 const StoreLayout = () => {
     return (
         <div>
@@ -79,11 +103,48 @@ function App() {
                         path="/:lavelOne/:lavelTwo/:lavelThree"
                         element={<ShowProduct />}
                     ></Route>
+                    <Route path="/store/:id" element={<StoreLayout />} />
                     <Route path="/product/:id" element={<ProductDetail />} />
                     <Route path="/review/:id" element={<OrderReview />} />
                     <Route path="/payment" element={<Payment />} />
                     <Route path="/success" element={<Success />} />
                     <Route path="/order" element={<Order />} />
+
+                    <Route path="/selling" element={<SellingLayout />}>
+                        <Route index element={<HomeSelling />} />
+                        <Route path="/selling/shop" element={<ShopCreat />} />
+                        <Route
+                            path="/selling/category"
+                            element={<Category />}
+                        />
+                        <Route path="/selling/product" element={<Product />} />
+
+                        <Route
+                            path="/selling/attributes"
+                            element={<Offers />}
+                        />
+                        <Route path="/selling/variant" element={<Variants />} />
+                        <Route path="/selling/images" element={<Images />} />
+                    </Route>
+                    <Route path="/dashboard" element={<DashboardLayout />}>
+                        <Route index element={<HomeDasboard />} />
+                        <Route
+                            path="/dashboard/categories"
+                            element={<Categories />}
+                        />
+                        <Route
+                            path="/dashboard/products"
+                            element={<Products />}
+                        />
+                        <Route
+                            path="/dashboard/orders"
+                            element={<OrdersDashboard />}
+                        />
+                        <Route
+                            path="/dashboard/profile"
+                            element={<Profile />}
+                        />
+                    </Route>
                 </Route>
             </Fragment>
         )

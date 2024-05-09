@@ -25,6 +25,7 @@ export const findVariantById = async (productId) => {
     }
     return result;
 };
+
 export const updateVariantAfterCreate = async ({variant, variantId}) => {
     let result = null;
     try {
