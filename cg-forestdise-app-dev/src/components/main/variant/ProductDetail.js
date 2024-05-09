@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import StarIcon from "@mui/icons-material/Star";
 import FmdGoodIcon from "@mui/icons-material/FmdGood";
 import SearchIcon from "@mui/icons-material/Search";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
-import { Link, useParams, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import {Link, useParams, useNavigate} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
 import {
     getVariant,
     getVariantInfo,
@@ -16,7 +16,7 @@ import {
     selectVariantDetail,
     selectVariantInfo,
 } from "../../../features/variant/variantSlice";
-import { addNewCartLine, addToCart } from "../../../features/cart/cartSlice";
+import {addNewCartLine, addToCart} from "../../../features/cart/cartSlice";
 import {
     setCategory,
     changeCategory,
@@ -29,14 +29,15 @@ import {
     selectReviewListByProductId,
 } from "../../../features/coment_review/reviewSlide";
 import FormatDate from "../../common/format/FormatDate";
+import {unwrapResult} from "@reduxjs/toolkit";
 
 function ProductDetail() {
-    const { id } = useParams();
+    const {id} = useParams();
     const dispatch = useDispatch();
     const [showRecommend, setShowRecommend] = useState(false);
     const [showComment, setShowComment] = useState(false);
     const storeInfo = useSelector((state) => state.sellerStore.storeInfo);
-    const { userInfo } = useSelector((state) => state.user);
+    const {userInfo} = useSelector((state) => state.user);
     const [variantId, setVariantId] = useState(null);
     const [productId] = useState(id);
     const [mainImage, setMainImage] = useState("");
@@ -52,10 +53,9 @@ function ProductDetail() {
     console.log(" reviewVariantList:  ", reviewVariantList);
     const [idArray, setIdArray] = useState([]);
     const [variantDTOListForLoop, setVariantDTOListForLoop] = useState([]);
+    const [selectedVariant, setSelectedVariant] = useState(null);
+
     const navigate = useNavigate();
-    useEffect(() => {
-        getVariantDetail();
-    }, [id]);
 
     useEffect(() => {
         getVariantInformation();
@@ -69,20 +69,38 @@ function ProductDetail() {
         }
     }, [variantRender0, variantId, id]);
 
-    const getVariantDetail = () => {
-        if (productId != null) {
-            dispatch(getVariant(productId));
+    // const getVariantDetail = () => {
+    //     if (variantId != null) {
+    //         dispatch(getVariant(variantId));
+    //     }
+    // };
+    const getVariantDetail = async () => {
+        if (selectedVariant?.id) {
+            try {
+                const variant_result = await dispatch(
+                    getVariant(selectedVariant.id)
+                );
+                const variant = unwrapResult(variant_result);
+                setVariantRender(variant);
+                setMainImage(variant.img);
+            } catch (error) {
+                console.error("Failed to fetch variant details:", error);
+            }
         }
     };
+    useEffect(() => {
+        getVariantDetail();
+    }, [selectedVariant?.id]);
+    console.log("aaaaa", selectedVariant?.id);
 
     const getVariantInformation = () => {
-        if (productId != null) {
-            dispatch(getVariantInfo(productId));
+        if (variantId != null) {
+            dispatch(getVariantInfo(variantId));
         }
     };
     const getReviewAnalyst = () => {
-        if (productId != null) {
-            dispatch(getReviewByProductId(productId));
+        if (variantId != null) {
+            dispatch(getReviewByProductId(variantId));
         }
     };
     const getReviewListByVariantId = () => {
@@ -112,6 +130,7 @@ function ProductDetail() {
                 console.log("ids: ", ids);
                 setIdArray(ids); //[1,4]
                 console.log("idArray: ", idArray);
+                console.log("aaaaaa", variantDetail);
             }
         }
     }, [variantRender0, id, variantDetail, reviewVariantList, reviewAnalyst]);
@@ -253,7 +272,7 @@ function ProductDetail() {
                             )}
                             <hr></hr>
                             {variantRender != null &&
-                                variantRender.stockQuantity > 0 ? (
+                            variantRender.stockQuantity > 0 ? (
                                 <div className="font-titleFont tracking-wide text-lg text-amazon_blue size sm:text-xs  md:text-lg lg:text-xl xl:text-3xl flex mb-6 mt-4 ">
                                     <h2 className="line-through mr-4 text-red-700">
                                         ${variantRender.price}
@@ -347,25 +366,6 @@ function ProductDetail() {
                                     </div>
                                 )
                             )}
-
-                            <div>
-                                <h2 className="font-bold mt-2">
-                                    About this item{" "}
-                                </h2>
-                                <ul className="list-disc ml-4">
-                                    {variantDetail != null &&
-                                        variantDetail.productDTO?.bulletDTOList?.map(
-                                            (bullet, i) => (
-                                                <li
-                                                    key={i}
-                                                    className="font-titleFont tracking-wide text-sm text-amazon_blue"
-                                                >
-                                                    {bullet.name}
-                                                </li>
-                                            )
-                                        )}
-                                </ul>
-                            </div>
                         </div>
                     </div>
                     {/* Detail Product End */}
@@ -387,7 +387,7 @@ function ProductDetail() {
                                 </h5>
                             </div>
                             <div className="flex flex-row">
-                                <FmdGoodIcon sx={{ fontSize: 20 }} />
+                                <FmdGoodIcon sx={{fontSize: 20}} />
                                 <Link to={`/deliver`}>
                                     <span className=" text-green-900 hover:text-stone-400 underline text-xs">
                                         Deliver To Viet Nam
@@ -396,7 +396,7 @@ function ProductDetail() {
                             </div>
 
                             {variantRender != null &&
-                                variantRender.stockQuantity > 0 ? (
+                            variantRender.stockQuantity > 0 ? (
                                 <>
                                     <h1 className="my-4 text-2xl text-green-900">
                                         In Stock
@@ -405,45 +405,45 @@ function ProductDetail() {
                                         onClick={() => {
                                             userInfo
                                                 ? dispatch(
-                                                    addNewCartLine({
-                                                        id: "",
-                                                        quantity: 1,
-                                                        cartId: userInfo.id,
-                                                        variantId:
-                                                            variantRender.id,
-                                                    })
-                                                )
+                                                      addNewCartLine({
+                                                          id: "",
+                                                          quantity: 1,
+                                                          cartId: userInfo.id,
+                                                          variantId:
+                                                              variantRender.id,
+                                                      })
+                                                  )
                                                 : dispatch(
-                                                    addToCart({
-                                                        id: "",
-                                                        quantity: 1,
-                                                        cartDto: {
-                                                            id: "",
-                                                            userId: "",
-                                                        },
-                                                        variantDto: {
-                                                            id: variantRender.id,
-                                                            name: variantRender.name,
-                                                            skuCode:
-                                                                variantRender.skuCode,
-                                                            stockQuantity:
-                                                                variantRender.stockQuantity,
-                                                            weight: variantRender.weight,
-                                                            price: variantRender.price,
-                                                            img: variantRender?.img,
-                                                            salePrice:
-                                                                variantRender.salePrice,
-                                                            optionValueDtoList:
-                                                                variantRender.optionValueDtoList,
-                                                            imageDtoList:
-                                                                variantRender.imageDtoList,
-                                                            videoDtoList:
-                                                                variantRender.videoDtoList,
-                                                            reviewDtoList:
-                                                                variantRender.reviewDtoList,
-                                                        },
-                                                    })
-                                                );
+                                                      addToCart({
+                                                          id: "",
+                                                          quantity: 1,
+                                                          cartDto: {
+                                                              id: "",
+                                                              userId: "",
+                                                          },
+                                                          variantDto: {
+                                                              id: variantRender.id,
+                                                              name: variantRender.name,
+                                                              skuCode:
+                                                                  variantRender.skuCode,
+                                                              stockQuantity:
+                                                                  variantRender.stockQuantity,
+                                                              weight: variantRender.weight,
+                                                              price: variantRender.price,
+                                                              img: variantRender?.img,
+                                                              salePrice:
+                                                                  variantRender.salePrice,
+                                                              optionValueDtoList:
+                                                                  variantRender.optionValueDtoList,
+                                                              imageDtoList:
+                                                                  variantRender.imageDtoList,
+                                                              videoDtoList:
+                                                                  variantRender.videoDtoList,
+                                                              reviewDtoList:
+                                                                  variantRender.reviewDtoList,
+                                                          },
+                                                      })
+                                                  );
                                         }}
                                         className="rounded-lg text-white bg-indigo-600 py-3 my-2 hover:bg-indigo-600 duration-100 cursor-pointer"
                                     >
@@ -453,47 +453,47 @@ function ProductDetail() {
                                         onClick={() => {
                                             userInfo
                                                 ? dispatch(
-                                                    addNewCartLine({
-                                                        id: "",
-                                                        quantity: 1,
-                                                        cartId: userInfo.id,
-                                                        variantId:
-                                                            variantRender.id,
-                                                    }),
-                                                    navigate("/cart")
-                                                )
+                                                      addNewCartLine({
+                                                          id: "",
+                                                          quantity: 1,
+                                                          cartId: userInfo.id,
+                                                          variantId:
+                                                              variantRender.id,
+                                                      }),
+                                                      navigate("/cart")
+                                                  )
                                                 : dispatch(
-                                                    addToCart({
-                                                        id: "",
-                                                        quantity: 1,
-                                                        cartDto: {
-                                                            id: "",
-                                                            userId: "",
-                                                        },
-                                                        variantDto: {
-                                                            id: variantRender.id,
-                                                            name: variantRender.name,
-                                                            skuCode:
-                                                                variantRender.skuCode,
-                                                            stockQuantity:
-                                                                variantRender.stockQuantity,
-                                                            weight: variantRender.weight,
-                                                            price: variantRender.price,
-                                                            img: variantRender?.img,
-                                                            salePrice:
-                                                                variantRender.salePrice,
-                                                            optionValueDtoList:
-                                                                variantRender.optionValueDtoList,
-                                                            imageDtoList:
-                                                                variantRender.imageDtoList,
-                                                            videoDtoList:
-                                                                variantRender.videoDtoList,
-                                                            reviewDtoList:
-                                                                variantRender.reviewDtoList,
-                                                        },
-                                                    }),
-                                                    navigate(`/cart`)
-                                                );
+                                                      addToCart({
+                                                          id: "",
+                                                          quantity: 1,
+                                                          cartDto: {
+                                                              id: "",
+                                                              userId: "",
+                                                          },
+                                                          variantDto: {
+                                                              id: variantRender.id,
+                                                              name: variantRender.name,
+                                                              skuCode:
+                                                                  variantRender.skuCode,
+                                                              stockQuantity:
+                                                                  variantRender.stockQuantity,
+                                                              weight: variantRender.weight,
+                                                              price: variantRender.price,
+                                                              img: variantRender?.img,
+                                                              salePrice:
+                                                                  variantRender.salePrice,
+                                                              optionValueDtoList:
+                                                                  variantRender.optionValueDtoList,
+                                                              imageDtoList:
+                                                                  variantRender.imageDtoList,
+                                                              videoDtoList:
+                                                                  variantRender.videoDtoList,
+                                                              reviewDtoList:
+                                                                  variantRender.reviewDtoList,
+                                                          },
+                                                      }),
+                                                      navigate(`/cart`)
+                                                  );
                                         }}
                                         className="rounded-lg py-3 my-2 bg-gradient-to-t from-slate-200 to-slate-100 hover:bg-gradient-to-b border
                     border-zinc-400 active:border-yellow-800 active:shadow-amazonInput duration-100 cursor-pointer"
@@ -972,243 +972,133 @@ function ProductDetail() {
                                 )
                             )}
                         <hr></hr>
-                        {/* <div className="m-4">
-                            <div className="flex mb-2">
-                                <imgUrl
-                                    src="https://scontent.fsgn5-10.fna.fbcdn.net/v/t1.6435-9/116429521_1655876004585921_941667011043408186_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=84a396&_nc_ohc=jX_SP-XeWGUAX8gd9Dl&_nc_ht=scontent.fsgn5-10.fna&oh=00_AfB8K54ttI7F3njd8xLWtnInOErSx2FkaIhUXEuNjobBRw&oe=654A001A"
-                                    className="rounded-full w-5 h-5"
-                                />
-                                <div className="ml-4 text-titleFont">
-                                    Meomeocute
-                                </div>
-                            </div>
-                            <div className="flex">
-                                <div className="text-amazon_yellow text-sm items-center ">
-                                    <StarIcon sx={{fontSize: 15}} />
-                                    <StarIcon sx={{fontSize: 15}} />
-                                    <StarIcon sx={{fontSize: 15}} />
-                                    <StarIcon sx={{fontSize: 15}} />
-                                    <StarIcon sx={{fontSize: 15}} />
-                                </div>
-                                <p className="text-bodyFont text-sm ml-4 font-medium hover:underline hover:text-amber-600">
-                                    {" "}
-                                    I wish that I had found these before I spent
-                                    1000's on doctors and Physical therapy
-                                </p>
-                            </div>
-                            <div className="text-bodyFont text-xs text-gray-500">
-                                Reviewed in the United States on September 25,
-                                2023
-                            </div>
-                            <div className="text-bodyFont text-xs text-gray-500 mb-2">
-                                Style: Men's Size 8-13 | Size: 1 Pair (Pack of
-                                1)
-                                <span className="text-amber-700 ml-2 font-bold">
-                                    Verified Purchase
-                                </span>
-                            </div>
-                            <div className="text-bodyFont text-xs text-black">
-                                Seriously these are the best things I've found.
-                                They have helped my plantar fasciitis better
-                                than the Shot the foot doctor gave, and the many
-                                physical therapy appointments which cost me
-                                every time I went. I wish I had found them
-                                before all that. Even after all that I still had
-                                pain, it was better, but not 100%, these inserts
-                                have helped me profoundly. Please note that they
-                                do not work in all shoes, but so far I've only
-                                had one pair of my shoes that they didn't work
-                                in. I'll be chucking those. They've worked in
-                                dress shoes, and my Puma workout shoes along
-                                with my Keen hiking shoes. So if they don't work
-                                for you, try them in a different shoe. I bet
-                                they will work in any flat shoe with little or
-                                no arch support. Give them a shot if you suffer
-                                as I did.
-                            </div>
-                        </div> */}
-                        <hr></hr>
-                        {/* <div className="m-4">
-                            <div className="flex mb-2">
-                                <imgUrl
-                                    src="https://scontent.fsgn5-10.fna.fbcdn.net/v/t1.6435-9/116429521_1655876004585921_941667011043408186_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=84a396&_nc_ohc=jX_SP-XeWGUAX8gd9Dl&_nc_ht=scontent.fsgn5-10.fna&oh=00_AfB8K54ttI7F3njd8xLWtnInOErSx2FkaIhUXEuNjobBRw&oe=654A001A"
-                                    className="rounded-full w-5 h-5"
-                                />
-                                <div className="ml-4 text-titleFont">
-                                    Meomeocute
-                                </div>
-                            </div>
-                            <div className="flex">
-                                <div className="text-amazon_yellow text-sm items-center ">
-                                    <StarIcon sx={{fontSize: 15}} />
-                                    <StarIcon sx={{fontSize: 15}} />
-                                    <StarIcon sx={{fontSize: 15}} />
-                                    <StarIcon sx={{fontSize: 15}} />
-                                    <StarIcon sx={{fontSize: 15}} />
-                                </div>
-                                <p className="text-bodyFont text-sm ml-4 font-medium hover:underline hover:text-amber-600">
-                                    {" "}
-                                    I wish that I had found these before I spent
-                                    1000's on doctors and Physical therapy
-                                </p>
-                            </div>
-                            <div className="text-bodyFont text-xs text-gray-500">
-                                Reviewed in the United States on September 25,
-                                2023
-                            </div>
-                            <div className="text-bodyFont text-xs text-gray-500 mb-2">
-                                Style: Men's Size 8-13 | Size: 1 Pair (Pack of
-                                1)
-                                <span className="text-amber-700 ml-2 font-bold">
-                                    Verified Purchase
-                                </span>
-                            </div>
-                            <div className="text-bodyFont text-xs text-black">
-                                Seriously these are the best things I've found.
-                                They have helped my plantar fasciitis better
-                                than the Shot the foot doctor gave, and the many
-                                physical therapy appointments which cost me
-                                every time I went. I wish I had found them
-                                before all that. Even after all that I still had
-                                pain, it was better, but not 100%, these inserts
-                                have helped me profoundly. Please note that they
-                                do not work in all shoes, but so far I've only
-                                had one pair of my shoes that they didn't work
-                                in. I'll be chucking those. They've worked in
-                                dress shoes, and my Puma workout shoes along
-                                with my Keen hiking shoes. So if they don't work
-                                for you, try them in a different shoe. I bet
-                                they will work in any flat shoe with little or
-                                no arch support. Give them a shot if you suffer
-                                as I did.
-                            </div>
-                        </div> */}
                         <hr></hr>
                         List Review Of Customer End
                     </div>
                 </div>
             </div>
         );
-    } else {
-        return (
-            <div className="flex justify-around pl-20 pr-20 mt-500">
-                <div role="status">
-                    <svg
-                        aria-hidden="true"
-                        className="inline w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
-                        viewBox="0 0 100 101"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                    >
-                        <path
-                            d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
-                            fill="currentColor"
-                        />
-                        <path
-                            d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
-                            fill="currentFill"
-                        />
-                    </svg>
-                    <span className="sr-only">Loading...</span>
-                </div>
-                <div role="status">
-                    <svg
-                        aria-hidden="true"
-                        className="inline w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300"
-                        viewBox="0 0 100 101"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                    >
-                        <path
-                            d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
-                            fill="currentColor"
-                        />
-                        <path
-                            d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
-                            fill="currentFill"
-                        />
-                    </svg>
-                    <span className="sr-only">Loading...</span>
-                </div>
-                <div role="status">
-                    <svg
-                        aria-hidden="true"
-                        className="inline w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-green-500"
-                        viewBox="0 0 100 101"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                    >
-                        <path
-                            d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
-                            fill="currentColor"
-                        />
-                        <path
-                            d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
-                            fill="currentFill"
-                        />
-                    </svg>
-                    <span className="sr-only">Loading...</span>
-                </div>
-                <div role="status">
-                    <svg
-                        aria-hidden="true"
-                        className="inline w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-red-600"
-                        viewBox="0 0 100 101"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                    >
-                        <path
-                            d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
-                            fill="currentColor"
-                        />
-                        <path
-                            d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
-                            fill="currentFill"
-                        />
-                    </svg>
-                    <span className="sr-only">Loading...</span>
-                </div>
-                <div role="status">
-                    <svg
-                        aria-hidden="true"
-                        className="inline w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-yellow-400"
-                        viewBox="0 0 100 101"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                    >
-                        <path
-                            d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
-                            fill="currentColor"
-                        />
-                        <path
-                            d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
-                            fill="currentFill"
-                        />
-                    </svg>
-                    <span className="sr-only">Loading...</span>
-                </div>
-                <div role="status">
-                    <svg
-                        aria-hidden="true"
-                        className="inline w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-pink-600"
-                        viewBox="0 0 100 101"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                    >
-                        <path
-                            d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
-                            fill="currentColor"
-                        />
-                        <path
-                            d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
-                            fill="currentFill"
-                        />
-                    </svg>
-                    <span className="sr-only">Loading...</span>
-                </div>
-            </div>
-        );
     }
+    //  else {
+    //     return (
+    //         <div className="flex justify-around pl-20 pr-20 mt-500">
+    //             <div role="status">
+    //                 <svg
+    //                     aria-hidden="true"
+    //                     className="inline w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+    //                     viewBox="0 0 100 101"
+    //                     fill="none"
+    //                     xmlns="http://www.w3.org/2000/svg"
+    //                 >
+    //                     <path
+    //                         d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+    //                         fill="currentColor"
+    //                     />
+    //                     <path
+    //                         d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+    //                         fill="currentFill"
+    //                     />
+    //                 </svg>
+    //                 <span className="sr-only">Loading...</span>
+    //             </div>
+    //             <div role="status">
+    //                 <svg
+    //                     aria-hidden="true"
+    //                     className="inline w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300"
+    //                     viewBox="0 0 100 101"
+    //                     fill="none"
+    //                     xmlns="http://www.w3.org/2000/svg"
+    //                 >
+    //                     <path
+    //                         d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+    //                         fill="currentColor"
+    //                     />
+    //                     <path
+    //                         d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+    //                         fill="currentFill"
+    //                     />
+    //                 </svg>
+    //                 <span className="sr-only">Loading...</span>
+    //             </div>
+    //             <div role="status">
+    //                 <svg
+    //                     aria-hidden="true"
+    //                     className="inline w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-green-500"
+    //                     viewBox="0 0 100 101"
+    //                     fill="none"
+    //                     xmlns="http://www.w3.org/2000/svg"
+    //                 >
+    //                     <path
+    //                         d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+    //                         fill="currentColor"
+    //                     />
+    //                     <path
+    //                         d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+    //                         fill="currentFill"
+    //                     />
+    //                 </svg>
+    //                 <span className="sr-only">Loading...</span>
+    //             </div>
+    //             <div role="status">
+    //                 <svg
+    //                     aria-hidden="true"
+    //                     className="inline w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-red-600"
+    //                     viewBox="0 0 100 101"
+    //                     fill="none"
+    //                     xmlns="http://www.w3.org/2000/svg"
+    //                 >
+    //                     <path
+    //                         d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+    //                         fill="currentColor"
+    //                     />
+    //                     <path
+    //                         d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+    //                         fill="currentFill"
+    //                     />
+    //                 </svg>
+    //                 <span className="sr-only">Loading...</span>
+    //             </div>
+    //             <div role="status">
+    //                 <svg
+    //                     aria-hidden="true"
+    //                     className="inline w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-yellow-400"
+    //                     viewBox="0 0 100 101"
+    //                     fill="none"
+    //                     xmlns="http://www.w3.org/2000/svg"
+    //                 >
+    //                     <path
+    //                         d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+    //                         fill="currentColor"
+    //                     />
+    //                     <path
+    //                         d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+    //                         fill="currentFill"
+    //                     />
+    //                 </svg>
+    //                 <span className="sr-only">Loading...</span>
+    //             </div>
+    //             <div role="status">
+    //                 <svg
+    //                     aria-hidden="true"
+    //                     className="inline w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-pink-600"
+    //                     viewBox="0 0 100 101"
+    //                     fill="none"
+    //                     xmlns="http://www.w3.org/2000/svg"
+    //                 >
+    //                     <path
+    //                         d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+    //                         fill="currentColor"
+    //                     />
+    //                     <path
+    //                         d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+    //                         fill="currentFill"
+    //                     />
+    //                 </svg>
+    //                 <span className="sr-only">Loading...</span>
+    //             </div>
+    //         </div>
+    //     );
+    // }
 }
 
 export default ProductDetail;

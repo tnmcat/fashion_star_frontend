@@ -11,3 +11,16 @@ const api = axios.create({
 });
 
 export default api;
+api.interceptors.request.use(
+    (config) => {
+        const jwt = localStorage.getItem("token");
+        if (jwt) {
+            config.headers.Authorization = `Bearer ${jwt}`;
+        }
+        return config;
+    },
+    (error) => {
+        // Handle request error
+        return Promise.reject(error);
+    }
+);

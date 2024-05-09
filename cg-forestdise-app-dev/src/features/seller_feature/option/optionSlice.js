@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import optionAPI from "../../../api/seller/optionAPI";
 
 const initialState = {
@@ -18,7 +18,7 @@ export const fetchOptionsByProductId = createAsyncThunk(
 
 export const createOption = createAsyncThunk(
     "options/createOption",
-    async ({ data, productId }) => {
+    async ({data, productId}) => {
         const response = await optionAPI.add(data, productId);
         return response;
     }
@@ -88,20 +88,23 @@ const optionSlice = createSlice({
                 state.options.push(action.payload);
                 state.error = null;
             })
-            .addCase(updateOption.pending, (state) => { // Update this line
+            .addCase(updateOption.pending, (state) => {
+                // Update this line
                 state.success = false;
                 state.loading = true;
                 state.error = null;
             })
-            .addCase(updateOption.rejected, (state, action) => { // Update this line
+            .addCase(updateOption.rejected, (state, action) => {
+                // Update this line
                 state.success = false;
                 state.loading = false;
                 state.error = action.error;
             })
-            .addCase(updateOption.fulfilled, (state, action) => { // Update this line
+            .addCase(updateOption.fulfilled, (state, action) => {
+                // Update this line
                 state.success = true;
                 state.loading = false;
-                state.options = state.options.map(option =>
+                state.options = state.options.map((option) =>
                     option.id === action.payload.id ? action.payload : option
                 );
                 state.error = null;
@@ -119,13 +122,15 @@ const optionSlice = createSlice({
             .addCase(deleteOption.fulfilled, (state, action) => {
                 state.success = true;
                 state.loading = false;
-                state.options = state.options.filter(option => option.id !== action.payload);
+                state.options = state.options.filter(
+                    (option) => option.id !== action.payload
+                );
                 state.error = null;
             });
     },
 });
 
-export const { setLoading, setError, setSuccess } = optionSlice.actions;
+export const {setLoading, setError, setSuccess} = optionSlice.actions;
 
 export const selectLoading = (state) => state.options.loading;
 export const selectError = (state) => state.options.error;

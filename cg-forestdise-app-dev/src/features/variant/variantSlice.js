@@ -18,16 +18,16 @@ const initialState = {
 
 export const getVariant = createAsyncThunk(
     "variant/detail",
-    async (productId) => {
-        const response = await findVariant(productId);
+    async (variantId) => {
+        const response = await findVariant(variantId);
         console.log("variant/detail", response);
         return response.data;
     }
 );
 export const getVariantInfo = createAsyncThunk(
     "variant/info",
-    async (productId) => {
-        const response = await findVariantById(productId);
+    async (variantId) => {
+        const response = await findVariantById(variantId);
         return response.data;
     }
 );
@@ -99,6 +99,7 @@ export const variantSlice = createSlice({
                 state.success = true;
                 state.loading = false;
                 state.variantDetail = action.payload;
+                console.log(action.payload);
                 state.error = false;
             })
             .addCase(addVariant.pending, (state) => {

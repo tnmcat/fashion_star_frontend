@@ -2,12 +2,24 @@ import axios from "axios";
 // const VARIANT_MANAGEMENT_API = "https://forestdise.up.railway.app/api";
 const VARIANT_MANAGEMENT_API = "http://localhost:5454/api";
 
-export const findVariant = async (productId) => {
+// export const findVariant = async (productId) => {
+//     let result = null;
+//     try {
+//         result = await axios.get(
+//             `http://localhost:5454/api/product-detail/${productId}`
+//         );
+//     } catch (e) {
+//         console.log("Find variant API error: " + e);
+//     }
+//     return result;
+// };
+export const findVariant = async (variantId) => {
     let result = null;
     try {
         result = await axios.get(
-            `http://localhost:5454/api/product-detail/${productId}`
+            `http://localhost:5454/api/product-detail/variant/${variantId}`
         );
+        console.log("at api", result);
     } catch (e) {
         console.log("Find variant API error: " + e);
     }

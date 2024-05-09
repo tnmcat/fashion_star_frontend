@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, {Fragment} from "react";
 import {
     Outlet,
     Route,
@@ -165,8 +165,10 @@ function App() {
                     />
                     <Route path="/dashboard/profile" element={<Profile />} />
                 </Route>
-
-
+                <Route
+                    path="/test-product/:productId"
+                    element={<SellerProductDetail />}
+                />
 
                 {/* seller routes */}
                 <Route path="/seller/signin" element={<SellerSignIn />} />
@@ -175,20 +177,32 @@ function App() {
                     <Route index element={<Dashboard />} />
                     <Route path="store" element={<StoreManage />} />
                     <Route path="category" element={<StoreCategoryManage />} />
-                    <Route path="category/add" element={<StoreCategoryForm />} />
+                    <Route
+                        path="category/add"
+                        element={<StoreCategoryForm />}
+                    />
                     <Route path="product" element={<ProductManage />} />
                     <Route path="product/add" element={<ProductAddPage />} />
-                    <Route path="product/:productId" element={<ProductEditPage />} />
-                    <Route path="product/:productId/edit" element={<SellerProductDetail />} />
-                    <Route path="product/:productId/variants" element={<VariantManage />} />
+                    <Route
+                        path="product/:productId"
+                        element={<ProductEditPage />}
+                    />
+                    <Route
+                        path="product/:productId/edit"
+                        element={<SellerProductDetail />}
+                    />
+                    <Route
+                        path="product/:productId/variants"
+                        element={<VariantManage />}
+                    />
                     <Route path="order" element={<OrderManage />} />
-                    <Route path="order/details/:orderId" element={<OrderDetailsManage />} />
+                    <Route
+                        path="order/details/:orderId"
+                        element={<OrderDetailsManage />}
+                    />
                     <Route path="profile" element={<ProfileManage />} />
                     <Route path="shipping" element={<ShippingManage />} />
                 </Route>
-
-
-
             </Fragment>
         )
     );
