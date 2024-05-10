@@ -67,14 +67,14 @@ function OptionManage(props) {
                         container
                         spacing={2}
                     >
-                        <Grid item xs={3}>
+                        <Grid item xs={4}>
                             <Typography variant="h6" component="div" sx={{ mt: 0, mb: 0 }}>
                                 Option
                             </Typography>
                             <OptionForm onSubmit={handleAddOptionFormSubmit} />
                             <OptionList optionList={optionList} onSubmit={handleEditOptionFormSubmit} />
                         </Grid>
-                        <Grid item xs={9}>
+                        <Grid item xs={8}>
                             <OptionValue optionList={optionList} />
                         </Grid>
                     </Grid>
@@ -88,7 +88,7 @@ function OptionManage(props) {
 }
 
 OptionManage.propTypes = {
-    productId: PropTypes.number
+
 };
 
 export default OptionManage;

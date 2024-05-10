@@ -15,7 +15,7 @@ export const getAllCategories = createAsyncThunk(
         try {
             const response = await categoryAPI.findAll(); // Adjust your API method name accordingly
             console.log(response)
-            return response.data;
+            return response;
 
         } catch (error) {
             throw error;

@@ -1,15 +1,41 @@
 import { yupResolver } from "@hookform/resolvers/yup";
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import Avatar from '@mui/material/Avatar';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Checkbox from '@mui/material/Checkbox';
+import CssBaseline from '@mui/material/CssBaseline';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Grid from '@mui/material/Grid';
+import Link from '@mui/material/Link';
+import Paper from '@mui/material/Paper';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
 SignInForm.propTypes = {
     onSubmit: PropTypes.func
 };
-
+function Copyright(props) {
+    return (
+        <Typography variant="body2" color="text.secondary" align="center" {...props}>
+            {'Copyright © '}
+            <Link color="inherit" href="https://mui.com/">
+                Aptech Group 4
+            </Link>{' '}
+            {new Date().getFullYear()}
+            {'.'}
+        </Typography>
+    );
+}
 function SignInForm(props) {
+    const navigate = useNavigate();
     const schema = yup.object().shape({
-        email: yup.string().required('Please enter email'),
+        email: yup.string().required('Please enter email').email('Please enter valid email'),
         password: yup.string().required('Please enter password'),
     });
     const { register, handleSubmit, formState: { errors, isSubmitting }, reset } = useForm({
@@ -24,72 +50,99 @@ function SignInForm(props) {
         }
         //reset();
     }
+    const defaultTheme = createTheme();
     return (
-        <div>
-            <div className="w-full font-bodyFont">
-                <div className="w-full bg-gray-100 pb-10">
-                    <form
-                        onSubmit={handleSubmit(onSubmitHandler)}
-                        className="w-[350px] mx-auto flex flex-col items-center"
+        <ThemeProvider theme={defaultTheme}>
+            <Grid container component="main" sx={{ height: '100vh' }}>
+                <CssBaseline />
+
+                <Grid
+                    item
+                    xs={false}
+                    sm={4}
+                    md={7}
+                    sx={{
+                        backgroundImage: 'url(https://source.unsplash.com/random?wallpapers)',
+                        backgroundRepeat: 'no-repeat',
+                        backgroundColor: (t) =>
+                            t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                    }}
+                >
+
+                </Grid>
+                <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+                    <Box
+                        sx={{
+                            my: 8,
+                            mx: 4,
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                        }}
                     >
-                        <img
-                            className="w-[168px]"
-                            alt="logo"
-                        />
-                        <div className="w-full bg-gray-100 border border-zinc-300 rounded-md p-6">
-                            <h2 className="font-titleFont text-3xl font-medium mb-4">
-                                Get started selling on FashionStar
-                            </h2>
-                            <div className="flex flex-col gap-3">
-                                <div className="flex flex-col gap-2">
-                                    <p className="text-sm font-medium">Email</p>
-                                    <input
-                                        name="email"
-                                        {...register("email")}
-                                        className="w-full normal-case py-1 border border-zinc-400 px-2 text-base rounded-sm outline-none focus-within:border-[#4F46E5] focus:ring-1 focus:ring-inset focus:ring-indigo-600 duration-100"
-                                        type="email"
-                                    />
-                                    {errors.email && (
-                                        <p className="text-red-600 text-xs font-semibold tracking-wide flex items-center gap-2 -mt-1.5">
-                                            <span className="italic font-titleFont font-extrabold text-base">!</span>
-                                            {errors.email.message}
-                                        </p>
-                                    )}
-                                </div>
-                                <div className="flex flex-col gap-2">
-                                    <p className="text-sm font-medium">Password</p>
-                                    <input
-                                        name="password"
-                                        {...register("password")}
-                                        className="w-full normal-case py-1 border border-zinc-400 px-2 text-base rounded-sm outline-none focus-within:border-[#4F46E5] focus:ring-1 focus:ring-inset focus:ring-indigo-600 duration-100"
-                                        type="password"
-                                    />
-                                    {errors.password && (
-                                        <p className="text-red-600 text-xs font-semibold tracking-wide flex items-center gap-2 -mt-1.5">
-                                            <span className="italic font-titleFont font-extrabold text-base">!</span>
-                                            {errors.password.message}
-                                        </p>
-                                    )}
-                                </div>
-                                {/* Additional form fields and validation messages */}
-                            </div>
-                            <button
-                                className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+                            <LockOutlinedIcon />
+                        </Avatar>
+                        <Typography component="h1" variant="h5">
+                            Seller Sign in
+                        </Typography>
+                        <Box component="form" noValidate onSubmit={handleSubmit(onSubmitHandler)} sx={{ mt: 1 }}>
+                            <TextField
+                                margin="normal" {...register("email")}
+                                required
+                                fullWidth
+                                id="email"
+                                label="Email Address"
+                                name="email"
+                                autoComplete="email"
+                                autoFocus
+                                error={!!errors.email}
+                                helperText={errors.email?.message}
+                            />
+                            <TextField
+                                margin="normal"     {...register("password")}
+                                required
+                                fullWidth
+                                name="password"
+                                label="Password"
+                                type="password"
+                                id="password"
+                                autoComplete="current-password"
+                                error={!!errors.password}
+                                helperText={errors.password?.message}
+                            />
+                            <FormControlLabel
+                                control={<Checkbox value="remember" color="primary" />}
+                                label="Remember me"
+                            />
+                            <Button
                                 type="submit"
+                                fullWidth
+                                variant="contained"
+                                sx={{ mt: 3, mb: 2 }}
                             >
-                                Continue
-                            </button>
-                            {/* Loading and success notifications */}
-                        </div>
-                    </form>
-                </div>
-                <div className="w-full bg-gradient-to-t from-white via-white to-zinc-200 flex flex-col gap-4 justify-center items-center py-10">
-                    <p className="text-xs text-gray-600">
-                        © 2024-2025 FashionStar - Project Group 4.
-                    </p>
-                </div>
-            </div>
-        </div>
+                                Sign In
+                            </Button>
+                            <Grid container>
+                                <Grid item xs>
+                                    <Link href="#" variant="body2">
+                                        Forgot password?
+                                    </Link>
+                                </Grid>
+                                <Grid item>
+                                    <Link onClick={() => { navigate("/register") }} variant="body2">
+                                        {"Don't have an account? Sign Up"}
+                                    </Link>
+                                </Grid>
+                            </Grid>
+                            <Copyright sx={{ mt: 5 }} />
+                        </Box>
+                    </Box>
+                </Grid>
+            </Grid>
+        </ThemeProvider>
     );
 }
 

@@ -7,10 +7,8 @@ import { firebaseStorage } from '../../../firebase';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { v4 } from "uuid";
 import { Box, Button, FormControl, InputLabel, Modal, NativeSelect, Paper, TextField, Typography } from '@mui/material';
-import { useDispatch, useSelector } from 'react-redux';
-import ClearIcon from '@mui/icons-material/Clear';
-import { deleteImage } from '../../../features/seller_feature/image/imageSlice';
-import { unwrapResult } from '@reduxjs/toolkit';
+import { useSelector } from 'react-redux';
+
 ProductForm.propTypes = {
     onSubmitAdd: PropTypes.func,
     onSubmitEdit: PropTypes.func,
@@ -133,27 +131,13 @@ function ProductForm(props) {
         }
     };
 
-    const dispatch = useDispatch()
-    const handleDeleteMainPicture = (productId) => () => {
-        console.log(productId)
-    }
-    const handleDeletePicture = async (imageId) => {
-        try {
-            console.log(imageId)
-            const resultAction = await dispatch(deleteImage(imageId));
-            unwrapResult(resultAction);
-        } catch (err) {
-            console.error('Failed to delete Attribute:', err);
-        }
-    }
-
     return (
         <>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
                 <Paper elevation={3} sx={{ width: '100%', maxWidth: '1200px', m: 1, p: 2 }}>
                     <form onSubmit={handleSubmit(onSubmitHandler)}>
                         <br />
-                        <TextField style={{ width: '100%' }} {...register("title")} required id="outlined-basic" variant="outlined" label="Title" error={!!errors.title} helperText={errors.title?.message} defaultValue="" />
+                        <TextField style={{ width: '100%' }} {...register("title")} required variant='filled' id="outlined-required" label="Title" error={!!errors.title} helperText={errors.title?.message} defaultValue="" />
                         <br />
                         <TextField id="outlined-multiline-static" multiline style={{ width: '100%' }} rows={4} defaultValue=" " {...register("description")} label="Product Description" variant="standard" />
                         <br />
@@ -172,11 +156,7 @@ function ProductForm(props) {
                             <small className='text-red-700 text-titleFont'>
                                 {errors?.file && errors.file.message}
                             </small>
-                            {firebaseFile && <div style={{ display: 'flex', alignItems: 'center' }}>
-                                <img alt='product_image' src={firebaseFile} className="rounded-3xl w-30 h-30 mt-10" />
-                                <ClearIcon onClick={() => handleDeleteMainPicture(product.id)} style={{ marginLeft: '10px', cursor: 'pointer' }} />
-                            </div>}
-
+                            {firebaseFile && <img alt='product_image' src={firebaseFile} className="rounded-3xl w-30 h-30 mt-10" />}
                             {!firebaseFile && <div className='outerbar'><div className='innerbar text-titleFont'>{progresspercent}%</div></div>}
                         </div>
                         <div className='text-titleFont mt-5'>
@@ -187,16 +167,7 @@ function ProductForm(props) {
                             {firebaseFiles.map((url, index) => (
                                 <img key={index} alt={`product_image_${index}`} src={url} className="rounded-3xl w-30 h-30 mt-10" />
                             ))}
-
                             {!firebaseFiles.length && <div className='outerbar'><div className='innerbar text-titleFont'>{progressPercent}%</div></div>}
-                            {product && product.imageList.map((item) => (
-                                <div style={{ display: 'flex', alignItems: 'center' }}>
-                                    <img key={item.id} alt={`product_image_${item.id}`} src={item.imgPath} className="rounded-3xl w-30 h-30 mt-10" />
-                                    <ClearIcon onClick={() => handleDeletePicture(item.id)} style={{ marginLeft: '10px', cursor: 'pointer' }} />
-                                </div>
-
-                            ))}
-
                         </div>
                         <Box marginTop={2}>
                             <Button variant="contained" type="submit">Save</Button>

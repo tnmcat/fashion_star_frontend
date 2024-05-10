@@ -25,6 +25,7 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import StoreIcon from '@mui/icons-material/Store';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 const drawerWidth = 240;
@@ -245,7 +246,7 @@ export default function SellingLayout() {
                   justifyContent: 'center',
                 }}
               >
-                <AccountCircleIcon />
+                <StoreIcon />
               </ListItemIcon>
               <ListItemText primary="Profile" sx={{ opacity: open ? 1 : 0 }} />
             </ListItemButton>

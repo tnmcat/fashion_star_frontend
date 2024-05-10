@@ -4,6 +4,7 @@ import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from "yup";
 import convertTimestampToDate from '../../../utils/common';
+import { Button, Grid, TextField, Typography } from "@mui/material";
 
 ProfileForm.propTypes = {
     onSubmit: PropTypes.func.isRequired, // Make onSubmit prop required
@@ -15,7 +16,6 @@ function ProfileForm({ onSubmit, initialData }) {
     const schema = yup.object().shape({
         sellerName: yup.string().required('Please enter your name'),
         phone: yup.string().required('Please enter your phone number'),
-        birthDay: yup.date().required('Please enter your birth day').nullable(),
     });
 
     // Initialize react-hook-form with validation schema and default values
@@ -41,22 +41,19 @@ function ProfileForm({ onSubmit, initialData }) {
     console.log('date:', initialData?.birthDay);
     return (
         <>
-            <h1>Edit Profile</h1>
+            <h1 >
+                Edit Profile
+            </h1>
             <form onSubmit={handleSubmit(onSubmitHandler)}>
-                <br />
-                <label htmlFor="sellerName">Name:</label>
-                <input {...register("sellerName")} id="sellerName" type="text" placeholder="Your name" />
+                <TextField fullWidth {...register("sellerName")} id="standard-basic" label="Seller Name" variant="standard" />
                 <p>{errors.sellerName?.message}</p>
                 <br />
-                <label htmlFor="phone">Phone:</label>
-                <input {...register("phone")} id="phone" type="text" placeholder="Your phone number" />
+                <TextField fullWidth {...register("phone")} id="standard-basic" label="Seller phone" variant="standard" />
                 <p>{errors.phone?.message}</p>
                 <br />
-                <label htmlFor="birthDay">Birth Day:</label>
-                <input {...register("birthDay")} id="birthDay" min="1900-01-01" type="date" defaultValue={convertTimestampToDate(initialData?.birthDay)} />
-                <p>{errors.birthDay?.message}</p>
-                <br />
-                <button type="submit">Submit</button>
+                <Button type="submit" variant="contained" size="small">
+                    Save
+                </Button>
             </form>
         </>
     );

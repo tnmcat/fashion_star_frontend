@@ -15,7 +15,7 @@ const sellerApi = {
     async updateSeller(sellerId, data) {
         let result = null;
         try {
-            result = await api.post(`seller/update/${sellerId}`, data);
+            result = await api.post(`seller/profile/update/${sellerId}`, data);
         } catch (e) {
             console.log("Find seller API error: " + e);
         }

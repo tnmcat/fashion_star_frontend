@@ -15,7 +15,14 @@ function OrderList({ orders }) {
         { field: 'id', headerName: 'Order ID', width: 150 },
         { field: 'order_date', headerName: 'Date', width: 150 },
         { field: 'order_status', headerName: 'Status', width: 150 },
-        { field: 'clientName', headerName: 'Customer Name', width: 200 },
+        {
+            field: 'clientName', headerName: 'Customer Name', width: 200,
+            renderCell: (params) => (
+                <p>
+                    {params.row.userDTO && params.row.userDTO.clientName}
+                </p>
+            ),
+        },
         { field: 'orderTotal', headerName: 'Total Price', width: 150 },
         {
             field: 'details',

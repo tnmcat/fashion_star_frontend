@@ -1,12 +1,19 @@
-import { Box, Typography } from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, Modal, Slide, Typography } from '@mui/material';
 import { unwrapResult } from '@reduxjs/toolkit';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getStoreBySellerId, updateStore } from '../../../features/seller_feature/store/storeSlice';
+import StoreDetail from './StoreDetail';
+import StoreForm from './StoreForm';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 StoreManage.propTypes = {
     productId: PropTypes.string
 };
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+    return <Slide direction="up" ref={ref} {...props} />;
+});
 
 function StoreManage({ productId }) {
     const seller = useSelector((state) => state.seller.sellerInfo);
@@ -30,7 +37,7 @@ function StoreManage({ productId }) {
             console.error("Failed to fetch stores:", error);
         }
     };
-
+    console.log(store);
     useEffect(() => {
         if (seller) {
             fetchStores();
@@ -47,35 +54,44 @@ function StoreManage({ productId }) {
             setEditStore(null);
             // Refetch stores after successfully updating a store
             fetchStores();
+            setOpen(true)
         } catch (error) {
             console.error("Failed to update store:", error);
         }
     };
+    const [open, setOpen] = useState(false);
+    const handleClose = () => setOpen(false);
 
     return (
-
-        // <Box sx={{ display: 'flex' }}>
-        //     {/* <SideBar /> */}
-        //     <Box component="main" sx={{ flexGrow: 1, p: 3, marginTop: "55px" }}>
-        //         {/* Render StoreDetail component */}
-        //         {store && <StoreDetail store={store} />}
-        //         {/* Pass initialData to StoreForm */}
-        //         <StoreForm onSubmit={handleStoreFormSubmit} initialData={store} />
-        //     </Box>
-        // </Box>
-
-
-        <Box sx={{ display: 'flex' }}>
-
-            <Box component="main" sx={{ flexGrow: 1, p: 3, marginTop: "55px" }}>
-                <Typography variant="h5">
-                    Settings
-                </Typography>
-
+        <>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <Grid container spacing={2}>
+                    <Grid item xs={6}>
+                        {store && <StoreDetail store={store} />}
+                    </Grid>
+                    <Grid item xs={6}>
+                        <StoreForm onSubmit={handleStoreFormSubmit} initialData={store} /> </Grid>
+                </Grid>
             </Box>
-        </Box>
 
-
+            <Dialog
+                open={open}
+                TransitionComponent={Transition}
+                keepMounted
+                onClose={handleClose}
+                aria-describedby="alert-dialog-slide-description"
+            >
+                <DialogTitle>{"Send Successfully"}</DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-slide-description">
+                        Your request has been sent successfully. Please wait for admin approval !
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose}>Close</Button>
+                </DialogActions>
+            </Dialog>
+        </>
     );
 }
 

@@ -28,7 +28,19 @@ function StoreCategoryManage(props) {
             }
         }
     };
+    const fetchCategories = async () => {
+        if (store && store.id) {
+            try {
+                const cate_result = await dispatch(getAllCategories());
+                const categories = unwrapResult(cate_result);
+                setCategoryList(categories);
+            } catch (error) {
+                console.error("Failed to fetch store categories:", error);
+            }
+        }
+    };
     useEffect(() => {
+        fetchCategories();
         if (store) {
             fetchStoreCategories();
         }
@@ -60,6 +72,7 @@ function StoreCategoryManage(props) {
     const handleCloseModal = () => {
         setOpenModal(false);
     };
+    console.log(categoryList)
     return (
         <>
             <CssBaseline />

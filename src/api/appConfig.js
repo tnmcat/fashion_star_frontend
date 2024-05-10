@@ -12,7 +12,7 @@ const api = axios.create({
 // Add a request interceptor
 api.interceptors.request.use(
     (config) => {
-        const jwt = localStorage.getItem("jwt");
+        const jwt = localStorage.getItem("seller_token");
         if (jwt) {
             config.headers.Authorization = `Bearer ${jwt}`;
         }
@@ -30,7 +30,7 @@ api.interceptors.response.use(
         if (response && response.data) {
             return response.data;
         }
-        return response;
+        return response.data;
     },
     (error) => {
         // Handle response error

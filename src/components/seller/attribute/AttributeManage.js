@@ -6,6 +6,7 @@ import { createAttribute, deleteAttribute, fetchAttributesByProductId, updateAtt
 import AttributeForm from './AttributeForm';
 import AttributeList from './AttributeList';
 import { Box, Paper } from '@mui/material';
+import AttributeDefaultForm from './AttributeDefaultForm';
 
 function AttributeManage(props) {
     const dispatch = useDispatch();
@@ -24,6 +25,11 @@ function AttributeManage(props) {
         }
     };
 
+    const defaultAttributes = [
+        { name: 'Manufacturer', value: '' },
+        { name: 'Brand', value: '' },
+        { name: 'Origin', value: '' }
+    ];
     useEffect(() => {
         if (productId) {
             fetchAttributes();
@@ -61,8 +67,6 @@ function AttributeManage(props) {
         }
     };
 
-
-
     return (
         <>
             <Box
@@ -74,6 +78,11 @@ function AttributeManage(props) {
             >
                 <Paper elevation={3} sx={{ width: '100%', maxWidth: '1200px', m: 1, p: 2 }}>
                     <AttributeForm onSubmit={handleAddAttributeFormSubmit} />
+                    {defaultAttributes && defaultAttributes.length > 0 && (
+                        defaultAttributes.map((attribute, index) => (
+                            <AttributeDefaultForm key={index} initialData={attribute} onSubmit={handleAddAttributeFormSubmit} />
+                        ))
+                    )}
                     <AttributeList attributeList={attributeList} onDelete={handleDeleteAttribute} onSubmit={handleEditAttributeFormSubmit} />
 
                 </Paper>
@@ -83,7 +92,7 @@ function AttributeManage(props) {
 }
 
 AttributeManage.propTypes = {
-    productId: PropTypes.number
+
 };
 
 export default AttributeManage;

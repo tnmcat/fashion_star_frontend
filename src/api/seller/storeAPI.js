@@ -23,7 +23,7 @@ const storeApi = {
     async updateStore(storeId, storeData) {
         try {
             console.log('Address data in api:', storeData);
-            const response = await api.put(`/store/update/${storeId}`, storeData);
+            const response = await api.put(`seller/store/update/${storeId}`, storeData);
             console.log('Address response in api:', response);
             return response;
         } catch (error) {

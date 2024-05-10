@@ -1,28 +1,36 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Button, Grid, TextField, Typography } from "@mui/material";
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from "yup";
 
-AttributeForm.propTypes = {
+AttributeDefaultForm.propTypes = {
     onSubmit: PropTypes.func,
+    initialData: PropTypes.object
 };
 
-function AttributeForm(props) {
+function AttributeDefaultForm({ onSubmit, initialData = {} }) {
     const schema = yup.object().shape({
         name: yup.string().required('Please enter Attribute name'),
         value: yup.string().required('Please enter Attribute value'), // Adding validation for AttributeValue
         // Add more validation rules as needed
     });
 
-    const { register, handleSubmit, formState: { errors } } = useForm({
-        resolver: yupResolver(schema),
-    });
 
+    const { register, handleSubmit, formState: { errors }, setValue } = useForm({
+        resolver: yupResolver(schema),
+        defaultValues: initialData
+    });
+    useEffect(() => {
+        if (initialData) {
+            for (const key in initialData) {
+                setValue(key, initialData[key]);
+            }
+        }
+    }, [initialData, setValue]);
     const onSubmitHandler = (value) => {
         console.log('form submitted', value);
-        const { onSubmit } = props;
         if (onSubmit) {
             onSubmit(value);
         }
@@ -31,7 +39,7 @@ function AttributeForm(props) {
     return (
         <>
             <Typography sx={{ mt: 4, mb: 2 }} variant="h6" component="div">
-                New Attribute
+
             </Typography>
             <form onSubmit={handleSubmit(onSubmitHandler)}>
                 <Grid container
@@ -57,4 +65,4 @@ function AttributeForm(props) {
     );
 }
 
-export default AttributeForm;
+export default AttributeDefaultForm;

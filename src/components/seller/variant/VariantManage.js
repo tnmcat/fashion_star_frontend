@@ -7,7 +7,7 @@ import { unwrapResult } from '@reduxjs/toolkit';
 import PropTypes from 'prop-types';
 import { Box, Button, Grid, Paper, Typography } from '@mui/material';
 VariantManage.propTypes = {
-    productId: PropTypes.number
+
 };
 function VariantManage({ productId }) {
     //const { productId } = useParams();

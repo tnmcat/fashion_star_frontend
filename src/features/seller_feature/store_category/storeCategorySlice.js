@@ -19,7 +19,7 @@ export const addStoreCategory = createAsyncThunk("store_category/add", async ({ 
     console.log(data)
     console.log(storeId)
     const response = await store_categoryAPI.add(data, storeId);
-    return response.data;
+    return response;
 });
 
 const storeCategorySlice = createSlice({

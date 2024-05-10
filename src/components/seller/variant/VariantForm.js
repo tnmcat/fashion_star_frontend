@@ -61,6 +61,9 @@ function VariantForm(props) {
             reset(); // Reset the form after submission
         }
     };
+
+    const [open, setOpen] = useState(false);
+    const handleClose = () => setOpen(false);
     return (
         <>
             <h1>Add new variant</h1>

@@ -15,9 +15,6 @@ import StoreCategoryManage from './store_category/StoreCategoryManage';
 import VariantManage from './variant/VariantManage';
 function SellerApp() {
 
-    // const routing = useRoutes(Themeroutes);
-
-    // return <div className="dark">{routing}</div>;
     return (
         <div>
 

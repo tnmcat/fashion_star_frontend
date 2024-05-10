@@ -1,21 +1,67 @@
 import { yupResolver } from "@hookform/resolvers/yup";
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import Avatar from '@mui/material/Avatar';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Checkbox from '@mui/material/Checkbox';
+import Container from '@mui/material/Container';
+import CssBaseline from '@mui/material/CssBaseline';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Grid from '@mui/material/Grid';
+import Link from '@mui/material/Link';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
+
 RegisterForm.propTypes = {
     onSubmit: PropTypes.func
 };
-
+function Copyright(props) {
+    return (
+        <Typography variant="body2" color="text.secondary" align="center" {...props}>
+            {'Copyright © '}
+            <Link color="inherit" href="https://mui.com/">
+                Your Website
+            </Link>{' '}
+            {new Date().getFullYear()}
+            {'.'}
+        </Typography>
+    );
+}
 function RegisterForm(props) {
+    const navigate = useNavigate();
     const schema = yup.object().shape({
-        sellerName: yup.string().required('Please enter full name'),
-        birthDay: yup.string().required('Please enter birthday'),
-        phone: yup.string().required('Please enter phone'),
-        email: yup.string().required('Please enter email').email('Please enter valid email'),
-        password: yup.string().required('Please enter password').min(6, 'Password should be at least 6 characters'),
-        retypePassword: yup.string().oneOf([yup.ref('password'), null], 'Passwords must match')
+        sellerName: yup.string().required('Please enter full name')
+            .matches(/^[a-zA-Z0-9\s]+$/, 'Name must contain only letters and numbers'),
+        birthDay: yup.date()
+            .required('Please enter birthday')
+            .max(new Date(Date.now() - 18 * 365 * 24 * 60 * 60 * 1000), 'You must be at least 18 years old'),
+        phone: yup.string()
+            .required('Please enter phone')
+            .matches(/^\d+$/, 'Phone number must contain only digits')
+            .min(10, 'Phone number must be at least 10 characters')
+            .max(12, 'Phone number must be at most 12 characters'),
+        email: yup.string()
+            .required('Please enter email')
+            .email('Please enter valid email'),
+        password: yup.string()
+            .required('Please enter password')
+            .min(6, 'Password should be at least 6 characters')
+            .matches(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]*$/, 'Password must contain at least one letter and one number'),
+        confirmPassword: yup.string()
+            .oneOf([yup.ref('password'), null], 'Passwords must match'),
+        storeName: yup.string()
+            .required('Please enter store name')
+            .matches(/^[a-zA-Z0-9\s]+$/, 'Store name must contain only letters and numbers')
+            .min(3, 'Store name must be at least 3 characters')
+            .max(30, 'Store name must be at most 30 characters'),
     });
+
     const { register, handleSubmit, formState: { errors, isSubmitting }, reset } = useForm({
         resolver: yupResolver(schema),
     });
@@ -28,134 +74,149 @@ function RegisterForm(props) {
         }
         //reset();
     }
-
+    const defaultTheme = createTheme();
     return (
-        <div>
-            <div className="w-full font-bodyFont">
-                <div className="w-full bg-gray-100 pb-10">
-                    <form
-                        onSubmit={handleSubmit(onSubmitHandler)}
-                        className="w-[350px] mx-auto flex flex-col items-center"
+        <>
+            <ThemeProvider theme={defaultTheme}>
+                <Container component="main" maxWidth="xs">
+                    <CssBaseline />
+                    <Box
+                        sx={{
+                            marginTop: 8,
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                        }}
                     >
-                        <img
-                            className="w-[168px]"
+                        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+                            <LockOutlinedIcon />
+                        </Avatar>
+                        <Typography component="h1" variant="h5">
+                            Sign up
+                        </Typography>
 
-                            alt="logo"
-                        />
-                        <div className="w-full bg-gray-100 border border-zinc-300 rounded-md p-6">
-                            <h2 className="font-titleFont text-3xl font-medium mb-4">
-                                Get started selling on FashionStar
-                            </h2>
-                            <div className="flex flex-col gap-3">
-                                <div className="flex flex-col gap-2">
-                                    <p className="text-sm font-medium">Email</p>
-                                    <input
-                                        name="email"
-                                        {...register("email")}
-                                        className="w-full normal-case py-1 border border-zinc-400 px-2 text-base rounded-sm outline-none focus-within:border-[#4F46E5] focus:ring-1 focus:ring-inset focus:ring-indigo-600 duration-100"
-                                        type="email"
+                        <Box component="form" noValidate onSubmit={handleSubmit(onSubmitHandler)} sx={{ mt: 3 }}>
+                            <Grid container spacing={2}>
+                                <Grid item xs={12}>
+                                    <TextField  {...register("sellerName")}
+                                        autoComplete="given-name"
+                                        name="sellerName"
+                                        required
+                                        fullWidth
+                                        id="sellerName"
+                                        label="Seller Name"
+                                        autoFocus
+                                        error={!!errors.sellerName}
+                                        helperText={errors.sellerName?.message}
                                     />
-                                    {errors.email && (
-                                        <p className="text-red-600 text-xs font-semibold tracking-wide flex items-center gap-2 -mt-1.5">
-                                            <span className="italic font-titleFont font-extrabold text-base">!</span>
-                                            {errors.email.message}
-                                        </p>
-                                    )}
-                                </div>
-                                <div className="flex flex-col gap-2">
-                                    <p className="text-sm font-medium">Fullname</p>
-                                    <input
-                                        name="fullName"
-                                        {...register("sellerName")}
-                                        className="w-full normal-case py-1 border border-zinc-400 px-2 text-base rounded-sm outline-none focus-within:border-[#4F46E5] focus:ring-1 focus:ring-inset focus:ring-indigo-600 duration-100"
-                                        type="text"
+                                </Grid>
+                                <Grid item xs={12} sm={6}>
+                                    <TextField    {...register("phone")}
+                                        required
+                                        fullWidth
+                                        id="phone"
+                                        label="Phone"
+                                        name="phone"
+                                        error={!!errors.phone}
+                                        helperText={errors.phone?.message}
                                     />
-                                    {errors.sellerName && (
-                                        <p className="text-red-600 text-xs font-semibold tracking-wide flex items-center gap-2 -mt-1.5">
-                                            <span className="italic font-titleFont font-extrabold text-base">!</span>
-                                            {errors.sellerName.message}
-                                        </p>
-                                    )}
-                                </div>
-                                <div className="flex flex-col gap-2">
-                                    <p className="text-sm font-medium">Birthday</p>
-                                    <input
+                                </Grid>
+                                <Grid item xs={12} sm={6}>
+                                    <TextField   {...register("birthDay")}
+                                        required
+                                        fullWidth
+                                        id="birthDay"
+                                        label="Birthday"
                                         name="birthDay"
-                                        {...register("birthDay")}
-                                        className="w-full normal-case py-1 border border-zinc-400 px-2 text-base rounded-sm outline-none focus-within:border-[#4F46E5] focus:ring-1 focus:ring-inset focus:ring-indigo-600 duration-100"
-                                        type="text"
+                                        type="date"
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                        error={!!errors.birthDay}
+                                        helperText={errors.birthDay?.message}
                                     />
-                                    {errors.birthDay && (
-                                        <p className="text-red-600 text-xs font-semibold tracking-wide flex items-center gap-2 -mt-1.5">
-                                            <span className="italic font-titleFont font-extrabold text-base">!</span>
-                                            {errors.birthDay.message}
-                                        </p>
-                                    )}
-                                </div>
-                                <div className="flex flex-col gap-2">
-                                    <p className="text-sm font-medium">Phone</p>
-                                    <input
-                                        name="fullName"
-                                        {...register("phone")}
-                                        className="w-full normal-case py-1 border border-zinc-400 px-2 text-base rounded-sm outline-none focus-within:border-[#4F46E5] focus:ring-1 focus:ring-inset focus:ring-indigo-600 duration-100"
-                                        type="text"
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <TextField  {...register("storeName")}
+                                        required
+                                        fullWidth
+                                        id="storeName"
+                                        label="Store Name"
+                                        name="storeName"
+                                        autoComplete="sellerName"
+                                        error={!!errors.storeName}
+                                        helperText={errors.storeName?.message}
                                     />
-                                    {errors.phone && (
-                                        <p className="text-red-600 text-xs font-semibold tracking-wide flex items-center gap-2 -mt-1.5">
-                                            <span className="italic font-titleFont font-extrabold text-base">!</span>
-                                            {errors.phone.message}
-                                        </p>
-                                    )}
-                                </div>
-                                <div className="flex flex-col gap-2">
-                                    <p className="text-sm font-medium">Password</p>
-                                    <input
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <TextField  {...register("email")}
+                                        required
+                                        fullWidth
+                                        id="email"
+                                        label="Email Address"
+                                        name="email"
+                                        autoComplete="email"
+                                        error={!!errors.email}
+                                        helperText={errors.email?.message}
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <TextField     {...register("password")}
+                                        required
+                                        fullWidth
                                         name="password"
-                                        {...register("password")}
-                                        className="w-full normal-case py-1 border border-zinc-400 px-2 text-base rounded-sm outline-none focus-within:border-[#4F46E5] focus:ring-1 focus:ring-inset focus:ring-indigo-600 duration-100"
+                                        label="Password"
                                         type="password"
+                                        id="password"
+                                        autoComplete="new-password"
+                                        error={!!errors.password}
+                                        helperText={errors.password?.message}
                                     />
-                                    {errors.password && (
-                                        <p className="text-red-600 text-xs font-semibold tracking-wide flex items-center gap-2 -mt-1.5">
-                                            <span className="italic font-titleFont font-extrabold text-base">!</span>
-                                            {errors.password.message}
-                                        </p>
-                                    )}
-                                </div>
-                                <div className="flex flex-col gap-2">
-                                    <p className="text-sm font-medium">Confirm Password</p>
-                                    <input
-                                        name="confirmPassword"
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <TextField
                                         {...register("confirmPassword")}
-                                        className="w-full normal-case py-1 border border-zinc-400 px-2 text-base rounded-sm outline-none focus-within:border-[#4F46E5] focus:ring-1 focus:ring-inset focus:ring-indigo-600 duration-100"
+                                        required
+                                        fullWidth
+                                        name="confirmPassword"
+                                        label="Confirm Password"
                                         type="password"
+                                        id="confirmPassword"
+                                        autoComplete="new-password"
+                                        error={!!errors.confirmPassword}
+                                        helperText={errors.confirmPassword?.message}
                                     />
-                                    {errors.confirmPassword && (
-                                        <p className="text-red-600 text-xs font-semibold tracking-wide flex items-center gap-2 -mt-1.5">
-                                            <span className="italic font-titleFont font-extrabold text-base">!</span>
-                                            {errors.confirmPassword.message}
-                                        </p>
-                                    )}
-                                </div>
-                                {/* Additional form fields and validation messages */}
-                            </div>
-                            <button
-                                className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <FormControlLabel
+                                        control={<Checkbox value="allowExtraEmails" color="primary" />}
+                                        label="I want to receive inspiration, marketing promotions and updates via email."
+                                    />
+                                </Grid>
+                            </Grid>
+                            <Button
                                 type="submit"
+                                fullWidth
+                                variant="contained"
+                                sx={{ mt: 3, mb: 2 }}
                             >
-                                Continue
-                            </button>
-                            {/* Loading and success notifications */}
-                        </div>
-                    </form>
-                </div>
-                <div className="w-full bg-gradient-to-t from-white via-white to-zinc-200 flex flex-col gap-4 justify-center items-center py-10">
-                    <p className="text-xs text-gray-600">
-                        © 2024-2025 FashionStar - Project Group 4.
-                    </p>
-                </div>
-            </div>
-        </div>
+                                Sign Up
+                            </Button>
+                            <Grid container justifyContent="flex-end">
+                                <Grid item>
+                                    <Link onClick={() => { navigate("/") }} variant="body2">
+                                        Already have an account? Sign in
+                                    </Link>
+                                </Grid>
+                            </Grid>
+                        </Box>
+
+                    </Box>
+                    <Copyright sx={{ mt: 5 }} />
+                </Container>
+            </ThemeProvider>
+        </>
+
 
     );
 }

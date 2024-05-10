@@ -24,7 +24,14 @@ export const addProduct = createAsyncThunk("product/add", async ({ data, storeId
     const response = await productAPI.add(data, storeId);
     return response; // Return the response, which contains the added product information
 });
-
+export const getProductById = createAsyncThunk("product/product_by_id", async (productId) => {
+    const response = await productAPI.findById(productId);
+    return response;
+});
+export const updateProduct = createAsyncThunk("product/update", async ({ productId, data }) => {
+    const response = await productAPI.update(productId, data);
+    return response; // Return the response, which contains the updated product information
+});
 const productSlice = createSlice({
     name: "product",
     initialState,
@@ -88,7 +95,40 @@ const productSlice = createSlice({
                 state.loading = false;
                 state.productInfo = action.payload; // Set productInfo to the added product information
                 state.error = null;
+            })
+            .addCase(getProductById.pending, (state) => {
+                state.success = false;
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(getProductById.rejected, (state, action) => {
+                state.success = false;
+                state.loading = false;
+                state.error = action.error;
+            })
+            .addCase(getProductById.fulfilled, (state, action) => {
+                state.success = true;
+                state.loading = false;
+                state.productInfo = action.payload; // Set productInfo to the fetched product information
+                state.error = null;
+            })
+            .addCase(updateProduct.pending, (state) => {
+                state.success = false;
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(updateProduct.rejected, (state, action) => {
+                state.success = false;
+                state.loading = false;
+                state.error = action.error;
+            })
+            .addCase(updateProduct.fulfilled, (state, action) => {
+                state.success = true;
+                state.loading = false;
+                state.productInfo = action.payload; // Set productInfo to the updated product information
+                state.error = null;
             });
+        ;
     },
 });
 

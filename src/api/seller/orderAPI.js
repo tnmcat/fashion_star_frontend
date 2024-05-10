@@ -29,10 +29,40 @@ const orderApi = {
         }
         return result;
     },
-    async updateOrder(orderId, data) {
+    async acceptOrder(orderId) {
         let result = null;
         try {
-            result = await api.post(`seller/order/update/${orderId}`, data);
+            result = await api.post(`seller/order/accept/${orderId}`);
+            console.log('at api' + result);
+        } catch (e) {
+            console.log("Get stores by seller ID API error: " + e);
+        }
+        return result;
+    },
+    async cancelOrder(orderId) {
+        let result = null;
+        try {
+            result = await api.post(`seller/order/cancel/${orderId}`);
+            console.log('at api' + result);
+        } catch (e) {
+            console.log("Get stores by seller ID API error: " + e);
+        }
+        return result;
+    },
+    async deliverOrder(orderId) {
+        let result = null;
+        try {
+            result = await api.post(`seller/order/deliver/${orderId}`);
+            console.log('at api' + result);
+        } catch (e) {
+            console.log("Get stores by seller ID API error: " + e);
+        }
+        return result;
+    },
+    async completeOrder(orderId) {
+        let result = null;
+        try {
+            result = await api.post(`seller/order/complete/${orderId}`);
             console.log('at api' + result);
         } catch (e) {
             console.log("Get stores by seller ID API error: " + e);

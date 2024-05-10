@@ -1,17 +1,32 @@
-import { Button, Link, TextField } from '@mui/material';
+import { Box, Button, Grid, Link, Modal, TextField, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import EditIcon from '@mui/icons-material/Edit';
 import { DataGrid } from '@mui/x-data-grid';
 import DeleteIcon from '@mui/icons-material/Delete';
+import DoneIcon from '@mui/icons-material/Done';
+
 VariantList.propTypes = {
     variantList: PropTypes.arrayOf(PropTypes.object).isRequired,
     onSubmit: PropTypes.func,
     onDelete: PropTypes.func // Add onDelete prop
 };
 
+const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+};
+
 function VariantList({ variantList, onSubmit, onDelete }) {
     const [editedVariants, setEditedVariants] = useState({});
+    const [open, setOpen] = useState(false);
 
     // Set initial state to match variantList data
     useEffect(() => {
@@ -22,6 +37,7 @@ function VariantList({ variantList, onSubmit, onDelete }) {
                 stockQuantity: variant.stockQuantity,
                 price: variant.price,
                 salePrice: variant.salePrice,
+                imageDTOList: variant.imageDTOList // Add imageDTOList field
             };
         });
         setEditedVariants(initialEditedVariants);
@@ -42,6 +58,7 @@ function VariantList({ variantList, onSubmit, onDelete }) {
         const updatedVariant = editedVariants[variantId];
         if (onSubmit) {
             onSubmit(variantId, updatedVariant);
+            setOpen(true); // Show modal after form submission
         }
     };
 
@@ -51,15 +68,23 @@ function VariantList({ variantList, onSubmit, onDelete }) {
         }
     };
 
+    const handleClose = () => setOpen(false);
 
     const columns = [
-        { field: 'id', headerName: 'ID', width: 70 },
         {
-            field: 'skuCode', headerName: 'Sku Code', width: 130,
+            field: 'skuCode',
+            headerName: 'Sku Code',
+            width: 130,
             renderCell: (params) => (
-                <TextField hiddenLabel variant="standard"
-                    id="filled-hidden-label-small"
-                    size="small" margin="dense"
+                <TextField
+                    hiddenLabel
+                    id="filled-read-only-input"
+                    InputProps={{
+                        readOnly: true,
+                    }}
+                    variant="filled"
+                    size="small"
+                    margin="dense"
                     value={editedVariants[params.id]?.skuCode || ''}
                     onChange={(e) => handleInputChange(e, params.id, 'skuCode')}
                 />
@@ -74,14 +99,19 @@ function VariantList({ variantList, onSubmit, onDelete }) {
             ),
         },
         {
-            field: 'stockQuantity', headerName: 'Stock Quantity', width: 130, type: 'number',
+            field: 'stockQuantity',
+            headerName: 'Stock Quantity',
+            width: 130,
+            type: 'number',
             renderCell: (params) => (
-                <TextField hiddenLabel variant="standard"
+                <TextField
+                    hiddenLabel
+                    variant="standard"
                     id="filled-hidden-label-small"
-                    size="small" margin="dense"
+                    size="small"
+                    margin="dense"
                     value={editedVariants[params.id]?.stockQuantity || ''}
                     onChange={(e) => handleInputChange(e, params.id, 'stockQuantity')}
-
                 />
             ),
         },
@@ -91,12 +121,14 @@ function VariantList({ variantList, onSubmit, onDelete }) {
             type: 'number',
             width: 90,
             renderCell: (params) => (
-                <TextField hiddenLabel variant="standard"
+                <TextField
+                    hiddenLabel
+                    variant="standard"
                     id="filled-hidden-label-small"
-                    size="small" margin="dense"
+                    size="small"
+                    margin="dense"
                     value={editedVariants[params.id]?.price || ''}
                     onChange={(e) => handleInputChange(e, params.id, 'price')}
-
                 />
             ),
         },
@@ -106,12 +138,32 @@ function VariantList({ variantList, onSubmit, onDelete }) {
             type: 'number',
             width: 90,
             renderCell: (params) => (
-                <TextField hiddenLabel variant="standard"
+                <TextField
+                    hiddenLabel
+                    variant="standard"
                     id="filled-hidden-label-small"
-                    size="small" margin="dense"
+                    size="small"
+                    margin="dense"
                     value={editedVariants[params.id]?.salePrice || ''}
                     onChange={(e) => handleInputChange(e, params.id, 'salePrice')}
                 />
+            ),
+        },
+        {
+            field: 'image',
+            headerName: 'Image',
+            width: 100,
+            renderCell: (params) => (
+                <div>
+                    {params.row.imageDTOList?.map((image, index) => (
+                        <img
+                            key={index}
+                            src={image.url}
+                            alt={`Variant Image ${index}`}
+                            style={{ width: 50, height: 50, marginRight: 5 }}
+                        />
+                    ))}
+                </div>
             ),
         },
         {
@@ -122,7 +174,6 @@ function VariantList({ variantList, onSubmit, onDelete }) {
             description: 'This column has a value getter and is not sortable.',
             renderCell: (params) => (
                 <button onClick={() => handleUpdateVariant(params.id)}><EditIcon /></button>
-
             ),
         },
         {
@@ -133,7 +184,6 @@ function VariantList({ variantList, onSubmit, onDelete }) {
             description: 'This column has a value getter and is not sortable.',
             renderCell: (params) => (
                 <button variant="contained" onClick={() => handleDeleteVariant(params.id)}><DeleteIcon /></button>
-
             ),
         },
     ];
@@ -144,16 +194,22 @@ function VariantList({ variantList, onSubmit, onDelete }) {
                 <DataGrid
                     rows={variantList}
                     columns={columns}
-                    initialState={{
-                        pagination: {
-                            paginationModel: { page: 0, pageSize: 5 },
-                        },
-                    }}
-                    pageSizeOptions={[5, 10]}
-                // checkboxSelection
+                    pageSize={5}
                 />
             </div>
-
+            <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <Box sx={style}>
+                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                        <DoneIcon /> Save Variant Successfully
+                    </Typography>
+                    <Button onClick={handleClose}>Close</Button>
+                </Box>
+            </Modal>
         </>
     );
 }

@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { unwrapResult } from '@reduxjs/toolkit';
-import { getOrderByOrderId, updateOrder } from '../../../features/seller_feature/order/orderSlice';
+import { acceptOrder, cancelOrder, completeOrder, deliverOrder, getOrderByOrderId, updateOrder } from '../../../features/seller_feature/order/orderSlice';
 import OrderUpdateForm from './OrderUpdateForm';
-import { Avatar, Box, Breadcrumbs, Button, CssBaseline, Grid, Link, List, ListItem, ListItemAvatar, ListItemText, Paper, Typography } from '@mui/material';
+import { Avatar, Box, Breadcrumbs, Button, CssBaseline, Divider, Grid, Link, List, ListItem, ListItemAvatar, ListItemText, Paper, Typography } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -21,6 +21,8 @@ import LocalMallIcon from '@mui/icons-material/LocalMall';
 import CancelPresentationIcon from '@mui/icons-material/CancelPresentation';
 import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 import TaskAltIcon from '@mui/icons-material/TaskAlt';
+import CancelIcon from '@mui/icons-material/Cancel';
+import convertTimestampToDate, { convertTimestampToDateTime } from '../../../utils/common';
 function OrderDetailsManage() {
     const { orderId } = useParams();
     const dispatch = useDispatch();
@@ -40,9 +42,39 @@ function OrderDetailsManage() {
         }
     }, [dispatch, orderId]);
 
-    const handleOrderFormSubmit = async (data) => {
+    const handleAcceptOrderSubmit = async () => {
         try {
-            const resultAction = await dispatch(updateOrder({ orderId, data }));
+            const resultAction = await dispatch(acceptOrder({ orderId }));
+            unwrapResult(resultAction);
+            // Refetch orders after successfully adding a new order
+            fetchOrderDetails(orderId);
+        } catch (err) {
+            console.error('Failed to UPDATE order:', err);
+        }
+    };
+    const handleDeliveryOrderSubmit = async () => {
+        try {
+            const resultAction = await dispatch(deliverOrder({ orderId }));
+            unwrapResult(resultAction);
+            // Refetch orders after successfully adding a new order
+            fetchOrderDetails(orderId);
+        } catch (err) {
+            console.error('Failed to UPDATE order:', err);
+        }
+    };
+    const handleCancelOrderSubmit = async () => {
+        try {
+            const resultAction = await dispatch(cancelOrder({ orderId }));
+            unwrapResult(resultAction);
+            // Refetch orders after successfully adding a new order
+            fetchOrderDetails(orderId);
+        } catch (err) {
+            console.error('Failed to UPDATE order:', err);
+        }
+    };
+    const handleCompleteOrderSubmit = async () => {
+        try {
+            const resultAction = await dispatch(completeOrder({ orderId }));
             unwrapResult(resultAction);
             // Refetch orders after successfully adding a new order
             fetchOrderDetails(orderId);
@@ -55,7 +87,6 @@ function OrderDetailsManage() {
         event.preventDefault();
         console.info('You clicked a breadcrumb.');
     }
-
     return (
         <>
             <CssBaseline />
@@ -97,12 +128,13 @@ function OrderDetailsManage() {
                         <div>
                             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                 <Typography variant="h5" component="h6" align="left" color="primary" sx={{ marginTop: 2, marginBottom: 2 }}>
-                                    Order No. {orderDetails.id} placed at {orderDetails.order_date}
+                                    Order No. {orderDetails.id} created at {convertTimestampToDateTime(orderDetails.order_date)}
                                 </Typography>
                                 <Typography variant="h6" component="h6" align="left" color="primary" sx={{ marginTop: 2, marginBottom: 2 }}>
-                                    {orderDetails.order_status}
+                                    Status | {orderDetails.order_status}
                                 </Typography>
                             </Box>
+                            <Divider />
                             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                 <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
                                     <ListItem>
@@ -127,7 +159,7 @@ function OrderDetailsManage() {
                                                 <PlaceIcon />
                                             </Avatar>
                                         </ListItemAvatar>
-                                        <ListItemText primary="Address" secondary={orderDetails.addressDTO.street + " street, ward " + orderDetails.addressDTO.ward + orderDetails.addressDTO.city + " city "} />
+                                        <ListItemText primary="Address" secondary={orderDetails.addressDTO.street + " street, ward " + orderDetails.addressDTO.ward + " " + orderDetails.addressDTO.city + " city "} />
                                     </ListItem>
                                 </List>
                                 <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
@@ -150,30 +182,46 @@ function OrderDetailsManage() {
                                 </List>
                                 <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
 
-                                    <ListItem>
-                                        <ListItemAvatar>
-                                            <Avatar>
-                                                <AssignmentTurnedInIcon />
-                                            </Avatar>
-                                        </ListItemAvatar>
-                                        <ListItemText primary="Accepted At" secondary={orderDetails.shippingMethodDTO.name} />
-                                    </ListItem>
-                                    <ListItem>
-                                        <ListItemAvatar>
-                                            <Avatar>
-                                                <LocalShippingIcon />
-                                            </Avatar>
-                                        </ListItemAvatar>
-                                        <ListItemText primary="Delivering" secondary={orderDetails.shippingMethodDTO.name} />
-                                    </ListItem>
-                                    <ListItem>
-                                        <ListItemAvatar>
-                                            <Avatar>
-                                                <TaskAltIcon />
-                                            </Avatar>
-                                        </ListItemAvatar>
-                                        <ListItemText primary="Completed" secondary={orderDetails.shippingMethodDTO.name} />
-                                    </ListItem>
+                                    {orderDetails.canceledAt && (
+                                        <ListItem>
+                                            <ListItemAvatar>
+                                                <Avatar style={{ backgroundColor: 'red' }}>
+                                                    <CancelIcon />
+                                                </Avatar>
+                                            </ListItemAvatar>
+                                            <ListItemText primary="Cancel At" secondary={convertTimestampToDateTime(orderDetails.canceledAt)} />
+                                        </ListItem>
+                                    )}
+                                    {orderDetails.acceptedAt && (
+                                        <ListItem>
+                                            <ListItemAvatar>
+                                                <Avatar style={{ backgroundColor: 'blue' }}>
+                                                    <AssignmentTurnedInIcon />
+                                                </Avatar>
+                                            </ListItemAvatar >
+                                            <ListItemText primary="Accepted At" secondary={convertTimestampToDateTime(orderDetails.acceptedAt)} />
+                                        </ListItem>
+                                    )}
+                                    {orderDetails.deliveringAt && (
+                                        <ListItem>
+                                            <ListItemAvatar>
+                                                <Avatar style={{ backgroundColor: 'orange' }}>
+                                                    <LocalShippingIcon />
+                                                </Avatar>
+                                            </ListItemAvatar>
+                                            <ListItemText primary="Delivering" secondary={convertTimestampToDateTime(orderDetails.deliveringAt)} />
+                                        </ListItem>
+                                    )}
+                                    {orderDetails.completedAt && (
+                                        <ListItem>
+                                            <ListItemAvatar>
+                                                <Avatar style={{ backgroundColor: 'green' }}>
+                                                    <TaskAltIcon />
+                                                </Avatar>
+                                            </ListItemAvatar>
+                                            <ListItemText primary="Completed" secondary={convertTimestampToDateTime(orderDetails.completedAt)} />
+                                        </ListItem>
+                                    )}
                                 </List>
                             </Box>
 
@@ -196,7 +244,7 @@ function OrderDetailsManage() {
                                     <TableBody>
                                         {orderDetails.orderItemListDTO.map(item => (
                                             <TableRow key={item.id}>
-                                                <TableCell>SKUCODE</TableCell>
+                                                <TableCell>{item.variantDTO.skuCode}</TableCell>
                                                 <TableCell>{item.variantDTO.stockQuantity}</TableCell>
                                                 <TableCell align="right">{item.quantity}</TableCell>
                                                 <TableCell align="right">${item.price.toFixed(2)}</TableCell>
@@ -209,7 +257,7 @@ function OrderDetailsManage() {
                                             <TableCell ></TableCell>
                                             <TableCell >Shipping</TableCell>
                                             <TableCell align="right">{orderDetails.shippingMethodDTO.name}</TableCell>
-                                            <TableCell align="right">10</TableCell>
+                                            <TableCell align="right">{orderDetails.shippingMethodDTO.price}</TableCell>
                                         </TableRow>
                                         <TableRow>
                                             <TableCell ></TableCell>
@@ -225,15 +273,16 @@ function OrderDetailsManage() {
                     )}
 
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 2, marginBottom: 2 }}>
-                        <Button size="medium" variant="contained" color="error">Cancel</Button>
+                        <Button onClick={handleCancelOrderSubmit} size="medium" variant="contained" color="error">Cancel</Button>
                         <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                            <Button size="medium" variant="contained">Accept</Button>
-                            <Button size="medium" variant="contained" color="success" sx={{ marginLeft: 2 }}>Delivering</Button>
+                            <Button size="medium" variant="contained" onClick={handleAcceptOrderSubmit}>Accept</Button>
+                            <Button onClick={handleDeliveryOrderSubmit} size="medium" variant="contained" color="warning" sx={{ marginLeft: 2 }}>Delivering</Button>
+                            <Button onClick={handleCompleteOrderSubmit} size="medium" variant="contained" color="success" sx={{ marginLeft: 2 }}>Completed</Button>
                         </Box>
                     </Box>
                 </Paper>
             </Box>
-            <OrderUpdateForm onSubmit={handleOrderFormSubmit} />
+
         </>
     );
 }
