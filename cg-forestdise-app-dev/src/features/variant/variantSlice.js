@@ -5,11 +5,13 @@ import {
     createVariant,
     updateVariantAfterCreate,
     deleteVariantAfterCreate,
+    findByProductIdAndValueIds,
 } from "../../api/variantAPI";
 
 const initialState = {
     variant: null,
     variantDetail: null,
+
     variants: [],
     loading: false,
     error: null,
@@ -18,9 +20,9 @@ const initialState = {
 
 export const getVariant = createAsyncThunk(
     "variant/detail",
-    async (productId) => {
-        const response = await findVariant(productId);
-        console.log("variant/detail", response);
+    async (variantId) => {
+        const response = await findVariant(variantId);
+        console.log("variant/detail", response.data);
         return response.data;
     }
 );
@@ -52,6 +54,22 @@ export const deleteVariant = createAsyncThunk(
         return response.data;
     }
 );
+
+export const findVariantsByProductIdAndValueIds = createAsyncThunk(
+    "variant/find_variants_by_product_id_and_value_ids",
+    async (request) => {
+        try {
+            const response = await findByProductIdAndValueIds(
+                request.productId,
+                request.optionValueIds
+            );
+            return response;
+        } catch (error) {
+            throw new Error(error.message);
+        }
+    }
+);
+
 export const variantSlice = createSlice({
     name: "variant",
     initialState,
@@ -70,36 +88,28 @@ export const variantSlice = createSlice({
         builder
             //Update states of get variant action
             .addCase(getVariant.pending, (state) => {
-                state.success = false;
                 state.loading = true;
-                state.error = false;
             })
             .addCase(getVariant.rejected, (state, action) => {
-                state.success = false;
                 state.loading = false;
-                state.error = action.error;
+                state.error = action.error.message;
             })
             .addCase(getVariant.fulfilled, (state, action) => {
-                state.success = true;
-                state.loading = false;
-                state.variant = action.payload;
-                state.error = false;
-            })
-            .addCase(getVariantInfo.pending, (state) => {
-                state.success = false;
-                state.loading = true;
-                state.error = false;
-            })
-            .addCase(getVariantInfo.rejected, (state, action) => {
-                state.success = false;
-                state.loading = false;
-                state.error = action.error;
-            })
-            .addCase(getVariantInfo.fulfilled, (state, action) => {
-                state.success = true;
                 state.loading = false;
                 state.variantDetail = action.payload;
-                state.error = false;
+                state.error = null;
+            })
+            .addCase(getVariantInfo.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(getVariantInfo.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error.message;
+            })
+            .addCase(getVariantInfo.fulfilled, (state, action) => {
+                state.loading = false;
+                state.variantDetail = action.payload;
+                state.error = null;
             })
             .addCase(addVariant.pending, (state) => {
                 state.success = false;
@@ -169,7 +179,29 @@ export const variantSlice = createSlice({
                     //
                 }
                 state.error = false;
-            });
+            })
+            .addCase(findVariantsByProductIdAndValueIds.pending, (state) => {
+                state.success = false;
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(
+                findVariantsByProductIdAndValueIds.rejected,
+                (state, action) => {
+                    state.success = false;
+                    state.loading = false;
+                    state.error = action.error.message;
+                }
+            )
+            .addCase(
+                findVariantsByProductIdAndValueIds.fulfilled,
+                (state, action) => {
+                    state.success = true;
+                    state.loading = false;
+                    state.variantInfo = action.payload;
+                    state.error = null;
+                }
+            );
     },
 });
 export const {setLoading, setError, setSuccess} = variantSlice.actions;

@@ -8,6 +8,7 @@ import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import {Link, useParams, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {
+    findVariantsByProductIdAndValueIds,
     getVariant,
     getVariantInfo,
     selectError,
@@ -29,6 +30,8 @@ import {
     selectReviewListByProductId,
 } from "../../../features/coment_review/reviewSlide";
 import FormatDate from "../../common/format/FormatDate";
+import {unwrapResult} from "@reduxjs/toolkit";
+import {fetchOptionsByProductId} from "../../../features/variant/optionSlide";
 
 function ProductDetail() {
     const {id} = useParams();
@@ -53,6 +56,9 @@ function ProductDetail() {
     const [idArray, setIdArray] = useState([]);
     const [variantDTOListForLoop, setVariantDTOListForLoop] = useState([]);
     const navigate = useNavigate();
+    const [optionList, setOptionList] = useState(null);
+    const [selectedValues, setSelectedValues] = useState([]);
+    const [selectedVariant, setSelectedVariant] = useState(null);
     useEffect(() => {
         getVariantDetail();
     }, [id]);
@@ -119,7 +125,6 @@ function ProductDetail() {
     const statusLoading = useSelector(selectLoading);
     const statusSuccess = useSelector(selectSuccess);
     const statusError = useSelector(selectError);
-
     console.log(statusLoading);
     console.log(statusSuccess);
     console.log(statusError);
@@ -150,6 +155,55 @@ function ProductDetail() {
             }
         });
     };
+    const fetchOptions = async () => {
+        try {
+            const options_result = await dispatch(
+                fetchOptionsByProductId(productId)
+            );
+            const options = unwrapResult(options_result);
+            setOptionList(options);
+
+            // Thiết lập giá trị mặc định cho mỗi option
+            const defaultValues = options.map((option) => ({
+                optionId: option.id,
+                valueId:
+                    option.optionValueDTOList.length > 0
+                        ? option.optionValueDTOList[0].id
+                        : null, // Giả sử chọn giá trị đầu tiên
+            }));
+            setSelectedValues(defaultValues);
+        } catch (error) {
+            console.error("Failed to fetch options:", error);
+        }
+    };
+
+    // Trong useEffect thứ hai
+    useEffect(() => {
+        const findVariants = async () => {
+            try {
+                const request = {
+                    productId: productId,
+                    optionValueIds: selectedValues.map(
+                        (value) => value.valueId
+                    ),
+                };
+                const variant_result = await dispatch(
+                    findVariantsByProductIdAndValueIds(request)
+                );
+                const variant = unwrapResult(variant_result);
+                setSelectedVariant(variant);
+            } catch (error) {
+                console.error("Failed to fetch variants:", error);
+            }
+        };
+
+        if (selectedValues.length > 0) {
+            findVariants();
+        }
+    }, [dispatch, productId, selectedValues]);
+    useEffect(() => {
+        fetchOptions();
+    }, [dispatch, productId]);
 
     if (variantDetail != null && variantRender != null) {
         return (
@@ -332,7 +386,7 @@ function ProductDetail() {
                                     </div>
                                 </div>
                             ))}
-                            {variantDetail.productAttributeDTOLis?.map(
+                            {variantDetail.productAttributeDTOList?.map(
                                 (attr, bindex) => (
                                     <div
                                         key={bindex}
@@ -554,39 +608,7 @@ function ProductDetail() {
                     </div>
                     {/* Cart End */}
                 </div>
-                <div className="container mx-auto h-auto text-3xl font-bold py-4">
-                    <h1>FROM THE BRAND</h1>
-                    <img
-                        className="w-full object-contain"
-                        src={variantDetail.storeDto.interactiveImage}
-                        alt="ProductImg"
-                    ></img>
-                </div>
-                <hr></hr>
-                <div className="container mx-auto h-auto text-3xl font-bold py-4">
-                    <h1>From the manufacturer</h1>
-                    <img
-                        className="w-full px-24 my-4 object-contain"
-                        src={variantDetail.storeDto.dealsImage}
-                        alt="ProductImg"
-                    ></img>
-                    <img
-                        className="w-full px-24 my-4  object-contain"
-                        src={variantDetail.storeDto.dealsSquareImage}
-                        alt="ProductImg"
-                    ></img>
-                    <h1>{variantDetail.storeDto.name}</h1>
-                    <img
-                        className="w-full px-24 my-4  object-contain"
-                        src={variantDetail.storeDto.homeImage}
-                        alt="ProductImg"
-                    ></img>
-                    <img
-                        className="w-full px-24 my-4  object-contain"
-                        src={variantDetail.storeDto.interactiveImage}
-                        alt="ProductImg"
-                    ></img>
-                </div>
+
                 <hr></hr>
                 {/* Search comment start */}
                 <div className="container mx-auto h-auto py-4 text-bodyFont flex flex-col">
@@ -973,117 +995,6 @@ function ProductDetail() {
                                 )
                             )}
                         <hr></hr>
-                        {/* <div className="m-4">
-                            <div className="flex mb-2">
-                                <imgUrl
-                                    src="https://scontent.fsgn5-10.fna.fbcdn.net/v/t1.6435-9/116429521_1655876004585921_941667011043408186_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=84a396&_nc_ohc=jX_SP-XeWGUAX8gd9Dl&_nc_ht=scontent.fsgn5-10.fna&oh=00_AfB8K54ttI7F3njd8xLWtnInOErSx2FkaIhUXEuNjobBRw&oe=654A001A"
-                                    className="rounded-full w-5 h-5"
-                                />
-                                <div className="ml-4 text-titleFont">
-                                    Meomeocute
-                                </div>
-                            </div>
-                            <div className="flex">
-                                <div className="text-amazon_yellow text-sm items-center ">
-                                    <StarIcon sx={{fontSize: 15}} />
-                                    <StarIcon sx={{fontSize: 15}} />
-                                    <StarIcon sx={{fontSize: 15}} />
-                                    <StarIcon sx={{fontSize: 15}} />
-                                    <StarIcon sx={{fontSize: 15}} />
-                                </div>
-                                <p className="text-bodyFont text-sm ml-4 font-medium hover:underline hover:text-amber-600">
-                                    {" "}
-                                    I wish that I had found these before I spent
-                                    1000's on doctors and Physical therapy
-                                </p>
-                            </div>
-                            <div className="text-bodyFont text-xs text-gray-500">
-                                Reviewed in the United States on September 25,
-                                2023
-                            </div>
-                            <div className="text-bodyFont text-xs text-gray-500 mb-2">
-                                Style: Men's Size 8-13 | Size: 1 Pair (Pack of
-                                1)
-                                <span className="text-amber-700 ml-2 font-bold">
-                                    Verified Purchase
-                                </span>
-                            </div>
-                            <div className="text-bodyFont text-xs text-black">
-                                Seriously these are the best things I've found.
-                                They have helped my plantar fasciitis better
-                                than the Shot the foot doctor gave, and the many
-                                physical therapy appointments which cost me
-                                every time I went. I wish I had found them
-                                before all that. Even after all that I still had
-                                pain, it was better, but not 100%, these inserts
-                                have helped me profoundly. Please note that they
-                                do not work in all shoes, but so far I've only
-                                had one pair of my shoes that they didn't work
-                                in. I'll be chucking those. They've worked in
-                                dress shoes, and my Puma workout shoes along
-                                with my Keen hiking shoes. So if they don't work
-                                for you, try them in a different shoe. I bet
-                                they will work in any flat shoe with little or
-                                no arch support. Give them a shot if you suffer
-                                as I did.
-                            </div>
-                        </div> */}
-                        <hr></hr>
-                        {/* <div className="m-4">
-                            <div className="flex mb-2">
-                                <imgUrl
-                                    src="https://scontent.fsgn5-10.fna.fbcdn.net/v/t1.6435-9/116429521_1655876004585921_941667011043408186_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=84a396&_nc_ohc=jX_SP-XeWGUAX8gd9Dl&_nc_ht=scontent.fsgn5-10.fna&oh=00_AfB8K54ttI7F3njd8xLWtnInOErSx2FkaIhUXEuNjobBRw&oe=654A001A"
-                                    className="rounded-full w-5 h-5"
-                                />
-                                <div className="ml-4 text-titleFont">
-                                    Meomeocute
-                                </div>
-                            </div>
-                            <div className="flex">
-                                <div className="text-amazon_yellow text-sm items-center ">
-                                    <StarIcon sx={{fontSize: 15}} />
-                                    <StarIcon sx={{fontSize: 15}} />
-                                    <StarIcon sx={{fontSize: 15}} />
-                                    <StarIcon sx={{fontSize: 15}} />
-                                    <StarIcon sx={{fontSize: 15}} />
-                                </div>
-                                <p className="text-bodyFont text-sm ml-4 font-medium hover:underline hover:text-amber-600">
-                                    {" "}
-                                    I wish that I had found these before I spent
-                                    1000's on doctors and Physical therapy
-                                </p>
-                            </div>
-                            <div className="text-bodyFont text-xs text-gray-500">
-                                Reviewed in the United States on September 25,
-                                2023
-                            </div>
-                            <div className="text-bodyFont text-xs text-gray-500 mb-2">
-                                Style: Men's Size 8-13 | Size: 1 Pair (Pack of
-                                1)
-                                <span className="text-amber-700 ml-2 font-bold">
-                                    Verified Purchase
-                                </span>
-                            </div>
-                            <div className="text-bodyFont text-xs text-black">
-                                Seriously these are the best things I've found.
-                                They have helped my plantar fasciitis better
-                                than the Shot the foot doctor gave, and the many
-                                physical therapy appointments which cost me
-                                every time I went. I wish I had found them
-                                before all that. Even after all that I still had
-                                pain, it was better, but not 100%, these inserts
-                                have helped me profoundly. Please note that they
-                                do not work in all shoes, but so far I've only
-                                had one pair of my shoes that they didn't work
-                                in. I'll be chucking those. They've worked in
-                                dress shoes, and my Puma workout shoes along
-                                with my Keen hiking shoes. So if they don't work
-                                for you, try them in a different shoe. I bet
-                                they will work in any flat shoe with little or
-                                no arch support. Give them a shot if you suffer
-                                as I did.
-                            </div>
-                        </div> */}
                         <hr></hr>
                         List Review Of Customer End
                     </div>

@@ -18,7 +18,6 @@ export const getReviewsByVariantId = createAsyncThunk(
     "getreview",
     async (variantId) => {
         const response = await findReview(variantId);
-        console.log(" check lại chỗ này:", response);
         return response.data;
     }
 );
@@ -27,7 +26,6 @@ export const getReviewByProductId = createAsyncThunk(
     "Reviews",
     async (productId) => {
         const response = await findReviewByProductId(productId);
-        console.log("chổ này đọc được productId", response);
         return response.data;
     }
 );

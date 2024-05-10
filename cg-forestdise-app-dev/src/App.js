@@ -42,6 +42,7 @@ import Products from "./components/main/dashboard/element/Products";
 import Categories from "./components/main/dashboard/element/Categories";
 import OrdersDashboard from "./components/main/dashboard/element/OrdersDashboard";
 import Profile from "./components/main/dashboard/element/Profile";
+import ProductDetail2 from "./components/main/variant/ProductDetails2";
 
 const Layout = () => {
     return (
@@ -95,6 +96,8 @@ function App() {
                 <Route path="/signin" element={<Signin />} />
                 <Route path="/changepass" element={<ForgotPassword />} />
 
+                <Route path="/test-product/:id" element={<ProductDetail2 />} />
+
                 <Route path="/" element={<Layout />}>
                     <Route index element={<Home />} />
                     <Route path="/userProfile" element={<UserProfile />} />
@@ -104,7 +107,8 @@ function App() {
                         element={<ShowProduct />}
                     ></Route>
                     <Route path="/store/:id" element={<StoreLayout />} />
-                    <Route path="/product/:id" element={<ProductDetail />} />
+                    {/* <Route path="/product/:id" element={<ProductDetail />} /> */}
+                    <Route path="/product/:id" element={<ProductDetail2 />} />
                     <Route path="/review/:id" element={<OrderReview />} />
                     <Route path="/payment" element={<Payment />} />
                     <Route path="/success" element={<Success />} />
