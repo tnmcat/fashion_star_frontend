@@ -126,6 +126,25 @@ export default function ShowProduct() {
             dispatch(getProducts());
         }
     }, [dispatch, products, userInfo]);
+
+    // const handleSubmit = async (e) => {
+    //     e.preventDefault();
+    //     navigate(``);
+    //     dispatch(setSearchParamsResult(searchParams));
+    //     window.history.pushState(null, null, `?search_name=${searchParams}`);
+
+    //     await axios
+    //         .get(
+    //             `http://localhost:5454/api/stores/${storeInfo.id}/product?name=${searchParams}`
+    //         )
+    //         .then((res) => {
+    //             dispatch(setSearchProducts(res.data));
+    //             console.log(res.data);
+    //         })
+    //         .catch((err) => {
+    //             throw err;
+    //         });
+    // };
     return (
         <div className="bg-white">
             <div>
@@ -539,6 +558,40 @@ export default function ShowProduct() {
                             </form>
                             {/* Product grid */}
                             <div className="lg:col-span-4 w-full z-0">
+                                <div className="flex md:order-2 w-[200px] pl-[100px]">
+                                    <div className="relative md:block">
+                                        <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                            <svg
+                                                className="w-4 h-4 text-gray-500 dark:text-gray-400"
+                                                aria-hidden="true"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                fill="none"
+                                                viewBox="0 0 20 20"
+                                            >
+                                                <path
+                                                    stroke="currentColor"
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                    strokeWidth="2"
+                                                    d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                                                />
+                                            </svg>
+                                            <span className="sr-only">
+                                                Search icon
+                                            </span>
+                                        </div>
+                                        {/* <form onSubmit={handleSubmit}>
+                                    <input
+                                        onChange={(e) => {
+                                            handleChange(e);
+                                        }}
+                                        name="search_name"
+                                        className="block p-2 pl-10 rounded-lg text-sm border w-[240px] border-gray-300"
+                                        placeholder="Search..."
+                                    ></input>
+                                </form> */}
+                                    </div>
+                                </div>
                                 <div className="flex flex-wrap justify-center bg-white py-5">
                                     {products.map((product) => (
                                         <div
