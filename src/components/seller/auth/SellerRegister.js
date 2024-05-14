@@ -15,7 +15,7 @@ function SellerRegister() {
             const resultAction = await dispatch(registerSeller(values)); // Dispatch registerSeller directly
             const user = unwrapResult(resultAction);
             console.log(user);
-            navigate('/seller/signin');
+            navigate('/');
         } catch (error) {
             console.log('fail to register', error);
         }

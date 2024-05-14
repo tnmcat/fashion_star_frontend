@@ -6,6 +6,7 @@ import { addProduct, getProductsByStoreId } from '../../../features/seller_featu
 import ProductForm from './ProductForm';
 import ProductList from './ProductList';
 import { useNavigate } from 'react-router-dom';
+import { getAllCategories, getAllMainCategories, getAllParentCategories } from '../../../features/seller_feature/category/categorySlice';
 
 function ProductManage(props) {
     const dispatch = useDispatch();
@@ -13,6 +14,9 @@ function ProductManage(props) {
     const [productList, setProductList] = useState(null);
     const store_categories = useSelector((state) => state.storeCategory.storeCategoryByStoreId);
     const [editProduct, setEditProduct] = useState(null);
+
+
+
     // Hàm xử lý khi click vào nút "Edit"
     const handleEdit = (product) => {
         setEditProduct(product);

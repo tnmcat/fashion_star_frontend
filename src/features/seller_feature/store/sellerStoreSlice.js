@@ -15,8 +15,8 @@ export const getStoreBySellerId = createAsyncThunk("store/storeBySeller", async 
     return response;
 });
 
-export const createNewStore = createAsyncThunk("store/createNewStore", async ({ storeData, sellerId }) => {
-    const response = await storeApi.createNewStore(storeData, sellerId);
+export const createNewStore = createAsyncThunk("store/createNewStore", async ({ sellerId, storeData }) => {
+    const response = await storeApi.createStore(sellerId, storeData);
     return response;
 });
 

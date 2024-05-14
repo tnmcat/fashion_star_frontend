@@ -22,6 +22,18 @@ const productAPI = {
         }
         return result;
     },
+    async sendNeedCheckRequest(productId) {
+        let result = null;
+        console.log(productId)
+        try {
+            result = await api.get(`/seller/product/needcheck/${productId}`);
+
+            console.log(result)
+        } catch (e) {
+            console.log("Find store-category API error: " + e);
+        }
+        return result;
+    },
     async findByStoreCategoryId(storeCategoryId) {
         let result = null;
         try {

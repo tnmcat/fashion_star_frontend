@@ -12,15 +12,15 @@ import {
 //import storage from "redux-persist/lib/storage";
 import storage from "redux-persist/lib/storage";
 import categoryReducer from "../features/seller_feature/category/categorySlice";
+import imageReducer from "../features/seller_feature/image/imageSlice";
 import optionReducer from "../features/seller_feature/option/optionSlice";
 import optionValueReducer from "../features/seller_feature/option_value/optionValueSlice";
 import productReducer from "../features/seller_feature/product/productSlice";
 import sellerReducer from "../features/seller_feature/seller/sellerSlice";
 import sellerStoreReducer from "../features/seller_feature/store/sellerStoreSlice";
-import storeProcessSlice from "../features/seller_feature/store/storeProcessSlice";
+
 import storeCategoryReducer from "../features/seller_feature/store_category/storeCategorySlice";
 import variantReducer from "../features/seller_feature/variant/variantSlice";
-import imageReducer from "../features/seller_feature/image/imageSlice";
 
 
 const persistConfig = {
@@ -75,7 +75,7 @@ const variantPersistedReducer = persistReducer(persistConfig8, variantReducer);
 const imagePersistedReducer = persistReducer(persistConfig8, imageReducer);
 
 
-const storeProcessPersistedReducer = persistReducer(persistConfig2, storeProcessSlice);
+
 
 export const store = configureStore({
   reducer: {
@@ -88,10 +88,6 @@ export const store = configureStore({
     optionValue: optionValuePersistedReducer,
     variant: variantPersistedReducer,
     image: imagePersistedReducer,
-
-
-
-    storeProcess: storeProcessPersistedReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

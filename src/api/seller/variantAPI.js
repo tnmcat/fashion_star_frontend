@@ -37,6 +37,7 @@ const variantAPI = {
     },
     async update(variantId, data) {
         try {
+            console.log("at api", data);
             const response = await api.post(`seller/variant/update/${variantId}`, data);
             return response;
         } catch (error) {

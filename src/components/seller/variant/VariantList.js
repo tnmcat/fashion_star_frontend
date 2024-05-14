@@ -5,6 +5,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import { DataGrid } from '@mui/x-data-grid';
 import DeleteIcon from '@mui/icons-material/Delete';
 import DoneIcon from '@mui/icons-material/Done';
+import ImageUploadForm from './ImageUploadForm';
 
 VariantList.propTypes = {
     variantList: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -67,7 +68,17 @@ function VariantList({ variantList, onSubmit, onDelete }) {
             onDelete(variantId);
         }
     };
-
+    const handleImageUpload = (variantId, imageFile) => {
+        // Do something with the uploaded image, e.g., upload to server and update editedVariants state
+        // Here, we can just update editedVariants state directly for demonstration
+        setEditedVariants(prevState => ({
+            ...prevState,
+            [variantId]: {
+                ...prevState[variantId],
+                imageDTOList: [...prevState[variantId].imageDTOList, { url: URL.createObjectURL(imageFile) }]
+            }
+        }));
+    };
     const handleClose = () => setOpen(false);
 
     const columns = [
@@ -150,23 +161,6 @@ function VariantList({ variantList, onSubmit, onDelete }) {
             ),
         },
         {
-            field: 'image',
-            headerName: 'Image',
-            width: 100,
-            renderCell: (params) => (
-                <div>
-                    {params.row.imageDTOList?.map((image, index) => (
-                        <img
-                            key={index}
-                            src={image.url}
-                            alt={`Variant Image ${index}`}
-                            style={{ width: 50, height: 50, marginRight: 5 }}
-                        />
-                    ))}
-                </div>
-            ),
-        },
-        {
             field: 'edit',
             headerName: 'Edit',
             width: 90,
@@ -187,6 +181,8 @@ function VariantList({ variantList, onSubmit, onDelete }) {
             ),
         },
     ];
+
+
 
     return (
         <>

@@ -21,13 +21,14 @@ function SellerSignIn(props) {
             const seller = unwrapResult(result_seller);
             const result_store = await dispatch(getStoreBySellerId(sellerId.payload));
             const store = unwrapResult(result_store);
-            // console.log(seller);
-            // console.log(store);
+            console.log(seller);
+            console.log(store);
             setSeller(seller)
-            setStore(store);
+            // setStore(store);
             setTimeout(() => {
-                navigate("/selling");
-            }, 0);
+                if (store) { navigate("/selling"); }
+                else { navigate("/store-register"); }
+            }, 1000);
         } catch (error) {
             console.log('fail to login', error);
 

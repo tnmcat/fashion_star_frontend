@@ -1,9 +1,24 @@
-
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import {
+    Button,
+    FormControl,
+    Grid,
+    InputLabel,
+    MenuItem,
+    Paper,
+    Select,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    TextField
+} from '@mui/material';
 
 VariantForm.propTypes = {
     onSubmit: PropTypes.func,
@@ -62,57 +77,85 @@ function VariantForm(props) {
         }
     };
 
-    const [open, setOpen] = useState(false);
-    const handleClose = () => setOpen(false);
+
+
     return (
         <>
             <h1>Add new variant</h1>
             <form onSubmit={handleSubmit(onSubmitHandler)}>
-                <br />
-                <input {...register("skuCode")} placeholder="SKU code" type="text" />
-                <p>{errors.skuCode?.message}</p>
-                <br />
-                <input {...register("stockQuantity")} placeholder="Stock quantity" type="number" />
-                <p>{errors.stockQuantity?.message}</p>
-                <br />
-                <input {...register("price")} placeholder="Price" type="number" step="0.01" />
-                <p>{errors.price?.message}</p>
-                <br />
-                <input {...register("salePrice")} placeholder="Sale price" type="number" step="0.01" />
-                <p>{errors.salePrice?.message}</p>
-                <br />
-                <select {...register("isDeleted")}>
-                    <option value="">Select deleted status</option>
-                    <option value="true">True</option>
-                    <option value="false">False</option>
-                </select>
-                <p>{errors.isDeleted?.message}</p>
-                <br />
+                <Grid container spacing={2}>
+                    <Grid item xs={6}>
+                        <TextField {...register("skuCode")} label="SKU code" variant="outlined" fullWidth />
+                        <p>{errors.skuCode?.message}</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <TextField {...register("stockQuantity")} label="Stock quantity" variant="outlined" fullWidth type="number" />
+                        <p>{errors.stockQuantity?.message}</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <TextField {...register("price")} label="Price" variant="outlined" fullWidth type="number" step="0.01" />
+                        <p>{errors.price?.message}</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <TextField {...register("salePrice")} label="Sale price" variant="outlined" fullWidth type="number" step="0.01" />
+                        <p>{errors.salePrice?.message}</p>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <FormControl fullWidth>
+                            <InputLabel id="isDeleted-label">Deleted status</InputLabel>
+                            <Select
+                                {...register("isDeleted")}
+                                labelId="isDeleted-label"
+                                label="Deleted status"
+                            >
+                                <MenuItem value="">Select deleted status</MenuItem>
+                                <MenuItem value="true">True</MenuItem>
+                                <MenuItem value="false">False</MenuItem>
+                            </Select>
+                        </FormControl>
+                        <p>{errors.isDeleted?.message}</p>
+                    </Grid>
+                </Grid>
 
-                <label>Option Values:</label>
-                {productOptions.map((option) => (
-                    <div key={option.id}>
-                        <h3>{option.name}</h3>
-                        {option.optionValueDTOList.map((optionValue) => (
-                            <div key={optionValue.id}>
-                                <input
-                                    type="radio"
-                                    id={optionValue.id}
-                                    name={`optionValue_${option.id}`}
-                                    value={optionValue.id}
-                                    checked={selectedOptionValues[option.id] === optionValue.id}
-                                    onChange={() => handleOptionValueChange(optionValue.id, option.id)}
-                                />
-                                <label htmlFor={optionValue.id}>{optionValue.value}</label>
-                            </div>
-                        ))}
-                    </div>
-                ))}
+                <TableContainer component={Paper}>
+                    <Table aria-label="option values">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>Option</TableCell>
+                                <TableCell align="center">Value</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {productOptions.map((option) => (
+                                <TableRow key={option.id}>
+                                    <TableCell component="th" scope="row">
+                                        {option.name}
+                                    </TableCell>
+                                    <TableCell align="center">
+                                        {option.optionValueDTOList.map((optionValue) => (
+                                            <div key={optionValue.id}>
+                                                <input
+                                                    type="radio"
+                                                    id={optionValue.id}
+                                                    name={`optionValue_${option.id}`}
+                                                    value={optionValue.id}
+                                                    checked={selectedOptionValues[option.id] === optionValue.id}
+                                                    onChange={() => handleOptionValueChange(optionValue.id, option.id)}
+                                                />
+                                                <label htmlFor={optionValue.id}>{optionValue.value}</label>
+                                            </div>
+                                        ))}
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
 
                 <p>{errors.optionValueIds?.message}</p>
                 <br />
                 <br />
-                <button type="submit">Submit</button>
+                <Button type="submit" variant="contained" color="primary">Submit</Button>
             </form>
         </>
     );

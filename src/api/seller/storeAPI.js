@@ -20,6 +20,17 @@ const storeApi = {
         }
         return result;
     },
+    async createStore(sellerId, storeData) {
+        try {
+            console.log('Address data in api:', storeData);
+            const response = await api.post(`seller/store/${sellerId}/create`, storeData);
+            console.log('Address response in api:', response);
+            return response;
+        } catch (error) {
+            console.log("Update address API error:", error);
+            throw error;
+        }
+    },
     async updateStore(storeId, storeData) {
         try {
             console.log('Address data in api:', storeData);

@@ -141,7 +141,7 @@ export default function SellingLayout() {
       </AppBar>
       <Drawer variant="permanent" open={open}>
         <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>Selling Page
+          <IconButton onClick={handleDrawerClose}>Selling Manage
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton>
         </DrawerHeader>
@@ -168,26 +168,7 @@ export default function SellingLayout() {
               <ListItemText primary="Dashboard" sx={{ opacity: open ? 1 : 0 }} onClick={() => { navigate("") }} />
             </ListItemButton>
           </ListItem>
-          <ListItem disablePadding sx={{ display: 'block' }} onClick={() => { navigate("category") }}>
-            <ListItemButton
-              sx={{
-                minHeight: 48,
-                justifyContent: open ? 'initial' : 'center',
-                px: 2.5,
-              }}
-            >
-              <ListItemIcon
-                sx={{
-                  minWidth: 0,
-                  mr: open ? 3 : 'auto',
-                  justifyContent: 'center',
-                }}
-              >
-                <CategoryIcon />
-              </ListItemIcon>
-              <ListItemText primary="Category" sx={{ opacity: open ? 1 : 0 }} />
-            </ListItemButton>
-          </ListItem>
+
           <ListItem disablePadding sx={{ display: 'block' }} onClick={() => { navigate("product") }}>
             <ListItemButton
               sx={{

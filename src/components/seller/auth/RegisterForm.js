@@ -26,7 +26,7 @@ function Copyright(props) {
         <Typography variant="body2" color="text.secondary" align="center" {...props}>
             {'Copyright © '}
             <Link color="inherit" href="https://mui.com/">
-                Your Website
+                Aptech Group 4
             </Link>{' '}
             {new Date().getFullYear()}
             {'.'}
@@ -38,9 +38,6 @@ function RegisterForm(props) {
     const schema = yup.object().shape({
         sellerName: yup.string().required('Please enter full name')
             .matches(/^[a-zA-Z0-9\s]+$/, 'Name must contain only letters and numbers'),
-        birthDay: yup.date()
-            .required('Please enter birthday')
-            .max(new Date(Date.now() - 18 * 365 * 24 * 60 * 60 * 1000), 'You must be at least 18 years old'),
         phone: yup.string()
             .required('Please enter phone')
             .matches(/^\d+$/, 'Phone number must contain only digits')
@@ -55,14 +52,10 @@ function RegisterForm(props) {
             .matches(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]*$/, 'Password must contain at least one letter and one number'),
         confirmPassword: yup.string()
             .oneOf([yup.ref('password'), null], 'Passwords must match'),
-        storeName: yup.string()
-            .required('Please enter store name')
-            .matches(/^[a-zA-Z0-9\s]+$/, 'Store name must contain only letters and numbers')
-            .min(3, 'Store name must be at least 3 characters')
-            .max(30, 'Store name must be at most 30 characters'),
+
     });
 
-    const { register, handleSubmit, formState: { errors, isSubmitting }, reset } = useForm({
+    const { register, handleSubmit, formState: { errors }, reset } = useForm({
         resolver: yupResolver(schema),
     });
     const onSubmitHandler = async (value) => {
@@ -110,8 +103,8 @@ function RegisterForm(props) {
                                         helperText={errors.sellerName?.message}
                                     />
                                 </Grid>
-                                <Grid item xs={12} sm={6}>
-                                    <TextField    {...register("phone")}
+                                <Grid item xs={12}>
+                                    <TextField  {...register("phone")}
                                         required
                                         fullWidth
                                         id="phone"
@@ -121,7 +114,7 @@ function RegisterForm(props) {
                                         helperText={errors.phone?.message}
                                     />
                                 </Grid>
-                                <Grid item xs={12} sm={6}>
+                                {/* <Grid item xs={12} sm={6}>
                                     <TextField   {...register("birthDay")}
                                         required
                                         fullWidth
@@ -135,19 +128,7 @@ function RegisterForm(props) {
                                         error={!!errors.birthDay}
                                         helperText={errors.birthDay?.message}
                                     />
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <TextField  {...register("storeName")}
-                                        required
-                                        fullWidth
-                                        id="storeName"
-                                        label="Store Name"
-                                        name="storeName"
-                                        autoComplete="sellerName"
-                                        error={!!errors.storeName}
-                                        helperText={errors.storeName?.message}
-                                    />
-                                </Grid>
+                                </Grid> */}
                                 <Grid item xs={12}>
                                     <TextField  {...register("email")}
                                         required
@@ -216,8 +197,6 @@ function RegisterForm(props) {
                 </Container>
             </ThemeProvider>
         </>
-
-
     );
 }
 

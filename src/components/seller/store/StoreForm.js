@@ -12,7 +12,11 @@ StoreForm.propTypes = {
 
 function StoreForm({ onSubmit, initialData = {} }) { // Provide a default value for initialData
     const schema = yup.object().shape({
-        name: yup.string().required('Please enter the store name'),
+        storeName: yup.string()
+            .required('Please enter store name')
+            .matches(/^[a-zA-Z0-9\s]+$/, 'Store name must contain only letters and numbers')
+            .min(3, 'Store name must be at least 3 characters')
+            .max(30, 'Store name must be at most 30 characters'),
         description: yup.string().required('Please enter the store description'),
         // Add more validation rules as needed
     });

@@ -1,45 +1,59 @@
-import { Box, Breadcrumbs, CssBaseline, Link, Paper, Tab, Tabs } from '@mui/material';
-import { unwrapResult } from '@reduxjs/toolkit';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { Box, Breadcrumbs, CssBaseline, Link, Paper, Tab, Tabs } from '@mui/material';
+import { unwrapResult } from '@reduxjs/toolkit';
 import { getProductById, updateProduct } from '../../../features/seller_feature/product/productSlice';
 import AttributeManage from '../attribute/AttributeManage';
 import OptionManage from '../option/OptionManage';
 import VariantManage from '../variant/VariantManage';
-import ProductForm from './ProductForm';
-function ProductEditPage() {
+import EditProductForm from './EditProductForm';
+
+function ProductEdit() {
     const { productId } = useParams();
     const dispatch = useDispatch();
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [tabValue, setTabValue] = useState('1');
+
     const fetchProduct = async () => {
         if (productId) {
             try {
+                console.log(productId);
                 const product_result = await dispatch(getProductById(productId));
                 const product = unwrapResult(product_result);
                 setProduct(product);
+                setLoading(false);
             } catch (error) {
                 console.error("Failed to fetch products:", error);
+                setLoading(false);
             }
         }
     };
+
+    console.log(product);
     useEffect(() => {
         fetchProduct();
     }, [productId]);
-    const [tabValue, setTabValue] = useState('1');
+
     const handleTabChange = (event, newValue) => {
         setTabValue(newValue);
     };
-    console.log(product)
+
     const handleEditProductFormSubmit = async (value) => {
         try {
             const resultAction = await dispatch(updateProduct({ productId: productId, data: value }));
             const product = unwrapResult(resultAction);
+            setProduct(product); // Update product state after successful update
         } catch (err) {
-            console.error('Failed to add product:', err);
+            console.error('Failed to update product:', err);
         }
     };
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
     return (
         <div>
             <CssBaseline />
@@ -49,19 +63,10 @@ function ProductEditPage() {
                         <Link underline="hover" color="inherit" href="/">
                             Home
                         </Link>
-                        <Link
-                            underline="hover"
-                            color="text.primary"
-                            href="/material-ui/react-breadcrumbs/"
-                        >
+                        <Link underline="hover" color="text.primary" href="#">
                             Product
                         </Link>
-                        <Link
-                            underline="hover"
-                            color="text.primary"
-                            href="/material-ui/react-breadcrumbs/"
-                            aria-current="page"
-                        >
+                        <Link underline="hover" color="text.primary" href="#" aria-current="page">
                             Edit
                         </Link>
                     </Breadcrumbs>
@@ -90,31 +95,21 @@ function ProductEditPage() {
                     </Tabs>
 
                     {tabValue === '1' && (
-                        <ProductForm onSubmitEdit={handleEditProductFormSubmit} product={product} />)}
-
+                        <EditProductForm onSubmitEdit={handleEditProductFormSubmit} product={product} />
+                    )}
                     {tabValue === '2' && (
-                        <>
-                            <AttributeManage productId={productId} />
-                        </>
+                        <AttributeManage productId={productId} />
                     )}
                     {tabValue === '3' && (
-                        <>
-                            <OptionManage productId={productId} />
-                        </>
+                        <OptionManage productId={productId} />
                     )}
                     {tabValue === '4' && (
-                        <>
-                            <VariantManage productId={productId} />
-                        </>
+                        <VariantManage productId={productId} />
                     )}
                 </Paper>
-            </Box>
-            <Box>
-
-
             </Box>
         </div>
     );
 }
 
-export default ProductEditPage;
+export default ProductEdit;

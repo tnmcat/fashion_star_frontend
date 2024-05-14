@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getVariantsByProductId, updateVariant, deleteVariant, addVariant } from '../../../features/seller_feature/variant/variantSlice';
-import VariantList from './VariantList';
+import VariantList from './VariantList2';
 import { unwrapResult } from '@reduxjs/toolkit';
 import PropTypes from 'prop-types';
 import { Box, Button, Grid, Paper, Typography } from '@mui/material';
@@ -31,6 +31,7 @@ function VariantManage({ productId }) {
 
     const handleEditFormSubmit = async (variantId, updatedVariant) => {
         try {
+            console.log("at manage", updatedVariant)
             const variantsResult = await dispatch(updateVariant({ variantId, updatedVariant }));
             setUpdateDone(!updateDone);
         } catch (err) {

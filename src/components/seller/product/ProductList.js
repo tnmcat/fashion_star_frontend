@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { getProductsByStoreId } from '../../../features/seller_feature/product/productSlice';
 import EditIcon from '@mui/icons-material/Edit';
+import convertTimestampToDate from '../../../utils/common';
 ProductList.propTypes = {
     productList: PropTypes.array,
 
@@ -16,6 +17,7 @@ function ProductList({ onEdit }) {
     const [productList, setProductList] = useState([]);
     const dispatch = useDispatch();
     const store = useSelector((state) => state.sellerStore.storeBySeller);
+    console.log(store)
     useEffect(() => {
         // Simulate asynchronous data fetching
         const fetchProductList = async () => {
@@ -61,12 +63,13 @@ function ProductList({ onEdit }) {
             field: 'createAt',
             headerName: 'Created At',
             width: 160,
+            renderCell: (params) => (
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+                    <p>{convertTimestampToDate(params.value)}</p>
+                </div>
+            ),
         },
-        {
-            field: 'updatedAt',
-            headerName: 'Updated At',
-            width: 160,
-        },
+
         {
             field: 'edit',
             headerName: 'Edit',

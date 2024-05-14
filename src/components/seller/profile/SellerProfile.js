@@ -41,14 +41,7 @@ function SellerProfile(props) {
                 </ListItemAvatar>
                 <ListItemText primary="Phone" secondary={sellerDetail.phone} />
             </ListItem>
-            <ListItem>
-                <ListItemAvatar>
-                    <Avatar>
-                        <CalendarMonthIcon />
-                    </Avatar>
-                </ListItemAvatar>
-                <ListItemText primary="Birthday" secondary={convertTimestampToDate(sellerDetail.birthDay)} />
-            </ListItem>
+
         </List>
     );
 }
