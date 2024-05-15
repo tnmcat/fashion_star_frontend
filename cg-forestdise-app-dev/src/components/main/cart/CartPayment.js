@@ -2,7 +2,7 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import React, {useEffect, useState} from "react";
 import {useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
-
+import {ToastContainer, toast} from "react-toastify";
 const CartPayment = () => {
     const navigate = useNavigate();
     const {products} = useSelector((state) => state.cart);
@@ -16,50 +16,41 @@ const CartPayment = () => {
             return setTotalPrice(total.toFixed(2));
         });
     }, [products]);
-    // const handlePayment = () => {
-    //     if (userInfo && products.length > 0) {
-    //         navigate("/payment");
-    //     }
-    //     if (!userInfo) {
-    //         navigate("/signin");
-    //     }
-    // };
-
-    const processPayment = () => {
-        return new Promise((resolve, reject) => {
-            setTimeout(() => {
-                resolve("Thanh toán thành công!");
-            }, 1000);
-        });
+    const notifyError1 = () => {
+        toast.error("No products to process.");
     };
+    const notifyError3 = () => {
+        toast.update("You need to check stock of quantity Product.");
+    };
+
     const handlePayment = async () => {
         let allItemsValid = true;
         let errorMessages = [];
         for (const item of products) {
             if (item.quantity > item.variantDto.stockQuantity) {
+                const notifyError2 = () => {
+                    toast.error(
+                        `Quantity of '${item.variantDto.name}' exceeds inventory. Available stock: ${item.variantDto.stockQuantity}`
+                    );
+                };
                 allItemsValid = false;
-                errorMessages.push(
-                    `Quantity '${item.variantDto.name} exceeds inventory. Quantity is having: ${item.variantDto.stockQuantity}`
-                );
+                notifyError2();
             }
         }
         if (!allItemsValid) {
-            alert("Có lỗi xảy ra: \n" + errorMessages.join("\n"));
-            return;
+            notifyError3();
+            return; // Stop further processing if not all items are valid
         }
 
-        // Tiến hành thanh toán nếu mọi thứ hợp lệ
-        try {
-            const paymentResult = await processPayment();
-            alert(paymentResult); // Thông báo thanh toán thành công
-        } catch (error) {
-            console.error("Lỗi khi thanh toán:", error);
-            alert("Lỗi thanh toán. Vui lòng thử lại sau.");
+        if (products.length === 0) {
+            notifyError1();
+            return; // Stop if there are no products
         }
-        if (userInfo && products.length > 0) {
+
+        // Direct navigation if user is authenticated
+        if (userInfo) {
             navigate("/payment");
-        }
-        if (!userInfo) {
+        } else {
             navigate("/signin");
         }
     };
@@ -68,6 +59,7 @@ const CartPayment = () => {
         <>
             <div className="bg-red-500">
                 <div className="w-auto h-auto bg-white col-span-1 flex flex-col justify-center items-center p-4">
+                    <ToastContainer position="top-right" />
                     <div>
                         <p className="flex gap-1 items-start sm:text-xs lg:text-sm">
                             <span>

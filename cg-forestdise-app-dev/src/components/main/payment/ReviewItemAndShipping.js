@@ -49,7 +49,12 @@ function ReviewItemAndShipping() {
                     <div className="px-8">
                         <div className="border border-gray-400 rounded-md p-4 mt-4">
                             <div className="font-bold text-green-700">
-                                Delivery: Nov. 21, 2023
+                                Delivery:{" "}
+                                {new Date().toLocaleDateString("en-US", {
+                                    month: "short",
+                                    day: "numeric",
+                                    year: "numeric",
+                                })}
                             </div>
                             <div className="text-sm">
                                 Items shipped from Fashion Star

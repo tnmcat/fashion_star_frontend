@@ -10,6 +10,8 @@ import {
     createOrderPayment,
 } from "../../../features/order/orderSlice";
 import axios from "axios";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faCreditCard} from "@fortawesome/free-solid-svg-icons";
 
 const PayMentTotal = () => {
     const dispatch = useDispatch();
@@ -155,17 +157,17 @@ const PayMentTotal = () => {
                     <div>
                         <ToastContainer position="top-right" />
                     </div>
-                    <button
+                    {/* <button
                         className="w-full font-titleFont sm:text-xs md:text-md lg:text-lg bg-gradient-to-tr text-white bg-indigo-700 hover:bg-indigo-500 duration-200 py-1.5 rounded-xl mt-3"
                         onClick={() => handleOrder()}
                     >
                         Place your order
-                    </button>
+                    </button> */}
                     <button
                         className="w-full font-titleFont sm:text-xs md:text-md lg:text-lg bg-gradient-to-tr text-white bg-black hover:bg-slate-900 duration-200 py-1.5 rounded-xl mt-3"
                         onClick={() => handleOrderPayment()}
                     >
-                        Payment Stripe
+                        <FontAwesomeIcon icon={faCreditCard} /> Payment Stripe
                     </button>
                     <div class="text-center">
                         <p className="flex gap-1 items-start sm:text-xs lg:text-sm pt-4">

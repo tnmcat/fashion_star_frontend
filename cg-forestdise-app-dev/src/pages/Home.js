@@ -17,9 +17,9 @@ function Home() {
                         sectionName={"New Product"}
                     />
                 </div> */}
-                {/* <div className="relative w-full -mt-10 xl:-mt-36 py-10 z-0">
+                <div className="relative w-full -mt-10 xl:-mt-36 py-10 z-0">
                     <Product />
-                </div> */}
+                </div>
 
                 <HomePromo />
             </div>

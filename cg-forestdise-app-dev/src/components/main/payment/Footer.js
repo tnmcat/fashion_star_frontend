@@ -3,7 +3,7 @@ import React from "react";
 function Footer() {
     return (
         <div className="flex flex-col text-sm py-5 px-20">
-            <div class="border-t border-gray-400 py-3">
+            {/* <div class="border-t border-gray-400 py-3">
                 <span className="text-xs">
                     * Why has sales tax been applied? See tax and seller
                     information.
@@ -41,7 +41,7 @@ function Footer() {
                     Need to add more items to your order? Continue shopping on
                     the FashionStar homepage.
                 </span>
-            </div>
+            </div> */}
         </div>
     );
 }

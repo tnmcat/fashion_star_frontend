@@ -76,10 +76,7 @@ const OrderDetail = ({order}) => {
                                                     }}
                                                     className="text-green-600 mr-3 text-sm"
                                                 />
-                                                <span>
-                                                    {" "}
-                                                    Your item has been Delivered
-                                                </span>
+                                                <span> Status Order</span>
                                             </p>
                                             <p
                                                 className={`text-end text-lg mr-3 font-bold ${
@@ -116,7 +113,7 @@ const OrderDetail = ({order}) => {
                         );
                     })}
 
-                    {!orderId ? (
+                    {order.order_status === "COMPLETED" && !orderId ? (
                         <button
                             className="bg-amazon_yellow p-2 rounded-lg text-amazon_light"
                             style={{margin: "15px 15px 15px auto"}}
@@ -137,10 +134,17 @@ const OrderDetail = ({order}) => {
                             {" "}
                             ORDER PLACED
                         </p>
-                        <p></p>
+                        <p>
+                            {new Date(order.order_date).toLocaleDateString(
+                                "en-CA"
+                            )}
+                        </p>
+                        <p className="text-red-700">
+                            Your Order will be shipped after 5 -7 days
+                        </p>
                     </div>
                 </div>
-                <div className=" flex items-end space-x-2">
+                <div className=" flex items-end ">
                     <p
                         className="text-sm whitespace-nowrap sm:text-xl self-end
                         flex-1 text-right text-indigo-700 mr-3"
