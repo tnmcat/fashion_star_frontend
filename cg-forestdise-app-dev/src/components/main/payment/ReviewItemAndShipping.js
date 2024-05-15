@@ -1,11 +1,6 @@
 import React, {useEffect, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {
-    decrementQuantity,
-    editCartLine,
-    getCartLines,
-    incrementQuantity,
-} from "../../../features/cart/cartSlice";
+import {getCartLines} from "../../../features/cart/cartSlice";
 import {
     addShippingmethodId,
     getShippingMethod,
@@ -88,7 +83,7 @@ function ReviewItemAndShipping() {
                                                     </div>
                                                     <div className="bg-[#F0F2F2] md:text-lg sm:text-xs lg:text-lg flex justify-center items-center gap-1 w-24 py-1 text-center drop-shadow-lg rounded-md">
                                                         <p>Qty:</p>
-                                                        <p
+                                                        {/* <p
                                                             onClick={() => {
                                                                 userInfo &&
                                                                 product.quantity >
@@ -146,11 +141,11 @@ function ReviewItemAndShipping() {
                                                             className="cursor-pointer bg-gray-200 px-1 rounded-md hover:bg-gray-400 duration-300"
                                                         >
                                                             -
-                                                        </p>
+                                                        </p> */}
                                                         <p>
                                                             {product.quantity}
                                                         </p>
-                                                        <p
+                                                        {/* <p
                                                             onClick={() => {
                                                                 userInfo
                                                                     ? dispatch(
@@ -206,7 +201,7 @@ function ReviewItemAndShipping() {
                                                             className="cursor-pointer bg-gray-200 px-1 rounded-md hover:bg-gray-400 duration-300"
                                                         >
                                                             +
-                                                        </p>
+                                                        </p> */}
                                                     </div>
                                                 </div>
                                             </div>

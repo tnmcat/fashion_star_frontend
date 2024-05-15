@@ -1,11 +1,15 @@
-import React, {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
-import {addShopOrder, clear} from "../../../features/payment/paymentSlice";
+import {clear} from "../../../features/payment/paymentSlice";
 import {clearCartLine} from "../../../features/cart/cartSlice";
 import {ToastContainer, toast} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import {createOrder} from "../../../features/order/orderSlice";
+import {
+    createOrder,
+    createOrderPayment,
+} from "../../../features/order/orderSlice";
+import axios from "axios";
 
 const PayMentTotal = () => {
     const dispatch = useDispatch();
@@ -18,13 +22,12 @@ const PayMentTotal = () => {
     const {order} = useSelector((state) => state.order);
     const [totalPrice, setTotalPrice] = useState(0);
     const [totalItem, setTotalItem] = useState(0);
-    const date = new Date();
     const handleOrder = () => {
         const orderDate = new Date().toISOString().slice(0, 10); // Định dạng yyyy-MM-dd
         const orderItems = products.map((item) => ({
             variant_id: item.variantDto.id,
             quantity: item.quantity,
-            price: item.variantDto.price,
+            price: item.variantDto.salePrice,
         }));
 
         const orderData = {
@@ -35,7 +38,10 @@ const PayMentTotal = () => {
             shippingMethodId: shippingMethodId,
             orderItemRequestList: orderItems,
             orderTotal: orderItems
-                .reduce((total, item) => total + item.quantity * item.price, 0)
+                .reduce(
+                    (total, item) => total + item.quantity * item.salePrice,
+                    0
+                )
                 .toFixed(2),
         };
 
@@ -44,6 +50,40 @@ const PayMentTotal = () => {
             dispatch(clear());
             dispatch(clearCartLine(userInfo.id));
             navigate("/success");
+            console.log("Payment total", orderData);
+            console.log("User trong payment", userInfo.id);
+            console.log(" biến orderItems trong payment total", orderItems);
+        } else {
+            notifyError();
+        }
+    };
+    const handleOrderPayment = () => {
+        const orderDate = new Date().toISOString().slice(0, 10); // Định dạng yyyy-MM-dd
+        const orderItems = products.map((item) => ({
+            variant_id: item.variantDto.id,
+            quantity: item.quantity,
+            price: item.variantDto.salePrice,
+        }));
+
+        const orderData = {
+            userId: userInfo.id,
+            orderDate: orderDate,
+            addressId: addressId,
+            shippingMethodId: shippingMethodId,
+            orderItemRequestList: orderItems,
+            orderTotal: orderItems
+                .reduce(
+                    (total, item) => total + item.quantity * item.salePrice,
+                    0
+                )
+                .toFixed(2),
+        };
+
+        if (addressId && shippingMethodId) {
+            dispatch(createOrderPayment(orderData));
+            dispatch(clear());
+            dispatch(clearCartLine(userInfo.id));
+
             console.log("Payment total", orderData);
             console.log("User trong payment", userInfo.id);
             console.log(" biến orderItems trong payment total", orderItems);
@@ -60,49 +100,54 @@ const PayMentTotal = () => {
         let totalPrice = 0;
         let totalItem = 0;
         products.forEach((item) => {
-            totalPrice += item.variantDto?.price * item.quantity;
+            totalPrice += item.variantDto?.salePrice * item.quantity;
             totalItem += item.quantity;
         });
         setTotalItem(totalItem);
         setTotalPrice(totalPrice);
     }, [products]);
 
-    // const handleOrder = () => {
-    //     const newValues = products.map((item) => ({
-    //         userId: userInfo.id,
-    //         variantId: item.variantDto.id,
-    //         orderDate: new Date().toLocaleDateString(),
-    //         addressId: addressId,
-    //         paymentMethodId: paymentMethodId,
-    //         shippingMethodId: shippingMethodId,
-    //         quantity: item.quantity,
-    //         orderTotal: (item.quantity * item.variantDto.price).toFixed(2),
-    //     }));
-    //     if (addressId && paymentMethodId && shippingMethodId) {
-    //         dispatch(addShopOrder(newValues));
-    //         dispatch(clear());
-    //         dispatch(clearCartLine(userInfo.id));
-    //         navigate("/success");
-    //     } else {
-    //         notifyError();
-    //     }
-    // };
+    const [exchangeRate, setExchangeRate] = useState(null); // Khởi tạo không có giá trị mặc định
 
-    // const notifyError = () => {
-    //     toast.error("Request complete information !");
-    // };
+    const fetchExchangeRate = useCallback(async () => {
+        dispatch({type: "SET_LOADING", payload: true});
+        try {
+            const response = await axios.get(
+                "https://portal.vietcombank.com.vn/Usercontrols/TVPortal.TyGia/pXML.aspx?b=10"
+            );
+            const xmlData = response.data;
+            const parser = new DOMParser();
+            const xmlDoc = parser.parseFromString(xmlData, "text/xml");
+            const usdToVndRateNode = xmlDoc.querySelector(
+                'Exrate[CurrencyCode="USD"]'
+            );
+            if (!usdToVndRateNode) {
+                throw new Error("USD exchange rate not found");
+            }
+            const rate = parseFloat(
+                usdToVndRateNode.getAttribute("Transfer").replace(/,/g, "")
+            );
+            setExchangeRate(rate); // Cập nhật state
+            document.getElementById(
+                "exchangeRate"
+            ).textContent = `1 USD = ${rate.toLocaleString("en-US", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+            })} VND`;
+        } catch (error) {
+            console.error("Error fetching exchange rate:", error);
+        } finally {
+            dispatch({type: "SET_LOADING", payload: false});
+        }
+    }, []);
 
-    // useEffect(() => {
-    //     let totalPrice = 0;
-    //     let totalItem = 0;
-    //     products.forEach((item) => {
-    //         totalPrice += item.variantDto?.price * item.quantity;
-    //         totalItem += item.quantity;
-    //     });
-    //     setTotalItem(totalItem);
-    //     setTotalPrice(totalPrice);
-    // }, [products]);
+    useEffect(() => {
+        fetchExchangeRate();
+    }, [fetchExchangeRate]);
 
+    useEffect(() => {
+        fetchExchangeRate();
+    }, [fetchExchangeRate]);
     return (
         <>
             <div className="border border-gray-400 rounded-md">
@@ -115,6 +160,12 @@ const PayMentTotal = () => {
                         onClick={() => handleOrder()}
                     >
                         Place your order
+                    </button>
+                    <button
+                        className="w-full font-titleFont sm:text-xs md:text-md lg:text-lg bg-gradient-to-tr text-white bg-black hover:bg-slate-900 duration-200 py-1.5 rounded-xl mt-3"
+                        onClick={() => handleOrderPayment()}
+                    >
+                        Payment Stripe
                     </button>
                     <div class="text-center">
                         <p className="flex gap-1 items-start sm:text-xs lg:text-sm pt-4">
@@ -144,35 +195,30 @@ const PayMentTotal = () => {
                         <div class="col-span-2 text-end">
                             $ {(totalPrice + 8).toFixed(2)}
                         </div>
-                        <div class="col-span-2">Estimated tax to be</div>
-                        <div class="col-span-2 text-end">
+                        {/* <div class="col-span-2 text-end">
                             {((totalPrice * 10) / 100).toFixed(2)}
-                        </div>
+                        </div> */}
                         <div class="col-span-2 text-red-600 font-bold text-lg">
                             Order total:
                         </div>
                         <div class="col-span-2 text-end text-red-600 font-bold text-lg">
                             {" "}
-                            ${" "}
-                            {(totalPrice + 8 + (totalPrice * 10) / 100).toFixed(
-                                2
-                            )}
+                            $ {(totalPrice + 8).toFixed(2)}
                         </div>
                         <div class="border border-gray-300 col-span-4"></div>
                     </div>
+                    <div></div>
+                    <div id="exchangeRate"> USD = </div>
                     <div>
-                        <button class="text-blue-600 text-sm hover:text-orange-500 hover:underline">
-                            Exchange rate
-                        </button>
-                    </div>
-                    <div>1 USD = 24,540 VND</div>
-                    <div>
-                        ${(totalPrice + 8 + (totalPrice * 10) / 100).toFixed(2)}{" "}
+                        Total: $
+                        {(totalPrice + 8 + (totalPrice * 10) / 100).toFixed(2)}{" "}
                         USD =
-                        {(
-                            (totalPrice + 8 + (totalPrice * 10) / 100) *
-                            24540
-                        ).toLocaleString("en-US")}{" "}
+                        {exchangeRate
+                            ? (
+                                  (totalPrice + 8 + (totalPrice * 10) / 100) *
+                                  exchangeRate
+                              ).toLocaleString("en-US")
+                            : "Loading..."}{" "}
                         VND
                     </div>
                 </div>

@@ -43,6 +43,7 @@ import Categories from "./components/main/dashboard/element/Categories";
 import OrdersDashboard from "./components/main/dashboard/element/OrdersDashboard";
 import Profile from "./components/main/dashboard/element/Profile";
 import ProductDetail2 from "./components/main/variant/ProductDetails2";
+import ChangePasswordPage from "./components/main/profile/ChangePassword";
 
 const Layout = () => {
     return (
@@ -95,7 +96,7 @@ function App() {
                 <Route path="/register" element={<Registration />} />
                 <Route path="/signin" element={<Signin />} />
                 <Route path="/changepass" element={<ForgotPassword />} />
-
+                <Route path="/change-pass" element={<ChangePasswordPage />} />
                 <Route path="/test-product/:id" element={<ProductDetail2 />} />
 
                 <Route path="/" element={<Layout />}>

@@ -1,6 +1,7 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {
     apiCreateOrder,
+    apiCreateOrderPayment,
     apiGetOrderById,
     apiOrderHistory,
 } from "../../api/orderAPI";
@@ -18,6 +19,23 @@ export const createOrder = createAsyncThunk(
             }
         } catch (error) {
             return thunkAPI.rejectWithValue(error.response.data);
+        }
+    }
+);
+export const createOrderPayment = createAsyncThunk(
+    "reqData/createpayment",
+    async (reqData, thunkAPI) => {
+        try {
+            const response = await apiCreateOrderPayment(reqData);
+            if (response.status === 200) {
+                return response.data;
+            } else {
+                return thunkAPI.rejectWithValue("Failed to create order");
+            }
+        } catch (error) {
+            return thunkAPI.rejectWithValue(
+                error.response.data.message || "Unknown error occurred"
+            );
         }
     }
 );
@@ -131,6 +149,27 @@ export const orderSlice = createSlice({
             })
             .addCase(getHistoryOrder.fulfilled, (state, action) => {
                 console.log("Fulfilled payload:", action.payload);
+                state.loading = false;
+                state.order = action.payload;
+                state.success = true;
+                state.error = null; // null này là null thành công
+            })
+
+            //createOrderPayment
+            .addCase(createOrderPayment.pending, (state) => {
+                state.success = false;
+                state.loading = true;
+                state.error = null; // null này là null đang tải
+            })
+            .addCase(createOrderPayment.rejected, (state, action) => {
+                console.log("Error object:", action.error);
+                console.log("Error payload:", action.payload);
+                state.loading = false;
+                state.error = action.payload || action.error.message;
+                state.success = false;
+            })
+            .addCase(createOrderPayment.fulfilled, (state, action) => {
+                console.log("Payment payload:", action.payload);
                 state.loading = false;
                 state.order = action.payload;
                 state.success = true;

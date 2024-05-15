@@ -4,23 +4,21 @@ import AdjustIcon from "@mui/icons-material/Adjust";
 import OrderReview from "./OrderReview";
 import {useEffect} from "react";
 
-const cours = [
-    {
-        id: 1,
-        name: "pending",
-    },
-    {
-        id: 2,
-        name: "completed",
-    },
-];
-
 const OrderDetail = ({order}) => {
     const [isVisible, setIsVisible] = useState(false);
+    const [isReviewed, setIsReviewed] = useState(false);
+    const [orderId, setOrderId] = useState(0);
 
     const toggleVisibility = () => {
-        setIsVisible((prevIsVisible) => !prevIsVisible);
+        // if (!isReviewed) {
+        //     setIsVisible((prevIsVisible) => !prevIsVisible);
+        //     if (!isVisible) {
+        //         setIsReviewed(true); // Đánh dấu đã review khi mở review lần đầu
+        //     }
+        // }
+        setIsVisible((isVisible) => !isVisible);
     };
+
     return (
         <div className="flex justify-between relative">
             <div className="relative bg-slate-50 border rounded-sm w-full">
@@ -31,7 +29,19 @@ const OrderDetail = ({order}) => {
                 >
                     {order.orderItemListDTO.map((item) => {
                         return (
-                            <Grid item xs={12} key={item.id}>
+                            <Grid
+                                item
+                                xs={8}
+                                key={item.id}
+                                style={{
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                    flexWrap: "wrap",
+                                    width: "100%",
+                                    maxWidth: "100%",
+                                    flexBasis: "100%",
+                                }}
+                            >
                                 <div className="flex cursor-pointer py-3">
                                     <img
                                         className="w-[6rem] h-[6rem] object-contain object-top"
@@ -71,36 +81,33 @@ const OrderDetail = ({order}) => {
                                                     Your item has been Delivered
                                                 </span>
                                             </p>
-                                            <div className="flex-initial">
-                                                <p className=" text-end text-lg mr-3 font-bold">
-                                                    {order.order_status}
-                                                </p>
-                                            </div>
-                                            {order.order_status ===
-                                            "COMPLETED" ? (
-                                                <button
-                                                    className=" bg-amazon_yellow p-2 rounded-lg"
-                                                    onClick={toggleVisibility}
-                                                >
-                                                    {isVisible
-                                                        ? "Hide"
-                                                        : "Review"}
-                                                </button>
-                                            ) : (
-                                                ""
-                                            )}
+                                            <p
+                                                className={`text-end text-lg mr-3 font-bold ${
+                                                    order.order_status ===
+                                                    "PENDING"
+                                                        ? "text-orange-500"
+                                                        : order.order_status ===
+                                                          "CANCEL"
+                                                        ? "text-red-500"
+                                                        : order.order_status ===
+                                                          "COMPLETED"
+                                                        ? "text-green-500"
+                                                        : order.order_status ===
+                                                          "ACCEPTED"
+                                                        ? "text-blue-500"
+                                                        : ""
+                                                }`}
+                                            >
+                                                {order.order_status}
+                                            </p>
                                         </div>
                                     )}
-                                    {/* {false && (
-                        <p>
-                            <span>Excepted delivered On march 03</span>
-                        </p>
-                    )} */}
                                 </Grid>
                                 {isVisible ? (
                                     <OrderReview
                                         variandId={item.variantDTO}
                                         toggleVisibility={toggleVisibility}
+                                        setOrderId={setOrderId}
                                     />
                                 ) : (
                                     ""
@@ -108,6 +115,19 @@ const OrderDetail = ({order}) => {
                             </Grid>
                         );
                     })}
+
+                    {!orderId ? (
+                        <button
+                            className="bg-amazon_yellow p-2 rounded-lg text-amazon_light"
+                            style={{margin: "15px 15px 15px auto"}}
+                            onClick={toggleVisibility}
+                            disabled={isReviewed} // Vô hiệu hóa nút sau khi review
+                        >
+                            Review
+                        </button>
+                    ) : (
+                        ""
+                    )}
 
                     {/* chỗ này đặt orderdetail.txt */}
                 </Grid>

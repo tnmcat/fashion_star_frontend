@@ -26,15 +26,12 @@ const UserOrder = () => {
                 </h1>
                 {userInfo ? (
                     <>
-                        <h2>Orders</h2>
                         <div className="mt-5 space-y-4">
                             {orders &&
                                 orders.map((item) => (
-                                    <>
-                                        <React.Fragment key={item.id}>
-                                            <OrderDetail order={item} />
-                                        </React.Fragment>
-                                    </>
+                                    <React.Fragment key={item.id}>
+                                        <OrderDetail order={item} />
+                                    </React.Fragment>
                                 ))}
                         </div>
                     </>

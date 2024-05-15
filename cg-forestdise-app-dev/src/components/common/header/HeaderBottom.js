@@ -414,14 +414,14 @@ function HeaderBottom() {
                     </div>
                 </Popover.Group>
 
-                <Link to="/selling">
+                {/* <Link to="/selling">
                     <li className="headerHover hidden md:inline-flex">
                         I want to sell something!
                     </li>
-                </Link>
-                <li className="headerHover hidden md:inline-flex">
+                </Link> */}
+                {/* <li className="headerHover hidden md:inline-flex">
                     Today's Deal
-                </li>
+                </li> */}
 
                 {/* Deliver start */}
                 <div

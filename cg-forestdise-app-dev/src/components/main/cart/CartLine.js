@@ -28,6 +28,31 @@ const CartContent = () => {
         }
     }, [userInfo]);
 
+    const increaseQuantity = (item) => {
+        // Kiểm tra nếu số lượng sau khi tăng vẫn nhỏ hơn hoặc bằng số lượng tồn kho
+        if (item.quantity + 1 > item.variantDto.stockQuantity) {
+            alert("Vượt quá số lượng tồn kho!");
+        } else {
+            dispatch(
+                editCartLine({
+                    quantity: item.quantity + 1,
+                    id: item.id,
+                })
+            );
+        }
+    };
+
+    const decreaseQuantity = (item) => {
+        // Chỉ giảm số lượng nếu lớn hơn 1
+        if (item.quantity > 1) {
+            dispatch(
+                editCartLine({
+                    quantity: item.quantity - 1,
+                    id: item.id,
+                })
+            );
+        }
+    };
     return (
         <>
             <div className="bg-red-500">
@@ -69,117 +94,28 @@ const CartContent = () => {
                                         <p className="md:text-lg sm:text-xs lg:text-lg">
                                             Unit Price{" "}
                                             <span className="font-semibold">
-                                                ${item.variantDto?.price}
+                                                ${item.variantDto?.salePrice}
                                             </span>
                                         </p>
                                         <div className="bg-[#F0F2F2] md:text-lg sm:text-xs lg:text-lg flex justify-center items-center gap-1 w-24 py-1 text-center drop-shadow-lg rounded-md">
                                             <p>Qty:</p>
                                             <p
-                                                onClick={() => {
-                                                    userInfo &&
-                                                    item.quantity > 1
-                                                        ? dispatch(
-                                                              editCartLine({
-                                                                  quantity:
-                                                                      item.quantity -
-                                                                      1,
-                                                                  id: item.id,
-                                                              })
-                                                          )
-                                                        : dispatch(
-                                                              decrementQuantity(
-                                                                  {
-                                                                      id: "",
-                                                                      quantity: 1,
-                                                                      cartDto: {
-                                                                          id: "",
-                                                                          userId: "",
-                                                                      },
-                                                                      variantDto:
-                                                                          {
-                                                                              id: item
-                                                                                  .variantDto
-                                                                                  .id,
-                                                                              name: item
-                                                                                  .variantDto
-                                                                                  .name,
-                                                                              skuCode:
-                                                                                  item
-                                                                                      .variantDto
-                                                                                      .skuCode,
-                                                                              stockQuantity:
-                                                                                  item
-                                                                                      .variantDto
-                                                                                      .stockQuantity,
-                                                                              weight: item
-                                                                                  .variantDto
-                                                                                  .weight,
-                                                                              price: item
-                                                                                  .variantDto
-                                                                                  .price,
-                                                                              img: item
-                                                                                  .variantDto
-                                                                                  .img,
-                                                                          },
-                                                                  }
-                                                              )
-                                                          );
-                                                }}
+                                                onClick={() =>
+                                                    userInfo
+                                                        ? decreaseQuantity(item)
+                                                        : null
+                                                }
                                                 className="cursor-pointer bg-gray-200 px-1 rounded-md hover:bg-gray-400 duration-300"
                                             >
                                                 -
                                             </p>
                                             <p>{item.quantity}</p>
                                             <p
-                                                onClick={() => {
+                                                onClick={() =>
                                                     userInfo
-                                                        ? dispatch(
-                                                              editCartLine({
-                                                                  quantity:
-                                                                      item.quantity +
-                                                                      1,
-                                                                  id: item.id,
-                                                              })
-                                                          )
-                                                        : dispatch(
-                                                              incrementQuantity(
-                                                                  {
-                                                                      id: "",
-                                                                      quantity: 1,
-                                                                      cartDto: {
-                                                                          id: "",
-                                                                          userId: "",
-                                                                      },
-                                                                      variantDto:
-                                                                          {
-                                                                              id: item
-                                                                                  .variantDto
-                                                                                  .id,
-                                                                              name: item
-                                                                                  .variantDto
-                                                                                  .name,
-                                                                              skuCode:
-                                                                                  item
-                                                                                      .variantDto
-                                                                                      .skuCode,
-                                                                              stockQuantity:
-                                                                                  item
-                                                                                      .variantDto
-                                                                                      .stockQuantity,
-                                                                              weight: item
-                                                                                  .variantDto
-                                                                                  .weight,
-                                                                              price: item
-                                                                                  .variantDto
-                                                                                  .price,
-                                                                              img: item
-                                                                                  .variantDto
-                                                                                  .img,
-                                                                          },
-                                                                  }
-                                                              )
-                                                          );
-                                                }}
+                                                        ? increaseQuantity(item)
+                                                        : null
+                                                }
                                                 className="cursor-pointer bg-gray-200 px-1 rounded-md hover:bg-gray-400 duration-300"
                                             >
                                                 +
@@ -257,7 +193,7 @@ const CartContent = () => {
                                                                       ?.weight,
                                                                   price: item
                                                                       .variantDto
-                                                                      ?.price,
+                                                                      ?.salePrice,
                                                                   img: item
                                                                       .variantDto
                                                                       ?.img,
@@ -280,7 +216,7 @@ const CartContent = () => {
                                         <p className="md:text-md sm:text-sm lg:text-lg font-titleFont font-semibold">
                                             $
                                             {(
-                                                item.variantDto?.price *
+                                                item.variantDto?.salePrice *
                                                 item.quantity
                                             ).toFixed(2)}
                                         </p>

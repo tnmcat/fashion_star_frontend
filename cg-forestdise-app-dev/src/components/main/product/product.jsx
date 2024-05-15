@@ -580,16 +580,19 @@ export default function ShowProduct() {
                                                 Search icon
                                             </span>
                                         </div>
-                                        {/* <form onSubmit={handleSubmit}>
-                                    <input
-                                        onChange={(e) => {
-                                            handleChange(e);
-                                        }}
-                                        name="search_name"
-                                        className="block p-2 pl-10 rounded-lg text-sm border w-[240px] border-gray-300"
-                                        placeholder="Search..."
-                                    ></input>
-                                </form> */}
+                                        <form
+
+                                        // onSubmit={handleSubmit}
+                                        >
+                                            <input
+                                                // onChange={(e) => {
+                                                //     handleChange(e);
+                                                // }}
+                                                name="search_name"
+                                                className="block p-2 pl-10 rounded-lg text-sm border w-[240px] border-gray-300"
+                                                placeholder="Search..."
+                                            ></input>
+                                        </form>
                                     </div>
                                 </div>
                                 <div className="flex flex-wrap justify-center bg-white py-5">
@@ -599,9 +602,6 @@ export default function ShowProduct() {
                                             className="productCard w-[15rem] m-3 transition-all cursor-pointer border-[1px]
                                             border-gray-200 py-3 px-2 z-30 hover:border-transparent shadow-none hover:shadow-testShadow duration-200 flex
                                                  flex-col gap-4 relative boxbox"
-                                            // className="bg-white h-auto border-[1px] border-gray-200 py-8 z-30
-                                            // hover:border-transparent shadow-none hover:shadow-testShadow duration-200 flex
-                                            // flex-col gap-4 relative"
                                         >
                                             <span className="text-xs capitalize italic absolute top-2 right-2 text-gray-500">
                                                 {product.category}
@@ -697,87 +697,6 @@ export default function ShowProduct() {
                         </div>
                     </section>
                 </main>
-            </div>
-            <div className="max-w-screen-2xl mx-auto grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 xl:gap-10 px-4">
-                {products.map((product) => (
-                    <div
-                        key={product.id}
-                        className="bg-white h-auto border-[1px] border-gray-200 py-8 z-30
-        hover:border-transparent shadow-none hover:shadow-testShadow duration-200 flex
-        flex-col gap-4 relative"
-                    >
-                        <span className="text-xs capitalize italic absolute top-2 right-2 text-gray-500">
-                            {product.category}
-                        </span>
-                        <div
-                            className="w-full h-auto flex items-center justify-center relative
-          group"
-                        >
-                            <img
-                                className="w-52 h-64 object-contain"
-                                src={product.mainPicture}
-                                alt="ProductImg"
-                            ></img>
-                            <ul
-                                className="w-full h-10 bg-gray-100 absolute bottom-[-170px] flex flex-col items-end justify-center gap-2
-            font-titleFont px-2 border-1 border-r group-hover:bottom-0 duration-700"
-                            >
-                                <Link
-                                    to={`/product/${product.id}`}
-                                    className="productLi"
-                                >
-                                    <span
-                                        onClick={() => {
-                                            dispatch(
-                                                setStore(product.store.id)
-                                            );
-                                        }}
-                                    >
-                                        View Details
-                                        <ArrowCircleRightIcon />
-                                    </span>
-                                </Link>
-                            </ul>
-                        </div>
-                        <div className="px-4 z-10 bg-white">
-                            <div className="flex items-center justify-between">
-                                <h2
-                                    className="font-titleFont tracking-wide text-lg text-amazon_blue
-              font-medium"
-                                >
-                                    {product.title.substring(0, 40)}...
-                                </h2>
-                            </div>
-                            <div>
-                                <div>
-                                    <p className="text-sm">
-                                        {product.description.substring(0, 100)}
-                                        ...
-                                    </p>
-                                </div>
-                                <div className="text-yellow-500">
-                                    <StarIcon />
-                                    <StarIcon />
-                                    <StarIcon />
-                                    <StarIcon />
-                                    <StarIcon />
-                                </div>
-                            </div>
-                            <button
-                                onClick={() => {
-                                    dispatch(setStore(product.store.id));
-                                    navigate(`/product/${product.id}`);
-                                }}
-                                className="w-full text-white font-titleFont font-medium text-base bg-gradient-to-tr
-            from-indigo-600 to-indigo-600 border hover:from-indigo-400 hover:to-indigo-600
-            border-indigo-500 hover:border-indigo-700 active:bg-gradient-to-bl
-            active:from-indigo-400 active:to-indigo-500 duration-200 py-1.5 rounded-md mt-3"
-                            >
-                                View Details
-                            </button>
-                        </div>
-                    </div>
-                ))}
             </div>
         </div>
     );

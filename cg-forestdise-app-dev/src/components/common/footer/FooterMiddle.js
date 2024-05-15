@@ -17,29 +17,29 @@ function FooterMiddle() {
                     </Typography>
 
                     <div>
-                        <Button className="pb-5" variant="h6" gutterBottom>
+                        <Button className="pb-5" variant="h6">
                             About
                         </Button>
                     </div>
 
                     <div>
-                        <Button className="pb-5" variant="h6" gutterBottom>
+                        <Button className="pb-5" variant="h6">
                             Blog
                         </Button>
                     </div>
                     <div>
-                        <Button className="pb-5" variant="h6" gutterBottom>
+                        <Button className="pb-5" variant="h6">
                             Press
                         </Button>
                     </div>
                     <div>
-                        <Button className="pb-5" variant="h6" gutterBottom>
+                        <Button className="pb-5" variant="h6">
                             Jobs
                         </Button>
                     </div>
 
                     <div>
-                        <Button className="pb-5" variant="h6" gutterBottom>
+                        <Button className="pb-5" variant="h6">
                             Partner
                         </Button>
                     </div>
@@ -50,29 +50,29 @@ function FooterMiddle() {
                     </Typography>
 
                     <div>
-                        <Button className="pb-5" variant="h6" gutterBottom>
+                        <Button className="pb-5" variant="h6">
                             Marketing
                         </Button>
                     </div>
 
                     <div>
-                        <Button className="pb-5" variant="h6" gutterBottom>
+                        <Button className="pb-5" variant="h6">
                             Analytics
                         </Button>
                     </div>
                     <div>
-                        <Button className="pb-5" variant="h6" gutterBottom>
+                        <Button className="pb-5" variant="h6">
                             Commerce
                         </Button>
                     </div>
                     <div>
-                        <Button className="pb-5" variant="h6" gutterBottom>
+                        <Button className="pb-5" variant="h6">
                             Insights
                         </Button>
                     </div>
 
                     <div>
-                        <Button className="pb-5" variant="h6" gutterBottom>
+                        <Button className="pb-5" variant="h6">
                             Supports
                         </Button>
                     </div>
@@ -83,13 +83,13 @@ function FooterMiddle() {
                     </Typography>
 
                     <div>
-                        <Button className="pb-5" variant="h6" gutterBottom>
+                        <Button className="pb-5" variant="h6">
                             Privacy
                         </Button>
                     </div>
 
                     <div>
-                        <Button className="pb-5" variant="h6" gutterBottom>
+                        <Button className="pb-5" variant="h6">
                             Term
                         </Button>
                     </div>

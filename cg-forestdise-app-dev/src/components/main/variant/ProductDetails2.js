@@ -177,9 +177,7 @@ function ProductDetail2(props) {
             console.error("Invalid quantity or selected variant");
         }
     };
-
     const variantRender = useSelector((state) => state.variant.variantDetail);
-
     if (selectedVariant) {
         return (
             <>
@@ -870,9 +868,7 @@ function ProductDetail2(props) {
                                 <hr></hr>
                                 {/* Carosel Review Image End */}
                                 {/* List Review Of Customer Start */}
-                                <h1 className="text-2xl font-bold mb-6">
-                                    Top reviews from the Viet Nam
-                                </h1>
+                                <h1 className="text-2xl font-bold mb-6"></h1>
                                 {reviewDTOList != null &&
                                     reviewDTOList?.map((item, index) => (
                                         <div key={index} className="m-4">
@@ -924,7 +920,7 @@ function ProductDetail2(props) {
                                             <div className="text-bodyFont text-xs text-black">
                                                 {item.content}
                                             </div>
-                                            {showComment && <ArrowDropUpIcon />}
+                                            {/* {showComment && <ArrowDropUpIcon />}
                                             {!showComment && (
                                                 <ArrowDropDownIcon />
                                             )}
@@ -964,11 +960,10 @@ function ProductDetail2(props) {
                                                     </span>
                                                 </div>
                                             )}
-                                            <hr></hr>
+                                            <hr></hr> */}
                                         </div>
                                     ))}
                                 <hr></hr>
-                                List Review Of Customer End
                             </div>
                         </div>
                     </div>

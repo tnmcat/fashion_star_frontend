@@ -3,7 +3,6 @@ import axios from "axios";
 const ORDER_MANAGEMENT_API = "http://localhost:5454/api";
 
 export const apiCreateOrder = async (reqData) => {
-    reqData.storeId = 1;
     try {
         const result = await axios.post(
             `${ORDER_MANAGEMENT_API}/orders/create1`,
@@ -16,6 +15,24 @@ export const apiCreateOrder = async (reqData) => {
         } else {
             console.log("Order creation failed", result);
             throw new Error("Order creation failed"); // Ném lỗi khi tạo order không thành công
+        }
+    } catch (error) {
+        console.error("catch error", error);
+        throw error; // Ném lỗi để bắt và xử lý ở bên ngoài
+    }
+};
+export const apiCreateOrderPayment = async (reqData) => {
+    try {
+        const result = await axios.post(
+            `${ORDER_MANAGEMENT_API}/orders/createpayment`,
+            reqData
+        );
+        console.log("createpayment", result);
+        if (result.data.payment_url) {
+            window.location.href = result.data.payment_url;
+        } else {
+            console.log("Order creation failed", result.data);
+            throw new Error("OrderPayment creation failed"); // Ném lỗi khi tạo order không thành công
         }
     } catch (error) {
         console.error("catch error", error);

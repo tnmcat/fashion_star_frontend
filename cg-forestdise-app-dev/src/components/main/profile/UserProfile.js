@@ -221,15 +221,15 @@ const UserProfileEditForm = () => {
                             <Avatar sx={{width: 100, height: 100, mb: 2}}>
                                 <AccountCircleIcon />
                             </Avatar>
-                            <Typography variant="h6" gutterBottom>
+                            <Typography variant="h6">
                                 {formData.clientName}{" "}
                                 {/* Hiển thị tên người dùng */}
                             </Typography>
-                            <Typography gutterBottom>
+                            <Typography>
                                 <PhoneIcon /> {formData.phoneNumber}{" "}
                                 {/* Hiển thị số điện thoại */}
                             </Typography>
-                            <Typography gutterBottom>
+                            <Typography>
                                 <EmailIcon /> {formData.email}{" "}
                                 {/* Hiển thị email */}
                             </Typography>

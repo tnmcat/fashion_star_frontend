@@ -218,12 +218,14 @@ function Header() {
                                             &nbsp; Browsing History
                                         </p>
                                     </li>
-                                    <li>
-                                        <p className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                                            <LocalShippingIcon />
-                                            &nbsp; Orders
-                                        </p>
-                                    </li>
+                                    <Link to="/order">
+                                        <li>
+                                            <p className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                                <LocalShippingIcon />
+                                                &nbsp; Orders
+                                            </p>
+                                        </li>
+                                    </Link>
                                     {userInfo && (
                                         <li>
                                             <p
@@ -248,10 +250,10 @@ function Header() {
                     <Link to="/order">
                         <div className="hidden lgl:flex flex-col items-start justify-center headerHover">
                             <p className="text-sm mdl:text-xs text-white mdl:text-lightText font-light">
-                                Returns
+                                Return &
                             </p>
                             <p className="text-sm font-semibold -mt-1 text-whiteText">
-                                & Orders
+                                Orders
                             </p>
                         </div>
                     </Link>

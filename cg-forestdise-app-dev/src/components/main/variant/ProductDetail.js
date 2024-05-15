@@ -44,7 +44,6 @@ function ProductDetail() {
     const [productId] = useState(id);
     const [mainImage, setMainImage] = useState("");
     const [variantRender, setVariantRender] = useState(null);
-    const [array, setArray] = useState([]);
     const variantDetail = useSelector(selectVariantDetail);
     console.log("variantDetail: ", variantDetail);
     const reviewAnalyst = useSelector(selectReviewListByProductId);

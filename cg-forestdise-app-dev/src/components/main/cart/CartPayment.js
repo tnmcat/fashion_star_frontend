@@ -12,12 +12,50 @@ const CartPayment = () => {
     useEffect(() => {
         let total = 0;
         products.map((item) => {
-            total += item.variantDto?.price * item?.quantity;
+            total += item.variantDto?.salePrice * item?.quantity;
             return setTotalPrice(total.toFixed(2));
         });
     }, [products]);
+    // const handlePayment = () => {
+    //     if (userInfo && products.length > 0) {
+    //         navigate("/payment");
+    //     }
+    //     if (!userInfo) {
+    //         navigate("/signin");
+    //     }
+    // };
 
-    const handlePayment = () => {
+    const processPayment = () => {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve("Thanh toán thành công!");
+            }, 1000);
+        });
+    };
+    const handlePayment = async () => {
+        let allItemsValid = true;
+        let errorMessages = [];
+        for (const item of products) {
+            if (item.quantity > item.variantDto.stockQuantity) {
+                allItemsValid = false;
+                errorMessages.push(
+                    `Quantity '${item.variantDto.name} exceeds inventory. Quantity is having: ${item.variantDto.stockQuantity}`
+                );
+            }
+        }
+        if (!allItemsValid) {
+            alert("Có lỗi xảy ra: \n" + errorMessages.join("\n"));
+            return;
+        }
+
+        // Tiến hành thanh toán nếu mọi thứ hợp lệ
+        try {
+            const paymentResult = await processPayment();
+            alert(paymentResult); // Thông báo thanh toán thành công
+        } catch (error) {
+            console.error("Lỗi khi thanh toán:", error);
+            alert("Lỗi thanh toán. Vui lòng thử lại sau.");
+        }
         if (userInfo && products.length > 0) {
             navigate("/payment");
         }

@@ -1,18 +1,17 @@
 import {
     Button,
     Card,
-    Checkbox,
     Input,
     Rating,
     Typography,
 } from "@material-tailwind/react";
 import React from "react";
-import {addReview} from "../../../features/coment_review/reviewSlide";
 import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
-
-const OrderReview = ({variandId, toggleVisibility}) => {
-    console.log(variandId);
+import {addReview} from "../../../features/coment_review/reviewSlide";
+import "react-toastify/dist/ReactToastify.css";
+import toast from "react-hot-toast";
+const OrderReview = ({variandId, toggleVisibility, setOrderId}) => {
     const {userInfo} = useSelector((state) => state.user);
     const [star, setStar] = React.useState(4);
     const [title, setTitle] = React.useState("");
@@ -21,31 +20,54 @@ const OrderReview = ({variandId, toggleVisibility}) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
+    const canSubmit =
+        title.length > 0 &&
+        title.length <= 30 &&
+        content.length > 0 &&
+        content.length <= 150;
+
     const submit = () => {
-        const review = {
-            star: rated,
-            title: title,
-            content: content,
-        };
-        dispatch(
-            addReview({
-                review: review,
-                userId: userInfo.id,
-                variantId: variandId.id,
-            })
-        );
+        setOrderId(variandId.id);
+        if (canSubmit) {
+            const review = {
+                star: rated,
+                title: title,
+                content: content,
+            };
+            dispatch(
+                addReview({
+                    review: review,
+                    userId: userInfo.id,
+                    variantId: variandId.id,
+                })
+            );
+            toast.success("Thank you for your review!"); // Show success toast
+        }
+        toggleVisibility(); // Optionally close the modal
     };
+
     return (
-        <div className="fixed top-1/2 left-2/4 z-10 bg-opacity-95 bg-slate-50 border-solid p-20 w-full h-full -translate-y-1/2 -translate-x-1/2">
+        <div className="fixed top-1/2 left-2/4 z-10 bg-opacity-95 bg-slate-50 border-solid p-20 w-3/4 h-3/4 -translate-y-1/2 -translate-x-1/2">
             <div className="flex items-center gap-2 font-bold text-blue-gray-500">
-                {rated}
+                {rated}.0
                 <Rating value={4} onChange={(value) => setRated(value)} />
+                <img
+                    className="w-[8rem] h-[8rem] object-contain object-top"
+                    src={variandId.img}
+                    alt=""
+                />{" "}
+                <div className="ml-5 space-y-3">
+                    <p className="opacity-50 text-xs font-semibold">
+                        Name: {variandId.name}{" "}
+                    </p>
+                    <p className="opacity-50 text-xs font-semibold">
+                        Price: {variandId.price}
+                    </p>
+                </div>
                 <Typography
                     color="blue-gray"
                     className="font-medium text-blue-gray-500"
-                >
-                    Your comment is the best of the best, Sir!!!!
-                </Typography>
+                ></Typography>
             </div>
             <Card color="transparent" shadow={false}>
                 <Typography variant="h4" color="blue-gray">
@@ -72,7 +94,9 @@ const OrderReview = ({variandId, toggleVisibility}) => {
                                     "before:content-none after:content-none",
                             }}
                             value={title}
-                            onChange={(event) => setTitle(event.target.value)}
+                            onChange={(e) =>
+                                setTitle(e.target.value.slice(0, 30))
+                            }
                         />
                         <Typography
                             variant="h6"
@@ -84,25 +108,28 @@ const OrderReview = ({variandId, toggleVisibility}) => {
                         <Input
                             size="lg"
                             placeholder="Your review is very important for us to improve our service"
-                            className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
+                            className=" !border-t-blue-indigo-200 focus:!border-t-indigo-900"
                             labelProps={{
                                 className:
                                     "before:content-none after:content-none",
                             }}
                             value={content}
-                            onChange={(event) => setContent(event.target.value)}
+                            onChange={(e) =>
+                                setContent(e.target.value.slice(0, 150))
+                            }
                         />
                     </div>
-                    <div className="flex justify-between">
-                        <button
-                            className="w-1/2 bg-slate-500"
+                    <div className="flex justify-between py-5">
+                        <Button
+                            className="w-1/2 bg-indigo-700 text-white border-solid mr-3"
                             onClick={toggleVisibility}
                         >
                             Back
-                        </button>
+                        </Button>
                         <Button
-                            className="mt-6 text-indigo-700 w-1/2"
+                            className=" text-indigo-700 w-1/2 border-double"
                             onClick={submit}
+                            disabled={!canSubmit} // Disable the button if conditions aren't met
                         >
                             Done !
                         </Button>
@@ -112,4 +139,5 @@ const OrderReview = ({variandId, toggleVisibility}) => {
         </div>
     );
 };
+
 export default OrderReview;

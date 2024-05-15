@@ -10,16 +10,16 @@ function Home() {
         <>
             <div className="font-bodyFont bg-gray-100">
                 <Banner />
-                <CarouselCategory />
+                {/* <CarouselCategory /> */}
                 {/* <div className="space-y-10 py-20 flex flex-col justify-center px-5 lg:px-10">
                     <HomeSectionCarosel
                         data={dataHome}
                         sectionName={"New Product"}
                     />
                 </div> */}
-                <div className="relative w-full -mt-10 xl:-mt-36 py-10 z-0">
+                {/* <div className="relative w-full -mt-10 xl:-mt-36 py-10 z-0">
                     <Product />
-                </div>
+                </div> */}
 
                 <HomePromo />
             </div>

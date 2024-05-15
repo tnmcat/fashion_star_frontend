@@ -1,87 +1,82 @@
 export const navigation = {
     categories: [
         {
-            id: "department",
-            name: "Department",
+            id: "adult",
+            name: "Adult",
             featured: [
                 {
                     name: "New Arrivals",
                     href: "/",
                     imageSrc:
-                        "https://tailwindui.com/img/ecommerce-images/mega-menu-category-01.jpg",
+                        "https://pos.nvncdn.com/8c9639-78018/art/20240126_QpE6ZBBD.jpeg",
                     imageAlt:
                         "Models sitting back to back, wearing Basic Tee in black and bone.",
                 },
                 {
-                    name: "Basic Tees",
+                    name: "Couple Weeding",
                     href: "/",
                     imageSrc:
-                        "https://tailwindui.com/img/ecommerce-images/mega-menu-category-02.jpg",
+                        "https://pos.nvncdn.com/8c9639-78018/bn/20211019_iTiXzrps9AXqp0MSmwUo0jZ5.jpg",
                     imageAlt:
                         "Close up of Basic Tee fall bundle with off-white, ochre, olive, and black tees.",
                 },
             ],
             sections: [
                 {
-                    id: "electronic",
-                    name: "Electronic",
+                    id: "men'sfashion",
+                    name: "Men's Fashion",
                     items: [
                         {
-                            name: "Accessories & Supplies",
-                            id: "accessories&suppiles",
+                            name: "Top",
+                            id: "top",
                             href: `#`,
                         },
-                        {name: "Camera & Photo", id: "electronic", href: "#"},
-                        {name: "Computers", id: "computers"},
-                        {name: "Car & Vehicle Electronics", id: "smarthomes"},
-                        {name: "Cell Phones & Accessories", id: "art&craft"},
-                        {name: "Computers Accessories", id: "automotive"},
-                        {
-                            name: "GPS & Navigation",
-                            id: "beautyandpersonalcare",
-                        },
-                        {name: "Headphones", id: "toysandgames"},
-                        {
-                            name: "Home Audio",
-                            id: "industrialandscientific",
-                        },
-                        {name: "Office Electronics", id: "movietelevision"},
+                        {name: "Bot", id: "bot", href: "#"},
+                        {name: "Sandals", id: "Sandal"},
+                        {name: "Men 's Watch", id: "men'swatch"},
+                        {name: "Necklace", id: "necklace"},
+                        {name: "Bracelet", id: "bracelet"},
                     ],
                 },
                 {
-                    id: "clothes",
-                    name: "Clothes",
+                    id: "women'sfashion",
+                    name: "Women's Fashion",
                     items: [
-                        {name: "Tops", id: "tops"},
-                        {name: "Shirt", id: "shirt"},
-                        {name: "Trouser", id: "trouser"},
-                        {name: "Accessories", id: "accessories"},
-                        {name: "Shoes", id: "shoes"},
-                        {name: "Jacket", id: "jacket"},
+                        {
+                            name: "Top",
+                            id: "top",
+                            href: `#`,
+                        },
+                        {name: "Bot", id: "bot", href: "#"},
+                        {name: "Sandals", id: "Sandal"},
+                        {name: "Men 's Watch", id: "men'swatch"},
+                        {name: "Earing", id: "earing"},
+                        {name: "Bracelet", id: "bracelet"},
                     ],
                 },
                 {
-                    id: "brands",
-                    name: "Brands",
+                    id: "beauty",
+                    name: "Beauty",
                     items: [
-                        {name: "Samsung", id: "#"},
-                        {name: "Apple", id: "#"},
-                        {name: "LG", id: "#"},
-                        {name: "DearMan", id: "#"},
-                        {name: "Gucci", id: "#"},
+                        {
+                            name: "Skin Care",
+                            id: "skincare",
+                            href: `#`,
+                        },
+                        {name: "Hair Care", id: "haircare", href: "#"},
                     ],
                 },
             ],
         },
         {
-            id: "men",
-            name: "Men",
+            id: "under16years",
+            name: "Under 16 Years",
             featured: [
                 {
                     name: "New Arrivals",
                     id: "#",
                     imageSrc:
-                        "https://tailwindui.com/img/ecommerce-images/product-page-04-detail-product-shot-01.jpg",
+                        "https://www.angelandrocket.com/cdn/shop/files/AR6780_4_700x.jpg?v=1710509991",
                     imageAlt:
                         "Drawstring top with elastic loop closure and textured interior padding.",
                 },
@@ -89,45 +84,54 @@ export const navigation = {
                     name: "Artwork Tees",
                     id: "#",
                     imageSrc:
-                        "https://tailwindui.com/img/ecommerce-images/category-page-02-image-card-06.jpg",
+                        "https://www.angelandrocket.com/cdn/shop/files/AR8105_4_f7dd6187-d7d1-47a8-a456-d42ad94747ca_700x.jpg?v=1706626220",
                     imageAlt:
                         "Three shirts in gray, white, and blue arranged on table with same line drawing of hands and shapes overlapping on front of shirt.",
                 },
             ],
             sections: [
                 {
-                    id: "clothing",
-                    name: "Clothing",
+                    id: "kid",
+                    name: "Kid",
                     items: [
-                        {name: "Mens Kurtas", id: "mens_kurta"},
-                        {name: "Shirt", id: "shirt"},
-                        {name: "Men Jeans", id: "men_jeans"},
-                        {name: "Sweaters", id: "#"},
-                        {name: "T-Shirts", id: "t-shirt"},
-                        {name: "Jackets", id: "#"},
-                        {name: "Activewear", id: "#"},
+                        {name: "Top Under 1 Year", id: "topunder1year"},
+                        {name: "Bot  Under 1 Year ", id: "botunder1year"},
+                        {name: "Top 1 - 6 Years", id: "men_jeans"},
+                        {name: "Bot 1 - 6 Years", id: "#"},
                     ],
                 },
                 {
-                    id: "accessories",
-                    name: "Accessories",
+                    id: "boy",
+                    name: "Boy's Fashion",
                     items: [
-                        {name: "Watches", id: "#"},
-                        {name: "Wallets", id: "#"},
-                        {name: "Bags", id: "#"},
-                        {name: "Sunglasses", id: "#"},
-                        {name: "Hats", id: "#"},
-                        {name: "Belts", id: "#"},
+                        {
+                            name: "Top",
+                            id: "top",
+                            href: `#`,
+                        },
+                        {name: "Bot", id: "bot", href: "#"},
+                        {name: "Sneakers", id: "sneakers", href: "#"},
+                        {name: "Sandals", id: "Sandal"},
+                        {name: "Ring", id: "earing"},
+                        {name: "Bracelet", id: "bracelet"},
+                        {name: "School Uniform", id: "school_uniform"},
                     ],
                 },
                 {
-                    id: "brands",
-                    name: "Brands",
+                    id: "girl",
+                    name: "Girl's Fashion",
                     items: [
-                        {name: "Re-Arranged", id: "#"},
-                        {name: "Counterfeit", id: "#"},
-                        {name: "Full Nelson", id: "#"},
-                        {name: "My Way", id: "#"},
+                        {
+                            name: "Top",
+                            id: "top",
+                            href: `#`,
+                        },
+                        {name: "Bot", id: "bot", href: "#"},
+                        {name: "Sneakers", id: "sneakers", href: "#"},
+                        {name: "Sandals", id: "Sandal"},
+                        {name: "Ring", id: "earing"},
+                        {name: "Bracelet", id: "bracelet"},
+                        {name: "School Uniform", id: "school_uniform"},
                     ],
                 },
             ],
