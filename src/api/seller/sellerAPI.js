@@ -8,16 +8,19 @@ const sellerApi = {
                 headers: { Authorization: "Bearer " + token },
             });
         } catch (e) {
-            console.log("Find seller API error: " + e);
+            console.log("Find seller API error: ", e);
         }
         return result;
     },
     async updateSeller(sellerId, data) {
         let result = null;
         try {
+            console.log("data: ", data);
+            console.log("data: ", sellerId);
             result = await api.post(`seller/profile/update/${sellerId}`, data);
+            console.log("ket qua ", result);
         } catch (e) {
-            console.log("Find seller API error: " + e);
+            console.log("Find seller API error: ", e);
         }
         return result;
     },
@@ -30,7 +33,7 @@ const sellerApi = {
             const url = '/seller/register';
             return await api.post(url, data)
         } catch (e) {
-            console.log("Find seller API error: " + e);
+            console.log("Find seller API error: ", e);
         }
         return result;
     },
@@ -42,7 +45,7 @@ const sellerApi = {
             result = await api.post(url, data);
             console.log("login seller token: " + result);
         } catch (e) {
-            console.log("Find seller API error: " + e);
+            console.log("Find seller API error: ", e);
         }
         return result;
     }

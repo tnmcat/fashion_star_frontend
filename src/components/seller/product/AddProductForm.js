@@ -31,7 +31,6 @@ const style = {
 function AddProductForm(props) {
     const { onSubmitAdd, product } = props;
     const [firebaseFile, setFirebaseFile] = useState('');
-    const [firebaseFiles, setFirebaseFiles] = useState([]); // State to hold uploaded image URLs
     const [progresspercent, setProgresspercent] = useState(0);
     const handleFile = (e) => {
         const file = e.target.files[0];
@@ -64,6 +63,7 @@ function AddProductForm(props) {
         description: yup.string().required('Please enter product description').min(30, 'Product name must be at least 30 characters')
             .max(500, 'Product name must be at most 500 characters'),
         file: yup.mixed().required('Please upload an image'),
+
     });
 
     const { register, handleSubmit, formState: { errors }, setValue } = useForm({
@@ -76,9 +76,16 @@ function AddProductForm(props) {
 
     const onSubmitHandler = (data) => {
         if (onSubmitAdd) {
-            console.log(selectedCategoryId)
-            const formDataWithFile = { ...data, categoryId: selectedCategoryId, mainPicture: firebaseFile };
-            console.log(formDataWithFile)
+            const formDataWithFile = {
+                ...data,
+                categoryId: selectedCategoryId,
+                mainPicture: firebaseFile,
+                attributes: defaultAttributes.map((attribute, index) => ({
+                    name: data.attributes[index]?.name || attribute.name,
+                    value: data.attributes[index]?.value || attribute.value
+                }))
+            };
+            console.log("send form data", formDataWithFile);
             onSubmitAdd(formDataWithFile);
         }
     };
@@ -148,8 +155,50 @@ function AddProductForm(props) {
     const handleConfirm = () => {
         console.log(selectedCategory);
         setSelectedCategoryId(selectedCategory)
+        setDefaultAttributes(null)
         setOpen(false);
     };
+
+    const [defaultAttributes, setDefaultAttributes] = useState();
+    useEffect(() => {
+        let newDefaultAttributes = [];
+
+        switch (selectedCategoryId) {
+            case 1: // Category ID 1
+                newDefaultAttributes = [
+                    { name: 'Manufacturer', value: '' },
+                    { name: 'Processor Type', value: '' },
+                    { name: 'Origin', value: '' },
+                    { name: 'Screen Size', value: '' },
+                    { name: 'Resolution', value: '' },
+                    { name: 'Graphics Card ', value: '' },
+                ];
+                break;
+            case 2: // Category ID 2
+                newDefaultAttributes = [
+                    { name: 'Manufacturer', value: '' },
+                    { name: 'Origin', value: '' },
+                    { name: 'Screen Size', value: '' },
+                    { name: 'Resolution', value: '' },
+                    { name: 'Graphics Card ', value: '' },
+                ];
+                break;
+            case 3: // Category ID 3
+                newDefaultAttributes = [
+                    { name: 'CHECK', value: '' },
+                    { name: 'CHECK', value: '' },
+                    { name: 'CHECK', value: '' }
+                ];
+                break;
+            // Add more cases for other category IDs if needed
+            default:
+                newDefaultAttributes = [];
+                break;
+        }
+
+        setDefaultAttributes(newDefaultAttributes);
+    }, [selectedCategoryId]);
+
     return (
         <>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
@@ -257,18 +306,52 @@ function AddProductForm(props) {
 
                             {!firebaseFile && <div className='outerbar'><div className='innerbar text-titleFont'>{progresspercent}%</div></div>}
                         </div>
+
+                        <Typography sx={{ mt: 4, mb: 2 }} >
+                            Product Feature
+                        </Typography>
+                        {defaultAttributes && defaultAttributes.length > 0 && (
+                            defaultAttributes.map((attribute, index) => (
+                                <div key={index}>
+                                    <Grid container direction="row" justifyContent="space-around">
+                                        <Grid item>
+                                            <TextField variant="standard"
+                                                {...register(`attributes[${index}].name`)}
+                                                disabled
+
+                                                fullWidth
+                                                margin="normal"
+                                                defaultValue={attribute.name}
+                                                error={!!errors?.attributes?.[index]?.name}
+                                                helperText={errors?.attributes?.[index]?.name?.message}
+                                            />
+                                            <p>{errors.name?.message}</p>
+                                        </Grid>
+                                        <Grid item>
+                                            <TextField
+                                                {...register(`attributes[${index}].value`)}
+                                                label="Value"
+                                                variant="outlined"
+                                                fullWidth
+                                                margin="normal"
+                                                defaultValue={attribute.value}
+                                                error={!!errors?.attributes?.[index]?.value}
+                                                helperText={errors?.attributes?.[index]?.value?.message}
+                                            />
+                                            <p>{errors.value?.message}</p>
+                                        </Grid>
+                                    </Grid>
+                                </div>
+                            ))
+                        )}
+
+
                         <Box marginTop={2}>
                             <Button variant="contained" type="submit">Save</Button>
                         </Box>
                     </form>
                 </Paper>
             </Box>
-            {/* <Modal open={open} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
-                <Box sx={style}>
-                    <Typography id="modal-modal-title" variant="h6" component="h2">Success!</Typography>
-                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>Save Product Successfully</Typography>
-                </Box>
-            </Modal> */}
         </>
     );
 }

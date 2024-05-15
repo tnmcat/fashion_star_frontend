@@ -7,13 +7,14 @@ import AttributeForm from './AttributeForm';
 import AttributeList from './AttributeList';
 import { Box, Paper } from '@mui/material';
 import AttributeDefaultForm from './AttributeDefaultForm';
-
-function AttributeManage(props) {
+AttributeManage.propTypes = {
+    product: PropTypes.object
+};
+function AttributeManage({ product }) {
     const dispatch = useDispatch();
     const [attributeList, setAttributeList] = useState(null);
-    const [updateDone, setUpdateDone] = useState(false); // State to track update
 
-    const productId = props.productId; // Assume productId is passed as props
+    const productId = product.id; // Assume productId is passed as props
     console.log(productId)
     const fetchAttributes = async () => {
         try {
@@ -25,47 +26,13 @@ function AttributeManage(props) {
         }
     };
 
-    const defaultAttributes = [
-        { name: 'Manufacturer', value: '' },
-        { name: 'Brand', value: '' },
-        { name: 'Origin', value: '' }
-    ];
+
     useEffect(() => {
         if (productId) {
             fetchAttributes();
         }
-    }, [productId, updateDone]); // Add updateDone as a dependency
+    }, [productId]); // Add updateDone as a dependency
 
-
-    const handleAddAttributeFormSubmit = async (value) => {
-        try {
-            const resultAction = await dispatch(createAttribute({ data: value, productId: productId }));
-            unwrapResult(resultAction);
-            setUpdateDone(!updateDone); // Toggle updateDone to trigger reload
-        } catch (err) {
-            console.error('Failed to add attribute:', err);
-        }
-    };
-
-    const handleEditAttributeFormSubmit = async (data) => {
-        try {
-            const resultAction = await dispatch(updateAttribute(data)); // Pass data object directly
-            unwrapResult(resultAction);
-            setUpdateDone(!updateDone); // Toggle updateDone to trigger reload
-        } catch (err) {
-            console.error('Failed to edit attribute:', err);
-        }
-    };
-    const handleDeleteAttribute = async (attribute) => {
-        try {
-            console.log(attribute.id)
-            const resultAction = await dispatch(deleteAttribute(attribute.id));
-            unwrapResult(resultAction);
-            setUpdateDone(!updateDone); // Reload the variant list after deletion
-        } catch (err) {
-            console.error('Failed to delete Attribute:', err);
-        }
-    };
 
     return (
         <>
@@ -77,13 +44,8 @@ function AttributeManage(props) {
                 }}
             >
                 <Paper elevation={3} sx={{ width: '100%', maxWidth: '1200px', m: 1, p: 2 }}>
-                    <AttributeForm onSubmit={handleAddAttributeFormSubmit} />
-                    {defaultAttributes && defaultAttributes.length > 0 && (
-                        defaultAttributes.map((attribute, index) => (
-                            <AttributeDefaultForm key={index} initialData={attribute} onSubmit={handleAddAttributeFormSubmit} />
-                        ))
-                    )}
-                    <AttributeList attributeList={attributeList} onDelete={handleDeleteAttribute} onSubmit={handleEditAttributeFormSubmit} />
+
+                    <AttributeList attributeList={attributeList} />
 
                 </Paper>
             </Box >
@@ -91,8 +53,6 @@ function AttributeManage(props) {
     );
 }
 
-AttributeManage.propTypes = {
 
-};
 
 export default AttributeManage;

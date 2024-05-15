@@ -2,10 +2,10 @@ import { unwrapResult } from '@reduxjs/toolkit';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
 import { loginSeller, setSellerInfo } from '../../../features/seller_feature/seller/sellerSlice';
-import SignInForm from './SignInForm';
 import { getStoreBySellerId } from '../../../features/seller_feature/store/sellerStoreSlice';
-
+import SignInForm from './SignInForm';
 function SellerSignIn(props) {
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -24,20 +24,28 @@ function SellerSignIn(props) {
             console.log(seller);
             console.log(store);
             setSeller(seller)
+            toast.success('Login successful');
             // setStore(store);
             setTimeout(() => {
-                if (store) { navigate("/selling"); }
+                if (store) {
+                    if (store.status === false) {
+                        navigate("/waiting-store-confirm");
+                    } else {
+                        navigate("/selling");
+                    }
+                }
                 else { navigate("/store-register"); }
             }, 1000);
         } catch (error) {
             console.log('fail to login', error);
-
+            toast.error('Login failed');
         }
     };
 
     return (
         <div>
             <SignInForm onSubmit={handleSubmit} />
+            <ToastContainer />
         </div>
     );
 

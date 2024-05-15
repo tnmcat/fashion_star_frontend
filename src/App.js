@@ -11,19 +11,20 @@ import {
 import SellerRegister from "./components/seller/auth/SellerRegister";
 import SellerSignIn from "./components/seller/auth/SellerSignIn";
 import StoreRegisterPage from "./components/seller/auth/StoreRegisterPage";
+import WaitingForAdminProcessPage from "./components/seller/common/WaitingForAdminProcessPage";
 import Dashboard from "./components/seller/dashboard/Dashboard";
 import SellingLayout from "./components/seller/layouts/SellingLayout";
 import OrderDetailsManage from "./components/seller/order/OrderDetailsManage";
 import OrderManage from "./components/seller/order/OrderManage";
 import ProductAdd from "./components/seller/product/ProductAdd";
-import ProductDetail from "./components/seller/product/ProductDetail";
+import ProductEdit from "./components/seller/product/ProductEdit";
 import ProductManage from "./components/seller/product/ProductManage";
 import ProfileManage from "./components/seller/profile/ProfileManage";
 import ShippingManage from "./components/seller/shipping/ShippingManage";
 import StoreCategoryForm from "./components/seller/store_category/StoreCategoryForm";
 import StoreCategoryManage from "./components/seller/store_category/StoreCategoryManage";
 import VariantManage from "./components/seller/variant/VariantManage";
-import ProductEdit from "./components/seller/product/ProductEdit";
+import { ToastContainer } from "react-toastify";
 //import SellerApp from "./components/seller/SellerApp";
 
 function App() {
@@ -38,6 +39,9 @@ function App() {
         <Route path="/store-register" element={<StoreRegisterPage />}>
 
         </Route>
+        <Route path="/waiting-store-confirm" element={<WaitingForAdminProcessPage />}>
+
+        </Route>
 
         {/* seller routes */}
         <Route path="/selling" element={<SellingLayout />}>
@@ -47,7 +51,7 @@ function App() {
           <Route path="category/add" element={<StoreCategoryForm />} />
           <Route path="product" element={<ProductManage />} />
           <Route path="product/add" element={<ProductAdd />} />
-          <Route path="product/:productId" element={<ProductDetail />} />
+
           <Route path="product/:productId/edit" element={<ProductEdit />} />
           <Route path="product/:productId/variants" element={<VariantManage />} />
           <Route path="order" element={<OrderManage />} />
@@ -55,6 +59,7 @@ function App() {
           <Route path="profile" element={<ProfileManage />} />
           <Route path="shipping" element={<ShippingManage />} />
         </Route>
+
       </Fragment>
     )
   );

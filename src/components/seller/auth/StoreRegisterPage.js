@@ -132,6 +132,9 @@ export default function StoreRegisterPage() {
 
             console.log(store);
             setTimeout(() => {
+                if (store.status) {
+                    navigate("/waiting-store-confirm");
+                }
                 navigate("/selling");
             }, 0);
         } catch (error) {

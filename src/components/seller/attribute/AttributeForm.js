@@ -30,8 +30,8 @@ function AttributeForm(props) {
 
     return (
         <>
-            <Typography sx={{ mt: 4, mb: 2 }} variant="h6" component="div">
-                New Attribute
+            <Typography sx={{ mt: 4, mb: 2 }} >
+                Product Feature
             </Typography>
             <form onSubmit={handleSubmit(onSubmitHandler)}>
                 <Grid container

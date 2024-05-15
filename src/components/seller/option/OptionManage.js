@@ -7,13 +7,15 @@ import { createOption, fetchOptionsByProductId, updateOption } from '../../../fe
 import OptionValue from '../option_value/OptionValue';
 import OptionForm from './OptionForm';
 import OptionList from './OptionList';
-
-function OptionManage(props) {
+OptionManage.propTypes = {
+    product: PropTypes.object
+};
+function OptionManage({ product }) {
     const dispatch = useDispatch();
     const [optionList, setOptionList] = useState(null);
     const [updateDone, setUpdateDone] = useState(false); // State to track update
 
-    const productId = props.productId; // Assume productId is passed as props
+    const productId = product.id; // Assume productId is passed as props
 
     const fetchOptions = async () => {
         try {
@@ -87,8 +89,6 @@ function OptionManage(props) {
     );
 }
 
-OptionManage.propTypes = {
 
-};
 
 export default OptionManage;

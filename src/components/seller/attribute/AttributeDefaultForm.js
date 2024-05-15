@@ -32,7 +32,7 @@ function AttributeDefaultForm({ onSubmit, initialData = {} }) {
     const onSubmitHandler = (value) => {
         console.log('form submitted', value);
         if (onSubmit) {
-            onSubmit(value);
+            //  onSubmit(value);
         }
     };
 

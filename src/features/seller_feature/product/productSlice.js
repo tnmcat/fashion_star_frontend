@@ -164,7 +164,7 @@ const productSlice = createSlice({
             .addCase(sendNeedCheckProduct.fulfilled, (state, action) => {
                 state.loading = false;
                 state.success = true;
-                state.productNeedCheckInfo = action.payload;
+                state.productAdded = null;
                 state.error = null;
             })
             .addCase(sendNeedCheckProduct.rejected, (state, action) => {

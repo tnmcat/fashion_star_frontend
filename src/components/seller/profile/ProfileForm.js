@@ -38,7 +38,6 @@ function ProfileForm({ onSubmit, initialData }) {
         console.log('Form submitted:', value);
         onSubmit(value); // Call onSubmit prop with form data
     };
-    console.log('date:', initialData?.birthDay);
     return (
         <>
             <h1 >

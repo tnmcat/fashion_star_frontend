@@ -66,9 +66,6 @@ const productAPI = {
         }
 
     },
-
-
-
 }
 
 export default productAPI;

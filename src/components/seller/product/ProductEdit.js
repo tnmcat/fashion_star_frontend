@@ -8,6 +8,7 @@ import AttributeManage from '../attribute/AttributeManage';
 import OptionManage from '../option/OptionManage';
 import VariantManage from '../variant/VariantManage';
 import EditProductForm from './EditProductForm';
+import AttributeList from '../attribute/AttributeList';
 
 function ProductEdit() {
     const { productId } = useParams();
@@ -90,21 +91,17 @@ function ProductEdit() {
                     >
                         <Tab label="Basic Information" value="1" />
                         <Tab label="Attribute" value="2" />
-                        <Tab label="Option" value="3" />
-                        <Tab label="Variant" value="4" />
+                        <Tab label="Variant" value="3" />
                     </Tabs>
 
                     {tabValue === '1' && (
                         <EditProductForm onSubmitEdit={handleEditProductFormSubmit} product={product} />
                     )}
                     {tabValue === '2' && (
-                        <AttributeManage productId={productId} />
+                        <AttributeList product={product} />
                     )}
                     {tabValue === '3' && (
-                        <OptionManage productId={productId} />
-                    )}
-                    {tabValue === '4' && (
-                        <VariantManage productId={productId} />
+                        <VariantManage product={product} />
                     )}
                 </Paper>
             </Box>

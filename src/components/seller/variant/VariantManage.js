@@ -7,10 +7,11 @@ import { unwrapResult } from '@reduxjs/toolkit';
 import PropTypes from 'prop-types';
 import { Box, Button, Grid, Paper, Typography } from '@mui/material';
 VariantManage.propTypes = {
-
+    product: PropTypes.object
 };
-function VariantManage({ productId }) {
+function VariantManage({ product }) {
     //const { productId } = useParams();
+    const productId = product.id;
     const dispatch = useDispatch();
     const [variantList, setVariantList] = useState([]);
     const [updateDone, setUpdateDone] = useState(false);

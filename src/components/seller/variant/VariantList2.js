@@ -238,9 +238,9 @@ function VariantList({ variantList, onSubmit, onDelete }) {
                                                                     <input type="file" name="files" onChange={(e) => handleFiles(e, variant.id)} multiple className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 " />
 
                                                                     {firebaseFiles.map((url, index) => (
-                                                                        <div>
+                                                                        <div key={index}>
                                                                             <ClearIcon style={{ marginLeft: '10px', cursor: 'pointer' }} />
-                                                                            <img key={index} alt={`product_image_${index}`} src={url} className="rounded-3xl w-30 h-30 mt-10" />
+                                                                            <img alt={`product_image_${index}`} src={url} className="rounded-3xl w-30 h-30 mt-10" />
 
                                                                         </div>
                                                                     ))}
